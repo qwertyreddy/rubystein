@@ -46,9 +46,6 @@ class GameWindow < Gosu::Window
     @player.x = 66
     @player.y = 66
     @player.angle = 0
-    
-    #@bg = Gosu::Image.new(self, 'grid.png', true)
-    #@image = Gosu::Image.new(self, 'blue1_1.png', true)
   end
 
   def update
@@ -72,27 +69,19 @@ class GameWindow < Gosu::Window
     for slice in 0...WINDOW_WIDTH
       type, distance, map_x, map_y = @map.find_nearest_intersection(@player.x, @player.y, ray_angle)
       
-      # Remove spherical distortion
-      #corrected_angle = ray_angle - @player.angle
-      #puts corrected_angle
-      #distance = distance * Math::cos(corrected_angle)
-      #puts distance
+      # Correct spherical distortion
+      corrected_angle = ray_angle - @player.angle
+      corrected_distance = distance * Math::cos(corrected_angle * Math::PI / 180)
       
-      
-      slice_height = ((Map::TEX_HEIGHT / distance) * Player::DISTANCE_TO_PROJECTION)
+      slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (WINDOW_HEIGHT - slice_height) * (1 - @player.height)
       
       texture = @map.texture_for(type, map_x, map_y)
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       
-      ray_angle = (ray_angle - ray_angle_delta + 360) % 360
-      #draw_line(@player.x, @player.y, 0xffffff00, map_x, map_y, 0xffffff00, 3)
+      ray_angle = (ray_angle - ray_angle_delta) % 360
+      #ray_angle = (ray_angle - ray_angle_delta + 360) % 360
     end
-    
-    
-    
-    #@image.draw_rot(@player.x, @player.y, 2, @player.angle * -1)
-    #@bg.draw(0,0,0)
   end
   
 end
