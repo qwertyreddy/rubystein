@@ -25,12 +25,17 @@ class GameWindow < Gosu::Window
         [1, 0, 0, 0, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
-        ['blue1_1.png', 'blue1_2.png'],
+        [
+          {
+            :horizontal => 'blue1_1.png',
+            :vertical   => 'blue1_2.png'
+          }
+        ],
         self
     )
     
     @player = Player.new
-    @player.height = 32
+    @player.height = 0.5
     @player.x = 66
     @player.y = 66
     @player.angle = 0
@@ -44,15 +49,13 @@ class GameWindow < Gosu::Window
     @player.turn_right if button_down? Gosu::Button::KbRight
     @player.move_forward  if button_down? Gosu::Button::KbUp and @player.can_move_forward?(@map)
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
-    
-    
   end
   
   def button_down(id)
     if id == Gosu::Button::KbEscape
       close
     end
-  end  
+  end
 
   def draw
     # Raytracing logics
@@ -62,10 +65,17 @@ class GameWindow < Gosu::Window
     for slice in 0...WINDOW_WIDTH
       type, distance, map_x, map_y = @map.find_nearest_intersection(@player.x, @player.y, ray_angle)
       
-      slice_height = ((Map::TEX_HEIGHT / distance) * Player::DISTANCE_TO_PROJECTION)
-      slice_y = (WINDOW_HEIGHT - slice_height) / 2
+      # Remove spherical distortion
+      #corrected_angle = ray_angle - @player.angle
+      #puts corrected_angle
+      #distance = distance * Math::cos(corrected_angle)
+      #puts distance
       
-      texture = @map.textures[0][0]
+      
+      slice_height = ((Map::TEX_HEIGHT / distance) * Player::DISTANCE_TO_PROJECTION)
+      slice_y = (WINDOW_HEIGHT - slice_height) * (1 - @player.height)
+      
+      texture = @map.texture_for(type, map_x, map_y)
       texture.draw(slice, slice_y, 1, 1, slice_height / Map::TEX_HEIGHT)
       
       ray_angle = (ray_angle - ray_angle_delta + 360) % 360

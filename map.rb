@@ -13,9 +13,15 @@ class Map
   def initialize(matrix_row_column, texture_files, window)
     @matrix = matrix_row_column
     @window = window
-    @textures = []
+    @textures = [nil]
     texture_files.each {|tex_file|
-      @textures << Gosu::Image::load_tiles(window, tex_file, 1, TEX_HEIGHT, true)
+      pair = {}
+      
+      tex_file.each_pair {|tex_type, tex_path|
+        pair[tex_type] = Gosu::Image::load_tiles(window, tex_path, 1, TEX_HEIGHT, true)
+      }
+      
+      @textures << pair
     }
   end
   
@@ -84,6 +90,15 @@ class Map
     else
       return bx, by
     end
+  end
+  
+  def texture_for(type, x, y)
+    column = (x / GRID_WIDTH_HEIGHT).to_i
+    row    = (y / GRID_WIDTH_HEIGHT).to_i
+    
+    texture_id = @matrix[row][column]
+    return @textures[texture_id][type][x % TEX_WIDTH] if type == :horizontal
+    return @textures[texture_id][type][y % TEX_HEIGHT] if type == :vertical
   end
   
   def walkable?(row, column)
