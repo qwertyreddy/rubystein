@@ -12,14 +12,14 @@ class GameWindow < Gosu::Window
   
   def initialize
     super(WINDOW_WIDTH, WINDOW_HEIGHT, false)
-    self.caption = 'Wolf3d by Phusion CS Company'
+    self.caption = 'Rubenstein 3d by Phusion CS Company'
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     
     @map = Map.new([
         # Top left element represents (x=0,y=0)
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 0, 0, 1, 0, 1],
         [1, 0, 1, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 1, 1, 1, 1],
@@ -35,8 +35,8 @@ class GameWindow < Gosu::Window
     @player.y = 66
     @player.angle = 0
     
-    @bg = Gosu::Image.new(self, 'grid.png', true)
-    @image = Gosu::Image.new(self, 'blue1_1.png', true)
+    #@bg = Gosu::Image.new(self, 'grid.png', true)
+    #@image = Gosu::Image.new(self, 'blue1_1.png', true)
   end
 
   def update
@@ -44,6 +44,8 @@ class GameWindow < Gosu::Window
     @player.turn_right if button_down? Gosu::Button::KbRight
     @player.move_forward  if button_down? Gosu::Button::KbUp and @player.can_move_forward?(@map)
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
+    
+    
   end
   
   def button_down(id)
@@ -53,9 +55,27 @@ class GameWindow < Gosu::Window
   end  
 
   def draw
+    # Raytracing logics
+    ray_angle         = (360 + @player.angle + (Player::FOV / 2)) % 360
+    ray_angle_delta   = Player::RAY_ANGLE_DELTA
     
-    @image.draw_rot(@player.x, @player.y, 1, -1 * @player.angle)
-    @bg.draw(0,0,0)
+    for slice in 0...WINDOW_WIDTH
+      type, distance, map_x, map_y = @map.find_nearest_intersection(@player.x, @player.y, ray_angle)
+      
+      slice_height = ((Map::TEX_HEIGHT / distance) * Player::DISTANCE_TO_PROJECTION)
+      slice_y = (WINDOW_HEIGHT - slice_height) / 2
+      
+      texture = @map.textures[0][0]
+      texture.draw(slice, slice_y, 1, 1, slice_height / Map::TEX_HEIGHT)
+      
+      ray_angle = (ray_angle - ray_angle_delta + 360) % 360
+      #draw_line(@player.x, @player.y, 0xffffff00, map_x, map_y, 0xffffff00, 3)
+    end
+    
+    
+    
+    #@image.draw_rot(@player.x, @player.y, 2, @player.angle * -1)
+    #@bg.draw(0,0,0)
   end
   
 end

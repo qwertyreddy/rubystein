@@ -1,18 +1,21 @@
 class Player  
-  STEP_SIZE = 1
+  STEP_SIZE = 4
+  FOV = 60.0 # Field of View
+  DISTANCE_TO_PROJECTION = (640 / 2) / Math.tan((FOV / 2) * Math::PI / 180)
+  RAY_ANGLE_DELTA = (FOV / 640)
+  # Commented the following line out because I need to refactor the above to something
+  # like the following:
+  # DISTANCE_TO_PROJECTION = (GameWindow::WINDOW_WIDTH / 2) / Math.tan(FOV / 2)
   
   attr_accessor :x
   attr_accessor :y
   attr_accessor :height
   attr_accessor :angle
   
-  attr_accessor :fov
-  
   def initialize
     @x = 0.0
     @y = 0.0
     @angle = 0.0
-    @fov   = 64
   end
   
   def angle_in_radians
@@ -20,11 +23,12 @@ class Player
   end
   
   def turn_left
-    @angle = (@angle + 4) % 360
+    @angle = (@angle + 2) % 360
   end
   
   def turn_right
-    @angle = (@angle - 4) % 360
+    # The added 360 here will make sure that @angle >= 0
+    @angle = (360 + @angle - 2) % 360
   end
   
   def dx
