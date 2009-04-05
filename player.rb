@@ -20,14 +20,10 @@ class Player
   end
   
   def turn_left
-    # This should actually be @angle + 4 but Gosu doesn't
-    # use polar coordinates...
     @angle = (@angle + 4) % 360
   end
   
   def turn_right
-    # This should actually be @angle - 4 but Gosu doesn't
-    # use polar coordinates...
     @angle = (@angle - 4) % 360
   end
   

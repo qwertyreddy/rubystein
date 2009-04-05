@@ -35,8 +35,8 @@ class GameWindow < Gosu::Window
     @player.y = 66
     @player.angle = 0
     
-    #@bg = Gosu::Image.new(self, 'grid.png', true)
-    #@image = Gosu::Image.new(self, 'blue1_1.png', true)
+    @bg = Gosu::Image.new(self, 'grid.png', true)
+    @image = Gosu::Image.new(self, 'blue1_1.png', true)
   end
 
   def update
@@ -54,9 +54,8 @@ class GameWindow < Gosu::Window
 
   def draw
     
-    
-    #@image.draw_rot(@player.x, @player.y, 1, @player.angle)
-    #@bg.draw(0,0,0)
+    @image.draw_rot(@player.x, @player.y, 1, -1 * @player.angle)
+    @bg.draw(0,0,0)
   end
   
 end
