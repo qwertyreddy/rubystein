@@ -22,13 +22,13 @@ class Player
   def turn_left
     # This should actually be @angle + 4 but Gosu doesn't
     # use polar coordinates...
-    @angle = (@angle - 4) % 360
+    @angle = (@angle + 4) % 360
   end
   
   def turn_right
     # This should actually be @angle - 4 but Gosu doesn't
     # use polar coordinates...
-    @angle = (@angle + 4) % 360
+    @angle = (@angle - 4) % 360
   end
   
   def dx
@@ -42,21 +42,21 @@ class Player
   end
   
   def can_move_forward?(map)
-    return !map.hit?(@x + dx, @y + dy)
+    return !map.hit?(@x + dx, @y - dy)
   end
   
   def can_move_backward?(map)
-    return !map.hit?(@x - dx, @y - dy)
+    return !map.hit?(@x - dx, @y + dy)
   end
   
   def move_forward
     @x += dx
-    @y += dy
+    @y -= dy
   end
   
   def move_backward
     @x -= dx
-    @y -= dy
+    @y += dy
   end
   
 end
