@@ -5,6 +5,14 @@ require 'gosu'
 require 'map'
 require 'player'
 
+module ZOrder
+  BACKGROUND = 0
+  LEVEL   = 1
+  OBJECTS = 2
+  ENEMIES = 3
+  HUD     = 10
+end
+
 class GameWindow < Gosu::Window
   # TODO abstract functionality of controller in a module and mixin
   WINDOW_WIDTH  = 640
@@ -22,14 +30,13 @@ class GameWindow < Gosu::Window
         [1, 0, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 0, 0, 1, 0, 1],
         [1, 0, 1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 2, 3, 3, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
-          {
-            :horizontal => 'blue1_1.png',
-            :vertical   => 'blue1_2.png'
-          }
+          { :horizontal => 'blue1_1.png', :vertical => 'blue1_2.png' },
+          { :horizontal => 'grey1_1.png', :vertical => 'grey1_2.png' },
+          { :horizontal => 'wood1_1.png', :vertical => 'wood1_1.png' }
         ],
         self
     )
@@ -76,7 +83,7 @@ class GameWindow < Gosu::Window
       slice_y = (WINDOW_HEIGHT - slice_height) * (1 - @player.height)
       
       texture = @map.texture_for(type, map_x, map_y)
-      texture.draw(slice, slice_y, 1, 1, slice_height / Map::TEX_HEIGHT)
+      texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       
       ray_angle = (ray_angle - ray_angle_delta + 360) % 360
       #draw_line(@player.x, @player.y, 0xffffff00, map_x, map_y, 0xffffff00, 3)

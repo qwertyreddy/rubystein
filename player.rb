@@ -1,5 +1,6 @@
 class Player  
-  STEP_SIZE = 4
+  STEP_SIZE = 6
+  ANGLE_SPEED = 3.5
   FOV = 60.0 # Field of View
   DISTANCE_TO_PROJECTION = (640 / 2) / Math.tan((FOV / 2) * Math::PI / 180)
   RAY_ANGLE_DELTA = (FOV / 640)
@@ -23,12 +24,12 @@ class Player
   end
   
   def turn_left
-    @angle = (@angle + 2) % 360
+    @angle = (@angle + ANGLE_SPEED) % 360
   end
   
   def turn_right
     # The added 360 here will make sure that @angle >= 0
-    @angle = (360 + @angle - 2) % 360
+    @angle = (360 + @angle - ANGLE_SPEED) % 360
   end
   
   def dx
