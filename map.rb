@@ -7,10 +7,11 @@ class Map
   attr_accessor :matrix
   attr_reader   :window
   attr_reader   :textures
+  attr_reader   :sprites
   
   # @require for i in 0...matrix_row_column.size:
   #   matrix_row_column[i].size == matrix_row_column[i+1].size
-  def initialize(matrix_row_column, texture_files, window)
+  def initialize(matrix_row_column, texture_files, sprites, window)
     @matrix = matrix_row_column
     @window = window
     @textures = [nil]
@@ -18,11 +19,13 @@ class Map
       pair = {}
       
       tex_file.each_pair {|tex_type, tex_path|
-        pair[tex_type] = Gosu::Image::load_tiles(window, tex_path, 1, TEX_HEIGHT, true)
+        pair[tex_type] = Gosu::Image::load_tiles(window, tex_path, 1, TEX_HEIGHT, false)
       }
       
       @textures << pair
     }
+    
+    @sprites = sprites
   end
   
   def find_nearest_intersection(start_x, start_y, angle)
