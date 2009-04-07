@@ -1,4 +1,4 @@
-class Sprite
+module Sprite
   TEX_WIDTH  = 64
   TEX_HEIGHT = 64
   
@@ -11,4 +11,16 @@ class Sprite
     @y = y
     @slices = Gosu::Image::load_tiles(window, tex_path, 1, TEX_HEIGHT, true)
   end
+end
+
+class Lamp
+  include Sprite
+  
+  def initialize(window, x, y)
+    super(window, 'lamp.bmp', x, y)
+  end
+end
+
+class Hans
+  include Sprite
 end

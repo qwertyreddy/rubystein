@@ -60,4 +60,5 @@ class Player
     @y += dy
   end
   
+  
 end

@@ -10,6 +10,7 @@ module ZOrder
   BACKGROUND = 0
   LEVEL      = 1
   SPRITES    = 2
+  WEAPON     = 3
   HUD        = 10
 end
 
@@ -42,7 +43,7 @@ class GameWindow < Gosu::Window
           { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
           { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' }
         ],
-        [ Sprite.new(self, 'lamp.bmp', 300, 96), Sprite.new(self, 'hans1.bmp', 160, 160) ],
+        [ Lamp.new(self, 288, 96), Lamp.new(self, 224, 224), Hans.new(self, 'hans1.bmp', 160, 160) ],
         self
     )
     
@@ -55,6 +56,9 @@ class GameWindow < Gosu::Window
     @wall_distances = [0] * WINDOW_WIDTH
     @wall_perp_distances = [0] * WINDOW_WIDTH
     
+    @hud = Gosu::Image::new(self, 'hud.png', true)
+    @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
+    @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil = Gosu::Image::new(self, 'floor_ceil.png', true)
   end
 
@@ -67,6 +71,12 @@ class GameWindow < Gosu::Window
     @player.turn_right if button_down? Gosu::Button::KbRight
     @player.move_forward  if button_down? Gosu::Button::KbUp and @player.can_move_forward?(@map)
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
+    
+    if button_down? Gosu::KbSpace
+      @fired_weapon = true
+    else
+      @fired_weapon = false
+    end
   end
   
   def button_down(id)
@@ -142,9 +152,25 @@ class GameWindow < Gosu::Window
     }
   end
 
+  def draw_hud
+    @hud.draw(0, 415, ZOrder::HUD)
+  end
+
+  def draw_weapon
+    dy = Math.sin(Math.sqrt( @player.x ** 2 + @player.y ** 2 )) * 3
+    
+    if @fired_weapon
+      @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
+    else
+      @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
+    end
+  end
+
   def draw
     draw_scene
     draw_sprites
+    draw_weapon
+    draw_hud
   end
   
 end
