@@ -35,10 +35,10 @@ class GameWindow < Gosu::Window
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
-          { :horizontal => 'blue1_1.png', :vertical => 'blue1_2.png' },
-          { :horizontal => 'grey1_1.png', :vertical => 'grey1_2.png' },
-          { :horizontal => 'wood1_1.png', :vertical => 'wood1_1.png' },
-          { :horizontal => 'wood_php_1.png', :vertical => 'wood_php_1.png' }
+          { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
+          { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
+          { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
+          { :north => 'wood_php_1.png', :east => 'wood_php_1.png', :south => 'wood_php_1.png', :west => 'wood_php_1.png' }
         ],
         self
     )
@@ -86,10 +86,10 @@ class GameWindow < Gosu::Window
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (WINDOW_HEIGHT - slice_height) * (1 - @player.height)
       
-      texture = @map.texture_for(type, map_x, map_y)
+      texture = @map.texture_for(type, map_x, map_y, ray_angle)
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       
-      ray_angle = (ray_angle - ray_angle_delta) % 360
+      ray_angle = (360 + ray_angle - ray_angle_delta) % 360
     end
   end
   

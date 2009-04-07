@@ -92,13 +92,16 @@ class Map
     end
   end
   
-  def texture_for(type, x, y)
+  def texture_for(type, x, y, angle)
     column = (x / GRID_WIDTH_HEIGHT).to_i
     row    = (y / GRID_WIDTH_HEIGHT).to_i
     
     texture_id = @matrix[row][column]
-    return @textures[texture_id][type][x % TEX_WIDTH] if type == :horizontal
-    return @textures[texture_id][type][y % TEX_HEIGHT] if type == :vertical
+    
+    return @textures[texture_id][:south][x % TEX_WIDTH] if type == :horizontal and angle < 180
+    return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH] if type == :horizontal and angle > 180
+    return @textures[texture_id][:west][(TEX_HEIGHT - y) % TEX_HEIGHT] if type == :vertical and ( angle > 90 and angle < 270 )
+    return @textures[texture_id][:east][y % TEX_HEIGHT] if type == :vertical and ( angle < 90 or angle > 270 )
   end
   
   def walkable?(row, column)
