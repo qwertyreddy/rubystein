@@ -17,9 +17,10 @@ class GameWindow < Gosu::Window
   # TODO abstract functionality of controller in a module and mixin
   WINDOW_WIDTH  = 640
   WINDOW_HEIGHT = 480
+  FULLSCREEN    = true
   
   def initialize
-    super(WINDOW_WIDTH, WINDOW_HEIGHT, false)
+    super(WINDOW_WIDTH, WINDOW_HEIGHT, FULLSCREEN)
     self.caption = 'Rubenstein 3d by Phusion CS Company'
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     
@@ -27,28 +28,35 @@ class GameWindow < Gosu::Window
         # Top left element represents (x=0,y=0)
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 0, 0, 1, 0, 1],
+        [1, 0, 0, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 1, 0, 1],
         [1, 0, 1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 2, 3, 3, 1],
+        [1, 0, 0, 0, 2, 4, 3, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :horizontal => 'blue1_1.png', :vertical => 'blue1_2.png' },
           { :horizontal => 'grey1_1.png', :vertical => 'grey1_2.png' },
-          { :horizontal => 'wood1_1.png', :vertical => 'wood1_1.png' }
+          { :horizontal => 'wood1_1.png', :vertical => 'wood1_1.png' },
+          { :horizontal => 'wood_php_1.png', :vertical => 'wood_php_1.png' }
         ],
         self
     )
     
     @player = Player.new
     @player.height = 0.5
-    @player.x = 66
-    @player.y = 66
+    @player.x = 96
+    @player.y = 96
     @player.angle = 0
+    
+    @floor_ceil = Gosu::Image::new(self, 'floor_ceil.png', true)
   end
 
   def update
+    process_movement_input
+  end
+
+  def process_movement_input
     @player.turn_left  if button_down? Gosu::Button::KbLeft
     @player.turn_right if button_down? Gosu::Button::KbRight
     @player.move_forward  if button_down? Gosu::Button::KbUp and @player.can_move_forward?(@map)
@@ -62,6 +70,8 @@ class GameWindow < Gosu::Window
   end
 
   def draw
+    @floor_ceil.draw(0, 0, ZOrder::BACKGROUND)
+    
     # Raytracing logics
     ray_angle         = (360 + @player.angle + (Player::FOV / 2)) % 360
     ray_angle_delta   = Player::RAY_ANGLE_DELTA
@@ -80,7 +90,6 @@ class GameWindow < Gosu::Window
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       
       ray_angle = (ray_angle - ray_angle_delta) % 360
-      #ray_angle = (ray_angle - ray_angle_delta + 360) % 360
     end
   end
   
