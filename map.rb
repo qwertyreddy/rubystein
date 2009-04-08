@@ -111,7 +111,6 @@ class Map
     return @matrix[row][column] == 0
   end
   
-  
   def hit?(x,y)
     column = (x / GRID_WIDTH_HEIGHT).to_i
     row    = (y / GRID_WIDTH_HEIGHT).to_i

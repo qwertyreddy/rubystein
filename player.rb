@@ -12,11 +12,13 @@ class Player
   attr_accessor :y
   attr_accessor :height
   attr_accessor :angle
+  attr_accessor :health
   
   def initialize
     @x = 0.0
     @y = 0.0
-    @angle = 0.0
+    @angle  = 0.0
+    @health = 100
   end
   
   def angle_in_radians
@@ -60,5 +62,8 @@ class Player
     @y += dy
   end
   
+  def in_crosshair?(map, obj)
+    
+  end
   
 end

@@ -18,7 +18,7 @@ class GameWindow < Gosu::Window
   # TODO abstract functionality of controller in a module and mixin
   WINDOW_WIDTH  = 640
   WINDOW_HEIGHT = 480
-  FULLSCREEN    = true
+  FULLSCREEN    = false
   FPS           = 60
   
   def initialize
@@ -43,7 +43,11 @@ class GameWindow < Gosu::Window
           { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
           { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' }
         ],
-        [ Lamp.new(self, 288, 96), Lamp.new(self, 224, 224), Hans.new(self, 'hans1.bmp', 160, 160) ],
+        [
+          Lamp.new(self, 288, 96),
+          Lamp.new(self, 224, 224),
+          Hans.new(self, ['hans1.bmp'], 160, 160)
+        ],
         self
     )
     
@@ -53,7 +57,6 @@ class GameWindow < Gosu::Window
     @player.y = 96
     @player.angle = 0
     
-    @wall_distances = [0] * WINDOW_WIDTH
     @wall_perp_distances = [0] * WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
@@ -88,12 +91,14 @@ class GameWindow < Gosu::Window
   def draw_sprites
     @map.sprites.each { |sprite|
       dx = (sprite.x - @player.x)
-      dy = (sprite.y - @player.y) * -1 # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
+      # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
+      dy = (sprite.y - @player.y) * -1
       
       distance = Math.sqrt( dx ** 2 + dy ** 2 )
       
-      sprite_angle =(Math::atan2(dy, dx) * 180 / Math::PI) - @player.angle
-      sprite_angle *= -1 # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
+      sprite_angle = (Math::atan2(dy, dx) * 180 / Math::PI) - @player.angle
+      # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
+      sprite_angle *= -1
       
       perp_distance = ( distance * Math.cos( sprite_angle * Math::PI / 180 ))#.abs
       next if perp_distance <= 0 # Behind us... no point in drawing this.
@@ -116,11 +121,6 @@ class GameWindow < Gosu::Window
         
         i += 1
       end
-      
-      #sprite.slices.each{ |slice|
-      #  slice.draw(x, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor) if not @wall_perp_distances[x.to_i].nil? and perp_distance < @wall_perp_distances[x.to_i]
-      #  x += sprite_pixel_factor
-      #}
     }
   end
 
@@ -139,7 +139,6 @@ class GameWindow < Gosu::Window
       corrected_angle = ray_angle - @player.angle
       corrected_distance = distance * Math::cos(corrected_angle * Math::PI / 180)
       
-      @wall_distances[slice]      = distance
       @wall_perp_distances[slice] = corrected_distance
       
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
@@ -160,7 +159,7 @@ class GameWindow < Gosu::Window
     dy = Math.sin(Math.sqrt( @player.x ** 2 + @player.y ** 2 )) * 3
     
     if @fired_weapon
-      @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
+      @weapon_fire.draw(200, 240 + dy + Math.cos(Time.now.to_i * Math::PI * 5) * 6, ZOrder::WEAPON)
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
     end
