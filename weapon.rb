@@ -5,7 +5,4 @@ module Damageable
     @health -= 5
     #@health -= player.weapon.damage
   end
-  
-  def die
-  end
 end

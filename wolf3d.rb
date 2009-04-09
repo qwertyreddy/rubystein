@@ -20,7 +20,7 @@ class GameWindow < Gosu::Window
   WINDOW_WIDTH  = 640
   WINDOW_HEIGHT = 480
   FULLSCREEN    = false
-  FPS           = 60
+  FPS           = 30
   
   def initialize
     super(WINDOW_WIDTH, WINDOW_HEIGHT, FULLSCREEN, 1.0 / FPS)
@@ -65,12 +65,12 @@ class GameWindow < Gosu::Window
     @player.angle = 0
     
     @wall_perp_distances   = [0] * WINDOW_WIDTH
-    @drawn_sprite_x       = [nil] * WINDOW_WIDTH
+    @drawn_sprite_x        = [nil] * WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
-    @floor_ceil = Gosu::Image::new(self, 'floor_ceil.png', true)
+    @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
   end
 
   def update
@@ -84,9 +84,8 @@ class GameWindow < Gosu::Window
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
     
     if button_down? Gosu::Button::KbSpace
-      if not ( sprite = @drawn_sprite_x[WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from
+      if not ( sprite = @drawn_sprite_x[WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from and sprite.health > 0
         sprite.take_damage_from(@player)
-        puts sprite.health
       end
       
       @fired_weapon = true
@@ -131,12 +130,14 @@ class GameWindow < Gosu::Window
       y = (WINDOW_HEIGHT - sprite_size) / 2
       
       i = 0
+      slices = sprite.slices
+      
       while(i < Sprite::TEX_WIDTH && (i * sprite_pixel_factor) < sprite_size)
         slice = x + i * sprite_pixel_factor
         slice_idx = slice.to_i
         
         if slice >= 0 && slice < WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
-          sprite.slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
+          slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
           drawn_slice_idx = slice_idx
           
           while((drawn_slice_idx - x) <= ((i+1) * sprite_pixel_factor))

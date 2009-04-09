@@ -44,6 +44,8 @@ class Hans
   include Sprite
   include Damageable
   
+  STEP_SIZE = 3
+  
   def initialize(window, kind_tex_paths, x, y)
     @window = window
     @x = x
@@ -58,28 +60,38 @@ class Hans
       }
     }
     
-    @current_state       = :idle
-    @current_tex_seq_id  = 0
+    @current_state        = :idle
+    @current_anim_seq_id  = 0
   end
   
   def after_draw
     if @current_state == :damaged
-      @current_state = :idle
+      @current_state = :firing
     end
   end
   
   def take_damage_from(player)
-    @current_state = :damaged
+    return if @current_state == :dead
     @health -= 5
-    die if @health <= 0
+    @current_state = (@health > 0) ? :damaged : :dead
   end
   
-  def die
+  def walk_to(map, x, y)
+    return if @current_state == :dead
+    @current_state = :walking
+    dx = x - @x
+    dy = (y - @y) * -1
+    
+    angle_rad = Math::atan2(dy, dx) * -1
+    
+    @x += STEP_SIZE * Math::cos(angle_rad)
+    @y += STEP_SIZE * Math::sin(angle_rad)
   end
   
   def slices
     # Serve up current slice
-    return @slices[@current_state][@current_tex_seq_id]
+    @current_anim_seq_id = ((Time.now.to_f * 4) % @slices[@current_state].size).to_i
+    return @slices[@current_state][@current_anim_seq_id]
   end
   
 end
