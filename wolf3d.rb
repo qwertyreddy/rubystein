@@ -3,6 +3,7 @@ require 'rubygems'
 require 'gosu'
 
 require 'map'
+require 'weapon'
 require 'player'
 require 'sprite'
 
@@ -46,7 +47,13 @@ class GameWindow < Gosu::Window
         [
           Lamp.new(self, 288, 96),
           Lamp.new(self, 224, 224),
-          Hans.new(self, ['hans1.bmp'], 160, 160)
+          Hans.new(self, {
+              :idle    => ['hans1.bmp'],
+              :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
+              :firing  => ['hans5.bmp', 'hans6.bmp', 'hans7.bmp'],
+              :damaged => ['hans8.bmp'],
+              :dead    => ['hans9.bmp']
+              }, 160, 160)
         ],
         self
     )
@@ -58,7 +65,7 @@ class GameWindow < Gosu::Window
     @player.angle = 0
     
     @wall_perp_distances   = [0] * WINDOW_WIDTH
-    @drawn_sprite_x        = [nil] * WINDOW_WIDTH
+    @drawn_sprite_x       = [nil] * WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
@@ -76,7 +83,12 @@ class GameWindow < Gosu::Window
     @player.move_forward  if button_down? Gosu::Button::KbUp and @player.can_move_forward?(@map)
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
     
-    if button_down? Gosu::KbSpace
+    if button_down? Gosu::Button::KbSpace
+      if not ( sprite = @drawn_sprite_x[WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from
+        sprite.take_damage_from(@player)
+        puts sprite.health
+      end
+      
       @fired_weapon = true
     else
       @fired_weapon = false
@@ -91,8 +103,11 @@ class GameWindow < Gosu::Window
 
   def draw_sprites
     @drawn_sprite_x.clear
+    #@sprite_in_crosshair = nil
     
     @map.sprites.each { |sprite|
+      sprite.before_draw
+      
       dx = (sprite.x - @player.x)
       # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
       dy = (sprite.y - @player.y) * -1
@@ -122,7 +137,6 @@ class GameWindow < Gosu::Window
         
         if slice >= 0 && slice < WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
           sprite.slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
-          
           drawn_slice_idx = slice_idx
           
           while((drawn_slice_idx - x) <= ((i+1) * sprite_pixel_factor))
@@ -133,6 +147,8 @@ class GameWindow < Gosu::Window
         
         i += 1
       end
+      
+      sprite.after_draw
     }
     
   end
@@ -169,10 +185,16 @@ class GameWindow < Gosu::Window
   end
 
   def draw_weapon
-    dy = Math.sin(Math.sqrt( @player.x ** 2 + @player.y ** 2 )) * 3
+    if button_down? Gosu::Button::KbUp
+      dy = Math.cos(Time.now.to_f * -10) * 7
+    elsif button_down? Gosu::Button::KbDown
+      dy = Math.cos(Time.now.to_f * 10) * 7
+    else
+      dy = Math.cos(Time.now.to_f * 5) * 3
+    end
     
     if @fired_weapon
-      @weapon_fire.draw(200, 240 + dy + Math.cos(Time.now.to_i * Math::PI * 5) * 6, ZOrder::WEAPON)
+      @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
     end
@@ -181,12 +203,8 @@ class GameWindow < Gosu::Window
   def draw
     draw_scene
     draw_sprites
-    puts @drawn_sprite_x[319]
-    
     draw_weapon
     draw_hud
-    
-    draw_line(320, 0, 0xffffffff, 320, 480, 0xffffffff, 100)
   end
   
 end

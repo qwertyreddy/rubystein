@@ -1,4 +1,8 @@
-class Player  
+require 'weapon'
+
+class Player
+  include Damageable
+  
   STEP_SIZE = 6
   ANGLE_SPEED = 4
   FOV = 60.0 # Field of View
@@ -13,6 +17,7 @@ class Player
   attr_accessor :height
   attr_accessor :angle
   attr_accessor :health
+  attr_accessor :weapon
   
   def initialize
     @x = 0.0
@@ -62,5 +67,7 @@ class Player
     @y += dy
   end
   
+  def fire
+  end
   
 end
