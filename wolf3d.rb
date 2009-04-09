@@ -52,7 +52,7 @@ class GameWindow < Gosu::Window
               :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
               :firing  => ['hans5.bmp', 'hans6.bmp', 'hans7.bmp'],
               :damaged => ['hans8.bmp'],
-              :dead    => ['hans9.bmp']
+              :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
               }, 160, 160)
         ],
         self
@@ -75,6 +75,18 @@ class GameWindow < Gosu::Window
 
   def update
     process_movement_input
+    invoke_ai
+  end
+
+  def invoke_ai
+    @map.sprites.each { |sprite|
+      if sprite.respond_to? :walk_to
+        dx = sprite.x - @player.x
+        dy = sprite.y - @player.y
+        r  = Math.sqrt( dx ** 2 + dy ** 2 )
+        sprite.walk_to(@map, @player.x, @player.y) if r > 120
+      end
+    }
   end
 
   def process_movement_input
