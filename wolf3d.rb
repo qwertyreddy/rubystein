@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'gosu'
 
+require 'config'
 require 'map'
 require 'weapon'
 require 'player'
@@ -16,14 +17,8 @@ module ZOrder
 end
 
 class GameWindow < Gosu::Window
-  # TODO abstract functionality of controller in a module and mixin
-  WINDOW_WIDTH  = 640
-  WINDOW_HEIGHT = 480
-  FULLSCREEN    = false
-  FPS           = 30
-  
   def initialize
-    super(WINDOW_WIDTH, WINDOW_HEIGHT, FULLSCREEN, 1.0 / FPS)
+    super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
         
     @map = Map.new([
@@ -51,7 +46,7 @@ class GameWindow < Gosu::Window
               :idle    => ['hans1.bmp'],
               :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
               :firing  => ['hans5.bmp', 'hans6.bmp', 'hans7.bmp'],
-              :damaged => ['hans8.bmp'],
+              :damaged => ['hans8.bmp', 'hans9.bmp'],
               :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
               }, 160, 160)
         ],
@@ -64,8 +59,8 @@ class GameWindow < Gosu::Window
     @player.y = 96
     @player.angle = 0
     
-    @wall_perp_distances   = [0] * WINDOW_WIDTH
-    @drawn_sprite_x        = [nil] * WINDOW_WIDTH
+    @wall_perp_distances   = [0]   * Config::WINDOW_WIDTH
+    @drawn_sprite_x        = [nil] * Config::WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
@@ -84,7 +79,12 @@ class GameWindow < Gosu::Window
         dx = sprite.x - @player.x
         dy = sprite.y - @player.y
         r  = Math.sqrt( dx ** 2 + dy ** 2 )
-        sprite.walk_to(@map, @player.x, @player.y) if r > 120
+        
+        if r > 120
+          sprite.walk_to(@map, (@player.x / 64).to_i * 64, (@player.y / 64).to_i * 64)
+        else
+          sprite.current_state = :idle if sprite.current_state == :walking
+        end
       end
     }
   end
@@ -96,7 +96,7 @@ class GameWindow < Gosu::Window
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
     
     if button_down? Gosu::Button::KbSpace
-      if not ( sprite = @drawn_sprite_x[WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from and sprite.health > 0
+      if not ( sprite = @drawn_sprite_x[Config::WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from and sprite.health > 0
         sprite.take_damage_from(@player)
       end
       
@@ -136,10 +136,10 @@ class GameWindow < Gosu::Window
       
       sprite_size = sprite_pixel_factor * Sprite::TEX_WIDTH
       
-      x = ( Math.tan(sprite_angle * Math::PI / 180) * Player::DISTANCE_TO_PROJECTION + (WINDOW_WIDTH - sprite_size) / 2).to_i
-      next if x + sprite_size.to_i < 0 or x >= WINDOW_WIDTH # Out of our screen resolution
+      x = ( Math.tan(sprite_angle * Math::PI / 180) * Player::DISTANCE_TO_PROJECTION + (Config::WINDOW_WIDTH - sprite_size) / 2).to_i
+      next if x + sprite_size.to_i < 0 or x >= Config::WINDOW_WIDTH # Out of our screen resolution
 
-      y = (WINDOW_HEIGHT - sprite_size) / 2
+      y = (Config::WINDOW_HEIGHT - sprite_size) / 2
       
       i = 0
       slices = sprite.slices
@@ -148,7 +148,7 @@ class GameWindow < Gosu::Window
         slice = x + i * sprite_pixel_factor
         slice_idx = slice.to_i
         
-        if slice >= 0 && slice < WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
+        if slice >= 0 && slice < Config::WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
           slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
           drawn_slice_idx = slice_idx
           
@@ -173,7 +173,7 @@ class GameWindow < Gosu::Window
     ray_angle         = (360 + @player.angle + (Player::FOV / 2)) % 360
     ray_angle_delta   = Player::RAY_ANGLE_DELTA
     
-    (0...WINDOW_WIDTH).each { |slice|
+    (0...Config::WINDOW_WIDTH).each { |slice|
       type, distance, map_x, map_y = @map.find_nearest_intersection(@player.x, @player.y, ray_angle)
       
       # Correct spherical distortion
@@ -184,7 +184,7 @@ class GameWindow < Gosu::Window
       @wall_perp_distances[slice] = corrected_distance
       
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
-      slice_y = (WINDOW_HEIGHT - slice_height) * (1 - @player.height)
+      slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
       
       texture = @map.texture_for(type, map_x, map_y, ray_angle)
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
@@ -216,8 +216,8 @@ class GameWindow < Gosu::Window
   def draw
     draw_scene
     draw_sprites
-    draw_weapon
-    draw_hud
+    #draw_weapon
+    #draw_hud
   end
   
 end

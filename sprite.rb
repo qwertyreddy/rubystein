@@ -66,9 +66,9 @@ class Hans
   end
   
   def after_draw
-    if @current_state == :damaged
-      self.current_state = :firing
-    end
+    #if @current_state == :damaged
+    #  self.current_state = :idle
+    #end
   end
   
   def take_damage_from(player)
@@ -79,7 +79,13 @@ class Hans
   
   def walk_to(map, x, y)
     return if @current_state == :dead
-    self.current_state = :walking
+    if @x == x && @y == y
+      self.current_state = :idle
+      return
+    end
+    
+    self.current_state = :walking if self.current_state != :walking
+    
     dx = x - @x
     dy = (y - @y) * -1
     
@@ -87,6 +93,10 @@ class Hans
     
     @x += STEP_SIZE * Math::cos(angle_rad)
     @y += STEP_SIZE * Math::sin(angle_rad)
+  end
+  
+  def current_state
+    @current_state
   end
   
   def current_state=(state)
@@ -97,6 +107,7 @@ class Hans
   def slices
     # Serve up current slice
     now = Time.now.to_f
+    n   = @current_anim_seq_id
     
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
       if now >= @last_draw_time + ANIMATION_INTERVAL
@@ -105,7 +116,7 @@ class Hans
       end
     end
     
-    return @slices[@current_state][@current_anim_seq_id]
+    return @slices[@current_state][n]
   end
   
 end
