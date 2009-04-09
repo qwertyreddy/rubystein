@@ -62,8 +62,5 @@ class Player
     @y += dy
   end
   
-  def in_crosshair?(map, obj)
-    
-  end
   
 end

@@ -57,7 +57,8 @@ class GameWindow < Gosu::Window
     @player.y = 96
     @player.angle = 0
     
-    @wall_perp_distances = [0] * WINDOW_WIDTH
+    @wall_perp_distances   = [0] * WINDOW_WIDTH
+    @drawn_sprite_x        = [nil] * WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
@@ -89,6 +90,8 @@ class GameWindow < Gosu::Window
   end
 
   def draw_sprites
+    @drawn_sprite_x.clear
+    
     @map.sprites.each { |sprite|
       dx = (sprite.x - @player.x)
       # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
@@ -107,7 +110,7 @@ class GameWindow < Gosu::Window
       
       sprite_size = sprite_pixel_factor * Sprite::TEX_WIDTH
       
-      x = ( Math.tan(sprite_angle * Math::PI / 180) * Player::DISTANCE_TO_PROJECTION + (WINDOW_WIDTH - sprite_size)/ 2).to_i
+      x = ( Math.tan(sprite_angle * Math::PI / 180) * Player::DISTANCE_TO_PROJECTION + (WINDOW_WIDTH - sprite_size) / 2).to_i
       next if x + sprite_size.to_i < 0 or x >= WINDOW_WIDTH # Out of our screen resolution
 
       y = (WINDOW_HEIGHT - sprite_size) / 2
@@ -115,13 +118,23 @@ class GameWindow < Gosu::Window
       i = 0
       while(i < Sprite::TEX_WIDTH && (i * sprite_pixel_factor) < sprite_size)
         slice = x + i * sprite_pixel_factor
-        if slice >= 0 && slice < WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice.to_i]
+        slice_idx = slice.to_i
+        
+        if slice >= 0 && slice < WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
           sprite.slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
+          
+          drawn_slice_idx = slice_idx
+          
+          while((drawn_slice_idx - x) <= ((i+1) * sprite_pixel_factor))
+            @drawn_sprite_x[drawn_slice_idx] = sprite
+            drawn_slice_idx += 1
+          end
         end
         
         i += 1
       end
     }
+    
   end
 
   def draw_scene
@@ -168,8 +181,12 @@ class GameWindow < Gosu::Window
   def draw
     draw_scene
     draw_sprites
+    puts @drawn_sprite_x[319]
+    
     draw_weapon
     draw_hud
+    
+    draw_line(320, 0, 0xffffffff, 320, 480, 0xffffffff, 100)
   end
   
 end
