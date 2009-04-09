@@ -45,6 +45,7 @@ class Hans
   include Damageable
   
   STEP_SIZE = 3
+  ANIMATION_INTERVAL = 0.2
   
   def initialize(window, kind_tex_paths, x, y)
     @window = window
@@ -61,6 +62,7 @@ class Hans
     }
     
     self.current_state = :idle
+    @last_draw_time = Time.now.to_f
   end
   
   def after_draw
@@ -94,12 +96,13 @@ class Hans
   
   def slices
     # Serve up current slice
+    now = Time.now.to_f
+    
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
-      
-    #if @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size
-    #  return @slices[:dead][@current_anim_seq_id]
-    #end
-      @current_anim_seq_id = ((Time.now.to_f * 4) % @slices[@current_state].size).to_i
+      if now >= @last_draw_time + ANIMATION_INTERVAL
+        @current_anim_seq_id = (@current_anim_seq_id + 1) % @slices[@current_state].size
+        @last_draw_time = now
+      end
     end
     
     return @slices[@current_state][@current_anim_seq_id]
