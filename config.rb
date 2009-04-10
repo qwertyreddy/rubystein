@@ -1,6 +1,6 @@
 module Config
   WINDOW_WIDTH  = 800
   WINDOW_HEIGHT = 600
-  FULLSCREEN    = true
+  FULLSCREEN    = false
   FPS           = 30
 end

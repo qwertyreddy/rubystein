@@ -8,12 +8,6 @@ module Sprite
   attr_accessor :y
   attr_accessor :window
   attr_accessor :slices
-  
-  def before_draw
-  end
-  
-  def after_draw
-  end
 end
 
 class SpritePool
@@ -65,12 +59,6 @@ class Hans
     @last_draw_time = Time.now.to_f
   end
   
-  def after_draw
-    #if @current_state == :damaged
-    #  self.current_state = :idle
-    #end
-  end
-  
   def take_damage_from(player)
     return if @current_state == :dead
     @health -= 5
@@ -84,7 +72,8 @@ class Hans
       return
     end
     
-    self.current_state = :walking if self.current_state != :walking
+    self.current_state = :walking if self.current_state != :walking &&
+      @current_anim_seq_id + 1 == @slices[@current_state].size
     
     dx = x - @x
     dy = (y - @y) * -1
@@ -102,21 +91,33 @@ class Hans
   def current_state=(state)
     @current_state       = state
     @current_anim_seq_id = 0
+    if state == :idle || state == :walking || state == :firing
+      @repeating_anim = true
+    else
+      @repeating_anim = false
+    end
   end
   
   def slices
     # Serve up current slice
     now = Time.now.to_f
-    n   = @current_anim_seq_id
     
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
       if now >= @last_draw_time + ANIMATION_INTERVAL
-        @current_anim_seq_id = (@current_anim_seq_id + 1) % @slices[@current_state].size
+        @current_anim_seq_id += 1
+        if @repeating_anim
+          @current_anim_seq_id = @current_anim_seq_id % @slices[@current_state].size
+        else
+          if @current_anim_seq_id >= @slices[@current_state].size
+            self.current_state = :idle
+          end
+        end
+        
         @last_draw_time = now
       end
     end
     
-    return @slices[@current_state][n]
+    return @slices[@current_state][@current_anim_seq_id]
   end
   
 end

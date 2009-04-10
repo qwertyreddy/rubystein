@@ -117,8 +117,6 @@ class GameWindow < Gosu::Window
     #@sprite_in_crosshair = nil
     
     @map.sprites.each { |sprite|
-      sprite.before_draw
-      
       dx = (sprite.x - @player.x)
       # Correct the angle by mirroring it in x. This is necessary seeing as our grid system increases in y when we "go down"
       dy = (sprite.y - @player.y) * -1
@@ -160,8 +158,6 @@ class GameWindow < Gosu::Window
         
         i += 1
       end
-      
-      sprite.after_draw
     }
     
   end
