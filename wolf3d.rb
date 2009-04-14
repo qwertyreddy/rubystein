@@ -6,6 +6,7 @@ require 'config'
 require 'map'
 require 'weapon'
 require 'player'
+require 'ai_player'
 require 'sprite'
 
 module ZOrder
@@ -39,24 +40,19 @@ class GameWindow < Gosu::Window
           { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
           { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' }
         ],
-        [
-          Lamp.new(self, 288, 96),
-          Lamp.new(self, 224, 224),
-          Hans.new(self, {
-              :idle    => ['hans1.bmp'],
-              :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
-              :firing  => ['hans5.bmp', 'hans6.bmp', 'hans7.bmp'],
-              :damaged => ['hans8.bmp', 'hans9.bmp'],
-              :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
-              }, 160, 160)
-        ],
         self
     )
     
+    @map.sprites = [
+      Lamp.new(self, 288, 96),
+      Lamp.new(self, 224, 224),
+      Hans.new(self, @map, 240, 240)
+    ]
+    
     @player = Player.new
     @player.height = 0.5
-    @player.x = 96
-    @player.y = 96
+    @player.x = 64 * 1.5
+    @player.y = 64 * 1.5
     @player.angle = 0
     
     @wall_perp_distances   = [0]   * Config::WINDOW_WIDTH
@@ -75,17 +71,7 @@ class GameWindow < Gosu::Window
 
   def invoke_ai
     @map.sprites.each { |sprite|
-      if sprite.respond_to? :walk_to
-        dx = sprite.x - @player.x
-        dy = sprite.y - @player.y
-        r  = Math.sqrt( dx ** 2 + dy ** 2 )
-        
-        if r > 120
-          sprite.walk_to(@map, (@player.x / 64).to_i * 64, (@player.y / 64).to_i * 64)
-        else
-          sprite.current_state = :idle if sprite.current_state == :walking
-        end
-      end
+      sprite.interact(@player) if sprite.respond_to? :interact
     }
   end
 

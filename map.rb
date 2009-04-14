@@ -1,3 +1,6 @@
+require 'config'
+require 'sprite'
+
 class Map
   Infinity = 1.0 / 0
   TEX_WIDTH  = 64
@@ -7,25 +10,28 @@ class Map
   attr_accessor :matrix
   attr_reader   :window
   attr_reader   :textures
-  attr_reader   :sprites
+  attr_accessor :sprites
+  attr_reader   :width
+  attr_reader   :height
   
   # @require for i in 0...matrix_row_column.size:
   #   matrix_row_column[i].size == matrix_row_column[i+1].size
-  def initialize(matrix_row_column, texture_files, sprites, window)
+  def initialize(matrix_row_column, texture_files, window)
     @matrix = matrix_row_column
+    @width  = matrix_row_column[0].size
+    @height = matrix_row_column.size
     @window = window
     @textures = [nil]
     texture_files.each {|tex_file|
       pair = {}
       
       tex_file.each_pair {|tex_type, tex_path|
-        pair[tex_type] = Gosu::Image::load_tiles(window, tex_path, 1, TEX_HEIGHT, false)
+        pair[tex_type] = SpritePool::get(window, tex_path, TEX_HEIGHT)
       }
       
       @textures << pair
     }
-    
-    @sprites = sprites
+    @sprites = []
   end
   
   def find_nearest_intersection(start_x, start_y, angle)
@@ -59,7 +65,7 @@ class Map
     
     ax = start_x + (start_y - ay) / Math.tan(angle * Math::PI / 180)
     
-    return Infinity, Infinity if(ax < 0 || ax > 640 || ay < 0 || ay > 480)
+    return Infinity, Infinity if(ax < 0 || ax > Config::WINDOW_WIDTH || ay < 0 || ay > Config::WINDOW_HEIGHT)
     
     if(!hit?(ax, ay))
       # Extend the ray
@@ -85,7 +91,7 @@ class Map
     by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
     
     # If the casted ray gets out of the playfield, emit infinity.
-    return Infinity, Infinity if(bx < 0 || bx > 640 || by < 0 || by > 480)
+    return Infinity, Infinity if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
     
     if(!hit?(bx, by))
       #Extend the ray
@@ -108,14 +114,28 @@ class Map
   end
   
   def walkable?(row, column)
-    return @matrix[row][column] == 0
+    return row >= 0 && row < @height && column >= 0 && column < @width && @matrix[row][column] == 0
   end
   
   def hit?(x,y)
+    column, row = Map.matrixify(x,y)
+    
+    return on_map?(row, column) && !self.walkable?(row, column)
+  end
+  
+  def on_map?(row, column)
+    return false if row < 0 or column < 0
+    
+    number_of_columns = self.width
+    number_of_rows    = self.height
+    
+    return row < number_of_rows && column < number_of_columns
+  end
+  
+  def self.matrixify(x, y)
     column = (x / GRID_WIDTH_HEIGHT).to_i
     row    = (y / GRID_WIDTH_HEIGHT).to_i
     
-    return !walkable?(row, column)
+    return column, row
   end
-  
 end
