@@ -27,7 +27,7 @@ module AStar
       neighbor_nodes.each do |y|
         next if closed.include?(y) or not map.walkable?(y[1], y[0])
         
-        tentative_g_score = g_score[x]# + dist_between(x, y)
+        tentative_g_score = g_score[x] + dist_between(x, y)
         tentative_is_better = false
         if not open.include?(y)
           open << y
@@ -126,20 +126,42 @@ class AIPlayer
   include Sprite
   include Damageable
   
+  attr_accessor :steps_removed_from_player
+  
   def interact(player)
-    path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x, player.y))
-    return if path.nil?
+    return if @health <= 0
     
-    x = path[0] * Map::GRID_WIDTH_HEIGHT
-    y = path[1] * Map::GRID_WIDTH_HEIGHT
-    self.step_to(x, y)
+    dx = player.x - @x
+    dy = (player.y - @y) * -1
+    
+    angle_rad = Math::atan2(dy, dx) * -1
+    dx = @steps_removed_from_player * @step_size * Math::cos(angle_rad)
+    dy = @steps_removed_from_player * @step_size * Math::sin(angle_rad)
+    
+    path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x - dx, player.y - dy))
+    if not path.nil?
+      x = path[0] * Map::GRID_WIDTH_HEIGHT
+      y = path[1] * Map::GRID_WIDTH_HEIGHT
+      
+      tmp_x = x - (Map::GRID_WIDTH_HEIGHT / 2)
+      tmp_y = y - (Map::GRID_WIDTH_HEIGHT / 2)
+      if @map.hit?(tmp_x, y)
+        x = tmp_x + Map::GRID_WIDTH_HEIGHT
+      end
+      
+      if @map.hit?(x, tmp_y)
+        y = tmp_y + Map::GRID_WIDTH_HEIGHT
+      end
+      
+      self.step_to(x, y)
+    end
   end
 end
 
 class Enemy < AIPlayer
   attr_accessor :step_size
   attr_accessor :animation_interval
-    
+  
   def initialize(window, kind_tex_paths, map, x, y, step_size = 4, animation_interval = 0.2)
     @window = window
     @x = x
@@ -147,6 +169,7 @@ class Enemy < AIPlayer
     @slices = {}
     @health = 100
     @map = map
+    @steps_removed_from_player = 40
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -225,7 +248,7 @@ class Enemy < AIPlayer
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, step_size = 4, animation_interval = 0.2)
+  def initialize(window, map, x, y, step_size = 2, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],

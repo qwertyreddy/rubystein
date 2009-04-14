@@ -198,8 +198,8 @@ class GameWindow < Gosu::Window
   def draw
     draw_scene
     draw_sprites
-    #draw_weapon
-    #draw_hud
+    draw_weapon
+    draw_hud
   end
   
 end
