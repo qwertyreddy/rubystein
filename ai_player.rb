@@ -50,14 +50,10 @@ module AStar
   end
   
   def dist_between(a, b)
-    if a.respond_to?(:x) && a.respond_to?(:y) && b.respond_to?(:x) && b.respond_to?(:y)
-      return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
-    else
-      a_x, a_y = a
-      b_x, b_y = b
+    a_x, a_y = a
+    b_x, b_y = b
       
-      return Math.sqrt((a_x - b_x) ** 2 + (a_y - b_y) ** 2)
-    end
+    return Math.sqrt((a_x - b_x) ** 2 + (a_y - b_y) ** 2)
   end
   
   def neighbor_nodes(map, node)
@@ -140,17 +136,22 @@ class AIPlayer
     
     path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x - dx, player.y - dy))
     if not path.nil?
+      d = Map::GRID_WIDTH_HEIGHT / 2
+      
       x = path[0] * Map::GRID_WIDTH_HEIGHT
       y = path[1] * Map::GRID_WIDTH_HEIGHT
       
-      tmp_x = x - (Map::GRID_WIDTH_HEIGHT / 2)
-      tmp_y = y - (Map::GRID_WIDTH_HEIGHT / 2)
-      if @map.hit?(tmp_x, y)
-        x = tmp_x + Map::GRID_WIDTH_HEIGHT
-      end
-      
-      if @map.hit?(x, tmp_y)
-        y = tmp_y + Map::GRID_WIDTH_HEIGHT
+      if @map.hit?(x - 1, y)
+        x += d + 1
+      elsif @map.hit?(x + 1, y)
+        x -= d - 1
+      elsif @map.hit?(x, y - 1)
+        y += d + 1
+      elsif @map.hit?(x, y + 1)
+        y -= d - 1
+      elsif @map.hit?(x - 1, y - 1)
+        x += d + 1
+        y += d + 1
       end
       
       self.step_to(x, y)
@@ -169,7 +170,7 @@ class Enemy < AIPlayer
     @slices = {}
     @health = 100
     @map = map
-    @steps_removed_from_player = 40
+    @steps_removed_from_player = 25
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
