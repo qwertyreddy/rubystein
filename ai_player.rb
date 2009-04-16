@@ -124,8 +124,14 @@ class AIPlayer
   
   attr_accessor :steps_removed_from_player
   
-  def interact(player)
+  def interact(player, drawn_sprite_x)
     return if @health <= 0
+    
+    
+    #if !drawn_sprite_x.include?(self) && rand > 0.4
+    #  self.fire(player)
+    #  return
+    #end
     
     dx = player.x - @x
     dy = (player.y - @y) * -1
@@ -170,7 +176,7 @@ class Enemy < AIPlayer
     @slices = {}
     @health = 100
     @map = map
-    @steps_removed_from_player = 25
+    @steps_removed_from_player = 22
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -245,6 +251,12 @@ class Enemy < AIPlayer
     end
     
     return @slices[@current_state][@current_anim_seq_id]
+  end
+  
+  def fire(player)
+    return if @current_status == :dead
+    
+    self.current_state = :firing
   end
 end
 

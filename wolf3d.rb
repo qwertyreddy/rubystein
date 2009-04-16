@@ -21,16 +21,16 @@ class GameWindow < Gosu::Window
   def initialize
     super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
-        
+    
     @map = Map.new([
         # Top left element represents (x=0,y=0)
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 2, 1, 1, 1],
-        [1, 0, 0, 0, 0, 1, 0, 1],
-        [1, 0, 5, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 6, 4, 3, 1],
+        [1, 0, 0, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
@@ -45,11 +45,11 @@ class GameWindow < Gosu::Window
     
     @map.sprites = [
       Lamp.new(self, 288, 96),
-      Lamp.new(self, 224, 224),
-      Hans.new(self, @map, 240, 240)
+      Lamp.new(self, 224, 224)#,
+      #Hans.new(self, @map, 240, 240)
     ]
     
-    @player = Player.new
+    @player = Player.new(self)
     @player.height = 0.5
     @player.x = 64 * 1.5
     @player.y = 64 * 1.5
@@ -71,7 +71,7 @@ class GameWindow < Gosu::Window
 
   def invoke_ai
     @map.sprites.each { |sprite|
-      sprite.interact(@player) if sprite.respond_to? :interact
+      sprite.interact(@player, @drawn_sprite_x) if sprite.respond_to? :interact
     }
   end
 
@@ -190,6 +190,7 @@ class GameWindow < Gosu::Window
     
     if @fired_weapon
       @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
+      @player.fire
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
     end

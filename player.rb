@@ -14,12 +14,15 @@ class Player
   attr_accessor :angle
   attr_accessor :health
   attr_accessor :weapon
+  attr_accessor :window
   
-  def initialize
+  def initialize(window)
     @x = 0.0
     @y = 0.0
     @angle  = 0.0
     @health = 100
+    @window = window
+    @fire_sound = Gosu::Sample.new(window, 'fire.wav')
   end
   
   def angle_in_radians
@@ -64,6 +67,7 @@ class Player
   end
   
   def fire
+    @fire_sound.play
   end
   
 end
