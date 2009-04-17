@@ -31,6 +31,7 @@ class Map
       while(col < @width)
         if @matrix[row][col] == -1
           @doors[row][col] = Door.new
+          @doors[row][col].pos = 24
         end
         col += 1
       end
@@ -142,7 +143,15 @@ class Map
     column = (x / GRID_WIDTH_HEIGHT).to_i
     row    = (y / GRID_WIDTH_HEIGHT).to_i
     
-    texture_id = @matrix[row][column] #+ 1
+    texture_id = @matrix[row][column]
+    
+    if door?(row, column)
+      if type == :vertical
+        y -= @doors[row][column].pos
+      elsif type == :horizontal
+        x -= @doors[row][column].pos
+      end
+    end
     
     return @textures[texture_id][:south][x % TEX_WIDTH] if type == :horizontal and angle < 180
     return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH] if type == :horizontal and angle > 180
