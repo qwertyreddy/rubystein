@@ -183,9 +183,7 @@ class Map
   end
   
   def get_door(row, column, angle)
-    if door?(row, column)
-      return @doors[row][column]
-    elsif door?(row + 1, column)# && angle > 180# && angle < 360
+    if door?(row + 1, column)# && angle > 180# && angle < 360
       return @doors[row + 1][column]
     elsif door?(row - 1, column)# && angle > 0 && angle < 180
       return @doors[row - 1][column]
