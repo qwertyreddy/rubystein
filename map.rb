@@ -1,5 +1,6 @@
 require 'config'
 require 'sprite'
+require 'door'
 
 class Map
   Infinity = 1.0 / 0
@@ -11,6 +12,7 @@ class Map
   attr_reader   :window
   attr_reader   :textures
   attr_accessor :sprites
+  attr_accessor :doors
   attr_reader   :width
   attr_reader   :height
   
@@ -21,6 +23,20 @@ class Map
     @width  = matrix_row_column[0].size
     @height = matrix_row_column.size
     @window = window
+    @doors  = [[nil] * @width] * @height
+    
+    row = 0
+    while(row < @height)
+      col = 0
+      while(col < @width)
+        if @matrix[row][col] == -1
+          @doors[row][col] = Door.new
+        end
+        col += 1
+      end
+      row += 1
+    end
+    
     @textures = [nil]
     texture_files.each {|tex_file|
       pair = {}
@@ -67,11 +83,22 @@ class Map
     
     return Infinity, Infinity if(ax < 0 || ax > Config::WINDOW_WIDTH || ay < 0 || ay > Config::WINDOW_HEIGHT)
     
-    if(!hit?(ax, ay))
+    if(!hit?(ax, ay, angle, :horizontal))
       # Extend the ray
       return find_horizontal_intersection(ax, ay, angle)
     else
-      return ax, ay
+      column, row = Map.matrixify(ax, ay)
+      
+      if door?(row, column)
+        half_grid = GRID_WIDTH_HEIGHT / 2
+        door_offset = half_grid * Math::tan(angle * Math::PI / 180)
+        
+        door_offset *= -1 if angle > 90 or angle < 270
+        
+        return ax + door_offset, ay + half_grid
+      else
+        return ax, ay
+      end
     end
   end
   
@@ -93,11 +120,21 @@ class Map
     # If the casted ray gets out of the playfield, emit infinity.
     return Infinity, Infinity if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
     
-    if(!hit?(bx, by))
+    if(!hit?(bx, by, angle, :vertical))
       #Extend the ray
       return find_vertical_intersection(bx, by, angle)
     else
-      return bx, by
+      column, row = Map.matrixify(bx,by)
+      
+      if door?(row, column)
+        half_grid = GRID_WIDTH_HEIGHT / 2
+        door_offset = half_grid * Math::tan(angle * Math::PI / 180) * -1
+        dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
+        
+        return bx + dx, by + door_offset
+      else
+        return bx, by
+      end
     end
   end
   
@@ -105,7 +142,7 @@ class Map
     column = (x / GRID_WIDTH_HEIGHT).to_i
     row    = (y / GRID_WIDTH_HEIGHT).to_i
     
-    texture_id = @matrix[row][column]
+    texture_id = @matrix[row][column] #+ 1
     
     return @textures[texture_id][:south][x % TEX_WIDTH] if type == :horizontal and angle < 180
     return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH] if type == :horizontal and angle > 180
@@ -114,13 +151,27 @@ class Map
   end
   
   def walkable?(row, column)
-    return row >= 0 && row < @height && column >= 0 && column < @width && @matrix[row][column] == 0
+    return on_map?(row, column) && @matrix[row][column] == 0
   end
   
-  def hit?(x,y)
+  def hit?(x, y, angle = nil, type = nil)
     column, row = Map.matrixify(x,y)
     
-    return on_map?(row, column) && !self.walkable?(row, column)
+    if(door?(row, column) && (!angle.nil?) && (type == :horizontal || type == :vertical))
+      offset = (type == :horizontal) ? (x % GRID_WIDTH_HEIGHT) : (y % GRID_WIDTH_HEIGHT)
+      offset_door = ( GRID_WIDTH_HEIGHT / 2 ) * Math::tan(angle * Math::PI / 180) * -1
+      
+      offset_on_door = offset + offset_door
+      
+      return @doors[row][column].pos < offset_on_door if type == :horizontal
+      return @doors[row][column].pos < offset_on_door if type == :vertical
+    end
+    
+    return !self.walkable?(row, column)
+  end
+  
+  def door?(row, column)
+    return on_map?(row, column) && @matrix[row][column] == -1
   end
   
   def on_map?(row, column)

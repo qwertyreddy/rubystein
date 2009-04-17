@@ -8,6 +8,7 @@ require 'weapon'
 require 'player'
 require 'ai_player'
 require 'sprite'
+require 'door'
 
 module ZOrder
   BACKGROUND = 0
@@ -28,11 +29,12 @@ class GameWindow < Gosu::Window
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0,-1, 0, 0, 1],
         [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
+          { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' },
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
           { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
           { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
