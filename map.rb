@@ -31,7 +31,6 @@ class Map
       while(col < @width)
         if @matrix[row][col] == -1
           @doors[row][col] = Door.new
-          @doors[row][col].pos = 24
         end
         col += 1
       end
@@ -160,7 +159,7 @@ class Map
   end
   
   def walkable?(row, column)
-    return on_map?(row, column) && @matrix[row][column] == 0
+    return on_map?(row, column) && (@matrix[row][column] == 0 || (door?(row, column) && @doors[row][column].open?))
   end
   
   def hit?(x, y, angle = nil, type = nil)
@@ -181,6 +180,22 @@ class Map
   
   def door?(row, column)
     return on_map?(row, column) && @matrix[row][column] == -1
+  end
+  
+  def get_door(row, column, angle)
+    if door?(row, column)
+      return @doors[row][column]
+    elsif door?(row + 1, column)# && angle > 180# && angle < 360
+      return @doors[row + 1][column]
+    elsif door?(row - 1, column)# && angle > 0 && angle < 180
+      return @doors[row - 1][column]
+    elsif door?(row, column + 1)# && angle < 90 || angle > 270
+      return @doors[row][column + 1]
+    elsif door?(row, column - 1)# && angle > 90 && angle < 270
+      return @doors[row][column - 1]
+    end
+    
+    return nil
   end
   
   def on_map?(row, column)

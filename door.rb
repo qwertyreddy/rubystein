@@ -3,7 +3,7 @@ require 'map'
 class Door
   attr_accessor :pos
   attr_reader   :state
-  OPEN_CLOSE_STEP = 4
+  OPEN_CLOSE_STEP = 1
 
   def initialize
     @state = :closed
@@ -13,7 +13,7 @@ class Door
   def open!
     @state = :opening if closed?
     
-    if @state == :opening
+    if !open? && @state == :opening
       @pos += OPEN_CLOSE_STEP
     end
   end
@@ -25,13 +25,21 @@ class Door
   def close!
     @state = :closing if open?
     
-    if @state == :closing
+    if !closed? && @state == :closing
       @pos -= OPEN_CLOSE_STEP
     end
   end
   
   def closed?
     return @pos == 0
+  end
+  
+  def interact
+    if @state == :opening
+      open!
+    elsif @state == :closing
+      close!
+    end
   end
   
 end

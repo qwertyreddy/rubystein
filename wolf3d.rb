@@ -28,13 +28,14 @@ class GameWindow < Gosu::Window
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 2, 0, 0, 1],
         [1, 0, 0, 0,-1, 0, 0, 1],
-        [1, 0, 0, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 2, 0, 0, 1],
         [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
+          { :north => 'door_s_1.png', :east => 'blue1_2.png', :south => 'door_s_1.png', :west => 'blue1_2.png' },
           { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
           { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
           { :north => 'wood_php_1.png', :east => 'wood_php_1.png', :south => 'wood_php_1.png', :west => 'wood_php_1.png' },
@@ -69,11 +70,21 @@ class GameWindow < Gosu::Window
   def update
     process_movement_input
     invoke_ai
+    invoke_doors
   end
 
   def invoke_ai
     @map.sprites.each { |sprite|
       sprite.interact(@player, @drawn_sprite_x) if sprite.respond_to? :interact
+    }
+  end
+
+  def invoke_doors
+    @map.doors.each { |row|
+      row.each { |door|
+        door.interact unless door.nil?
+        #puts door.pos unless door.nil?
+      }
     }
   end
 
@@ -84,6 +95,18 @@ class GameWindow < Gosu::Window
     @player.move_backward if button_down? Gosu::Button::KbDown and @player.can_move_backward?(@map)
     
     if button_down? Gosu::Button::KbSpace
+      column, row = Map.matrixify(@player.x, @player.y)
+      door = @map.get_door(column, row, @player.angle)
+      
+      if !door.nil?
+        if door.open?
+          door.close!
+        elsif door.closed?
+          door.open!
+        end
+        return
+      end
+      
       if not ( sprite = @drawn_sprite_x[Config::WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from and sprite.health > 0
         sprite.take_damage_from(@player)
       end
