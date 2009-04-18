@@ -158,30 +158,31 @@ class Map
     row    = (y / GRID_WIDTH_HEIGHT).to_i
     
     texture_id = @matrix[row][column]
+    texture    = @textures[texture_id]
     
     if type == :horizontal && angle > 0 && angle < 180
       if door?(row, column)
-        return @textures[texture_id][:south][(x - @doors[row][column].pos) % TEX_WIDTH]
+        texture[:south][(x - @doors[row][column].pos) % TEX_WIDTH]
       else
-        return @textures[texture_id][:south][x % TEX_WIDTH]
+        texture[:south][x % TEX_WIDTH]
       end
     elsif type == :horizontal && angle > 180
       if door?(row, column)
-        return @textures[texture_id][:north][(x - @doors[row][column].pos) % TEX_WIDTH]
+        texture[:north][(x - @doors[row][column].pos) % TEX_WIDTH]
       else
-        return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH]
+        texture[:north][(TEX_WIDTH - x) % TEX_WIDTH]
       end
     elsif type == :vertical && angle > 90 && angle < 270
       if door?(row, column)
-        return @textures[texture_id][:west][(y - @doors[row][column].pos) % TEX_HEIGHT]
+        texture[:west][(y - @doors[row][column].pos) % TEX_HEIGHT]
       else
-        return @textures[texture_id][:west][(TEX_HEIGHT - y) % TEX_HEIGHT]
+        texture[:west][(TEX_HEIGHT - y) % TEX_HEIGHT]
       end
     elsif type == :vertical && angle < 90 || angle > 270
       if door?(row, column)
-        return @textures[texture_id][:east][(y - @doors[row][column].pos) % TEX_HEIGHT]
+        texture[:east][(y - @doors[row][column].pos) % TEX_HEIGHT]
       else
-        return @textures[texture_id][:east][y % TEX_HEIGHT]
+        texture[:east][y % TEX_HEIGHT]
       end
     end
   end
@@ -220,7 +221,7 @@ class Map
   end
   
   def door?(row, column)
-    return on_map?(row, column) && @matrix[row][column] == -1
+    on_map?(row, column) && @matrix[row][column] == -1
   end
   
   def get_door(row, column, angle)
@@ -241,9 +242,7 @@ class Map
     if row < 0 or column < 0
       false
     else
-      number_of_columns = self.width
-      number_of_rows    = self.height
-      row < number_of_rows && column < number_of_columns
+      row < self.width && column < self.height
     end
   end
   
