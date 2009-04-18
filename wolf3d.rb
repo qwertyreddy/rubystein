@@ -95,7 +95,7 @@ class GameWindow < Gosu::Window
     
     if button_down? Gosu::Button::KbSpace
       column, row = Map.matrixify(@player.x, @player.y)
-      door = @map.get_door(column, row, @player.angle)
+      door = @map.get_door(row, column, @player.angle)
       
       if !door.nil?
         if door.open?
