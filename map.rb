@@ -31,7 +31,7 @@ class Map
       while(col < @width)
         if @matrix[row][col] == -1
           @doors[row][col] = Door.new
-          @doors[row][col].pos = 10
+          @doors[row][col].pos = 40
         end
         col += 1
       end
@@ -187,13 +187,13 @@ class Map
       offset = (type == :horizontal) ? (x % GRID_WIDTH_HEIGHT) : (y % GRID_WIDTH_HEIGHT)
       half_grid = GRID_WIDTH_HEIGHT / 2
       offset_door = 0
+
+      dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
       
       if type == :vertical
-        dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
         offset_door = dx * Math::tan(angle * Math::PI / 180) * -1
-      elsif type == :horizontal
-        dy = (angle < 180 || angle > 270) ? half_grid : half_grid * -1
-        offset_door = dy / Math::tan(angle * Math::PI / 180).abs
+      elsif type == :horizontal        
+        offset_door = dx / Math::tan(angle * Math::PI / 180).abs
       end
       
       offset_on_door = offset + offset_door
