@@ -49,8 +49,8 @@ class GameWindow < Gosu::Window
     
     @map.sprites = [
       Lamp.new(self, 288, 96),
-      Lamp.new(self, 224, 224)#,
-      #Hans.new(self, @map, 240, 240)
+      Lamp.new(self, 224, 224),
+      Hans.new(self, @map, 300, 92)
     ]
     
     @player = Player.new(self)
