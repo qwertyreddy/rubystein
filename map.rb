@@ -60,58 +60,50 @@ class Map
     ver_r = Math.sqrt( (ver_x - start_x) ** 2 + (ver_y - start_y) ** 2 )
     
     if hor_r < ver_r
-      [:horizontal, hor_r, hor_x, hor_y]
+      return :horizontal, hor_r, hor_x, hor_y
     else
-      [:vertical, ver_r, ver_x, ver_y]
+      return :vertical, ver_r, ver_x, ver_y
     end
   end
   
   def find_horizontal_intersection(start_x, start_y, angle)
     # When the angle is horizontal, we will never find a horizontal intersection.
     # After all, the ray would then be considered parallel to any possible horizontal wall.
-    result = nil
-    while !result
-      if angle == 0 || angle == 180
-        result = [Infinity, Infinity]
-      else
-        grid_y = (start_y / GRID_WIDTH_HEIGHT).to_i
+    return Infinity, Infinity if angle == 0 || angle == 180
     
-        if(angle > 0 && angle < 180)
-          # Ray facing upwards
-          ay = (grid_y * GRID_WIDTH_HEIGHT) - 1
-        else
-          # Ray facing downwards
-          ay = ( grid_y + 1 ) * GRID_WIDTH_HEIGHT
-        end
+    grid_y = (start_y / GRID_WIDTH_HEIGHT).to_i
     
-        ax = start_x + (start_y - ay) / Math.tan(angle * Math::PI / 180)
+    if(angle > 0 && angle < 180)
+      # Ray facing upwards
+      ay = (grid_y * GRID_WIDTH_HEIGHT) - 1
+    else
+      # Ray facing downwards
+      ay = ( grid_y + 1 ) * GRID_WIDTH_HEIGHT
+    end
     
-        if(ax < 0 || ax > Config::WINDOW_WIDTH || ay < 0 || ay > Config::WINDOW_HEIGHT)
-          result = [Infinity, Infinity]
-        else
-          if(!hit?(ax, ay, angle, :horizontal))
-            # Extend the ray
-            start_x = ax
-            start_y = ay
-            # Continue loop.
-          else
-            column, row = Map.matrixify(ax, ay)
+    ax = start_x + (start_y - ay) / Math.tan(angle * Math::PI / 180)
+    
+    return Infinity, Infinity if(ax < 0 || ax > Config::WINDOW_WIDTH || ay < 0 || ay > Config::WINDOW_HEIGHT)
+    
+    if(!hit?(ax, ay, angle, :horizontal))
+      # Extend the ray
+      return find_horizontal_intersection(ax, ay, angle)
+    else
       
-            if door?(row, column)
-              dy = (angle > 0 && angle < 180) ? MIN_HALF_GRID_WIDTH_HEIGHT : HALF_GRID_WIDTH_HEIGHT
+      column, row = Map.matrixify(ax, ay)
+      
+      if door?(row, column)
+        half_grid = GRID_WIDTH_HEIGHT / 2
+        dy = (angle > 0 && angle < 180) ? half_grid * -1 : half_grid
 
-              door_offset = GRID_WIDTH_HEIGHT / Math::tan(angle * Math::PI / 180).abs
-              door_offset *= -1 if angle > 90 && angle < 270
+        door_offset = half_grid / Math::tan(angle * Math::PI / 180).abs
+        door_offset *= -1 if angle > 90 && angle < 270
         
-              result = [ax + door_offset, ay + dy]
-            else
-              result = [ax, ay]
-            end
-          end
-        end
+        return ax + door_offset, ay + dy
+      else
+        return ax, ay
       end
     end
-    result
   end
   
   def find_vertical_intersection(start_x, start_y, angle)
