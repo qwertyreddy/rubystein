@@ -7,6 +7,8 @@ class Map
   TEX_WIDTH  = 64
   TEX_HEIGHT = 64
   GRID_WIDTH_HEIGHT = 64
+  HALF_GRID_WIDTH_HEIGHT = GRID_WIDTH_HEIGHT / 2
+  MIN_HALF_GRID_WIDTH_HEIGHT = -HALF_GRID_WIDTH_HEIGHT
   
   attr_accessor :matrix
   attr_reader   :window
@@ -186,12 +188,11 @@ class Map
   def hit?(x, y, angle = nil, type = nil)
     column, row = Map.matrixify(x,y)
     
-    if(door?(row, column) && (!angle.nil?) && (type == :horizontal || type == :vertical))
+    if(angle && (type == :horizontal || type == :vertical) && door?(row, column))
       offset = (type == :horizontal) ? (x % GRID_WIDTH_HEIGHT) : (y % GRID_WIDTH_HEIGHT)
-      half_grid = GRID_WIDTH_HEIGHT / 2
       offset_door = 0
 
-      dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
+      dx = (angle > 90 && angle < 270) ? MIN_HALF_GRID_WIDTH_HEIGHT : HALF_GRID_WIDTH_HEIGHT
       
       if type == :vertical
         offset_door = dx * Math::tan(angle * Math::PI / 180) * -1
@@ -201,11 +202,16 @@ class Map
       
       offset_on_door = offset + offset_door
       
-      return @doors[row][column].pos < offset_on_door if type == :horizontal
-      return @doors[row][column].pos < offset_on_door if type == :vertical
+      if type == :horizontal
+        @doors[row][column].pos < offset_on_door
+      elsif type == :vertical
+        @doors[row][column].pos < offset_on_door
+      else
+        !self.walkable?(row, column)
+      end
+    else
+      !self.walkable?(row, column)
     end
-    
-    return !self.walkable?(row, column)
   end
   
   def door?(row, column)
@@ -227,18 +233,16 @@ class Map
   end
   
   def on_map?(row, column)
-    return false if row < 0 or column < 0
-    
-    number_of_columns = self.width
-    number_of_rows    = self.height
-    
-    return row < number_of_rows && column < number_of_columns
+    if row < 0 or column < 0
+      false
+    else
+      number_of_columns = self.width
+      number_of_rows    = self.height
+      row < number_of_rows && column < number_of_columns
+    end
   end
   
   def self.matrixify(x, y)
-    column = (x / GRID_WIDTH_HEIGHT).to_i
-    row    = (y / GRID_WIDTH_HEIGHT).to_i
-    
-    return column, row
+    [(x / GRID_WIDTH_HEIGHT).to_i, (y / GRID_WIDTH_HEIGHT).to_i]
   end
 end
