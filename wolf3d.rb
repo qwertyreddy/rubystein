@@ -230,4 +230,14 @@ class GameWindow < Gosu::Window
 end
 
 game_window = GameWindow.new
-game_window.show
+if ARGV[0] == '--profile'
+  require 'ruby-prof'
+  result = RubyProf.profile do
+    game_window.show
+  end
+  File.open('profile.html', 'w') do |f|
+    RubyProf::GraphHtmlPrinter.new(result).print(f, :min_percent => 5)
+  end
+else
+  game_window.show
+end
