@@ -188,7 +188,7 @@ class Map
   end
   
   def walkable?(row, column)
-    return on_map?(row, column) && (@matrix[row][column] == 0 || (door?(row, column) && @doors[row][column].open?))
+    on_map?(row, column) && (@matrix[row][column] == 0 || (door?(row, column) && @doors[row][column].open?))
   end
   
   def hit?(x, y, angle = nil, type = nil)
