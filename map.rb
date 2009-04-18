@@ -105,39 +105,43 @@ class Map
   end
   
   def find_vertical_intersection(start_x, start_y, angle)
-    return Infinity, Infinity if angle == 90 || angle == 270
-       
-    grid_x = (start_x / GRID_WIDTH_HEIGHT).to_i
-        
-    if(angle > 90 && angle < 270)
-      # Ray facing left
-      bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
+    if angle == 90 || angle == 270
+      [Infinity, Infinity]
     else
-      # Ray facing right
-      bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
-    end
-    
-    by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
-    
-    # If the casted ray gets out of the playfield, emit infinity.
-    return Infinity, Infinity if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
-    
-    if(!hit?(bx, by, angle, :vertical))
-      #Extend the ray
-      return find_vertical_intersection(bx, by, angle)
-    else
-      column, row = Map.matrixify(bx,by)
-      
-      if door?(row, column)
-        half_grid = GRID_WIDTH_HEIGHT / 2
-        dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
-
-        door_offset = half_grid * Math::tan(angle * Math::PI / 180).abs
-        door_offset *= -1 if angle > 0 && angle < 180
+      grid_x = (start_x / GRID_WIDTH_HEIGHT).to_i
         
-        return bx + dx, by + door_offset
+      if(angle > 90 && angle < 270)
+        # Ray facing left
+        bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
       else
-        return bx, by
+        # Ray facing right
+        bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
+      end
+    
+      by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
+    
+      # If the casted ray gets out of the playfield, emit infinity.
+      if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
+        [Infinity, Infinity]
+      else
+        if(!hit?(bx, by, angle, :vertical))
+          #Extend the ray
+          find_vertical_intersection(bx, by, angle)
+        else
+          column, row = Map.matrixify(bx,by)
+      
+          if door?(row, column)
+            half_grid = GRID_WIDTH_HEIGHT / 2
+            dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
+
+            door_offset = half_grid * Math::tan(angle * Math::PI / 180).abs
+            door_offset *= -1 if angle > 0 && angle < 180
+        
+            [bx + dx, by + door_offset]
+          else
+            [bx, by]
+          end
+        end
       end
     end
   end
