@@ -133,10 +133,9 @@ class Map
           column, row = Map.matrixify(bx,by)
       
           if door?(row, column)
-            half_grid = GRID_WIDTH_HEIGHT / 2
-            dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
+            dx = (angle > 90 && angle < 270) ? HALF_GRID_WIDTH_HEIGHT * -1 : HALF_GRID_WIDTH_HEIGHT
 
-            door_offset = half_grid * Math::tan(angle * Math::PI / 180).abs
+            door_offset = HALF_GRID_WIDTH_HEIGHT * Math::tan(angle * Math::PI / 180).abs
             door_offset *= -1 if angle > 0 && angle < 180
         
             [bx + dx, by + door_offset]
