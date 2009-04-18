@@ -31,6 +31,7 @@ class Map
       while(col < @width)
         if @matrix[row][col] == -1
           @doors[row][col] = Door.new
+          @doors[row][col].pos = 10
         end
         col += 1
       end
@@ -132,7 +133,6 @@ class Map
         half_grid = GRID_WIDTH_HEIGHT / 2
         dx = (angle > 90 && angle < 270) ? half_grid * -1 : half_grid
 
-        #door_offset = dx * Math::tan(angle * Math::PI / 180) * -1
         door_offset = half_grid * Math::tan(angle * Math::PI / 180).abs
         door_offset *= -1 if angle > 0 && angle < 180
         
@@ -149,14 +149,6 @@ class Map
     
     texture_id = @matrix[row][column]
     
-    #if door?(row, column)
-    #  if type == :vertical
-    #    y -= @doors[row][column].pos
-    #  elsif type == :horizontal
-    #    x -= @doors[row][column].pos
-    #  end
-    #end
-    
     if type == :horizontal && angle > 0 && angle < 180
       if door?(row, column)
         return @textures[texture_id][:south][(x - @doors[row][column].pos) % TEX_WIDTH]
@@ -164,7 +156,11 @@ class Map
         return @textures[texture_id][:south][x % TEX_WIDTH]
       end
     elsif type == :horizontal && angle > 180
-      return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH]
+      if door?(row, column)
+        return @textures[texture_id][:north][(x - @doors[row][column].pos) % TEX_WIDTH]
+      else
+        return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH]
+      end
     elsif type == :vertical && angle > 90 && angle < 270
       if door?(row, column)
         return @textures[texture_id][:west][(y - @doors[row][column].pos) % TEX_HEIGHT]
@@ -178,11 +174,6 @@ class Map
         return @textures[texture_id][:east][y % TEX_HEIGHT]
       end
     end
-    
-    #return @textures[texture_id][:south][x % TEX_WIDTH] if type == :horizontal and (angle > 0 and angle < 180)
-    #return @textures[texture_id][:north][(TEX_WIDTH - x) % TEX_WIDTH] if type == :horizontal and angle > 180
-    #return @textures[texture_id][:west][(TEX_HEIGHT - y) % TEX_HEIGHT] if type == :vertical and ( angle > 90 and angle < 270 )
-    #return @textures[texture_id][:east][y % TEX_HEIGHT] if type == :vertical and ( angle < 90 or angle > 270 )
   end
   
   def walkable?(row, column)
