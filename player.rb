@@ -5,6 +5,7 @@ class Player
   STEP_SIZE = 6
   ANGLE_SPEED = 4
   FOV = 60.0 # Field of View
+  HALF_FOV = FOV / 2
   DISTANCE_TO_PROJECTION = (Config::WINDOW_WIDTH / 2) / Math.tan((FOV / 2) * Math::PI / 180)
   RAY_ANGLE_DELTA = (FOV / Config::WINDOW_WIDTH)
   

@@ -225,13 +225,13 @@ class Map
   end
   
   def get_door(row, column, angle)
-    if door?(row + 1, column)# && angle > 180# && angle < 360
+    if door?(row + 1, column) && (angle > (270 - Player::HALF_FOV)) && (angle < (270 + Player::HALF_FOV))
       return @doors[row + 1][column]
-    elsif door?(row - 1, column)# && angle > 0 && angle < 180
+    elsif door?(row - 1, column) && (angle > (90 - Player::HALF_FOV)) && (angle < (90 + Player::HALF_FOV))
       return @doors[row - 1][column]
-    elsif door?(row, column + 1)# && angle < 90 || angle > 270
+    elsif door?(row, column + 1) && ( (angle > (360 - Player::HALF_FOV)) || (angle < Player::HALF_FOV) )
       return @doors[row][column + 1]
-    elsif door?(row, column - 1)# && angle > 90 && angle < 270
+    elsif door?(row, column - 1) && (angle > (180 - Player::HALF_FOV)) && (angle < (180 + Player::HALF_FOV))
       return @doors[row][column - 1]
     end
     
