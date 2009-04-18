@@ -31,7 +31,6 @@ class Map
       while(col < @width)
         if @matrix[row][col] == -1
           @doors[row][col] = Door.new
-          @doors[row][col].pos = 40
         end
         col += 1
       end

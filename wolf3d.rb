@@ -28,7 +28,7 @@ class GameWindow < Gosu::Window
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 1,-1, 1, 1],
+        [1, 0, 0, 1, 1, 1, 1, 1],
         [1, 0, 0,-1, 0, 0, 0, 1],
         [1, 0, 0, 1, 1, 0, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
@@ -83,7 +83,6 @@ class GameWindow < Gosu::Window
     @map.doors.each { |row|
       row.each { |door|
         door.interact unless door.nil?
-        #puts door.pos unless door.nil?
       }
     }
   end
