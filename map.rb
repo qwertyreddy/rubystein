@@ -107,50 +107,44 @@ class Map
   end
   
   def find_vertical_intersection(start_x, start_y, angle)
-    result = nil
-    while !result
-      if angle == 90 || angle == 270
-        result = [Infinity, Infinity]
+    if angle == 90 || angle == 270
+      [Infinity, Infinity]
+    else
+      grid_x = (start_x / GRID_WIDTH_HEIGHT).to_i
+        
+      if(angle > 90 && angle < 270)
+        # Ray facing left
+        bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
       else
-        grid_x = (start_x / GRID_WIDTH_HEIGHT).to_i
-        
-        if(angle > 90 && angle < 270)
-          # Ray facing left
-          bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
-        else
-          # Ray facing right
-          bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
-        end
+        # Ray facing right
+        bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
+      end
     
-        by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
+      by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
     
-        # If the casted ray gets out of the playfield, emit infinity.
-        if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
-          result = [Infinity, Infinity]
+      # If the casted ray gets out of the playfield, emit infinity.
+      if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
+        [Infinity, Infinity]
+      else
+        if(!hit?(bx, by, angle, :vertical))
+          #Extend the ray
+          find_vertical_intersection(bx, by, angle)
         else
-          if(!hit?(bx, by, angle, :vertical))
-            #Extend the ray
-            start_x = bx
-            start_y = by
-            # Continue loop.
-          else
-            column, row = Map.matrixify(bx,by)
+          column, row = Map.matrixify(bx,by)
       
-            if door?(row, column)
-              dx = (angle > 90 && angle < 270) ? HALF_GRID_WIDTH_HEIGHT * -1 : HALF_GRID_WIDTH_HEIGHT
+          if door?(row, column)
+            dx = (angle > 90 && angle < 270) ? HALF_GRID_WIDTH_HEIGHT * -1 : HALF_GRID_WIDTH_HEIGHT
 
-              door_offset = HALF_GRID_WIDTH_HEIGHT * Math::tan(angle * Math::PI / 180).abs
-              door_offset *= -1 if angle > 0 && angle < 180
+            door_offset = HALF_GRID_WIDTH_HEIGHT * Math::tan(angle * Math::PI / 180).abs
+            door_offset *= -1 if angle > 0 && angle < 180
         
-              result = [bx + dx, by + door_offset]
-            else
-              result = [bx, by]
-            end
+            [bx + dx, by + door_offset]
+          else
+            [bx, by]
           end
         end
       end
     end
-    result
   end
   
   def texture_for(type, x, y, angle)
