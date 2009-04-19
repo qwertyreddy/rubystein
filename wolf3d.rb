@@ -145,8 +145,8 @@ class GameWindow < Gosu::Window
       perp_distance = ( distance * Math.cos( sprite_angle * Math::PI / 180 ))#.abs
       next if perp_distance <= 0 # Behind us... no point in drawing this.
 
+      z_order_distance = 1 / (perp_distance / Map::GRID_WIDTH_HEIGHT)
       sprite_pixel_factor = ( Player::DISTANCE_TO_PROJECTION / perp_distance )
-      
       sprite_size = sprite_pixel_factor * Sprite::TEX_WIDTH
       
       x = ( Math.tan(sprite_angle * Math::PI / 180) * Player::DISTANCE_TO_PROJECTION + (Config::WINDOW_WIDTH - sprite_size) / 2).to_i
@@ -162,7 +162,7 @@ class GameWindow < Gosu::Window
         slice_idx = slice.to_i
         
         if slice >= 0 && slice < Config::WINDOW_WIDTH && perp_distance < @wall_perp_distances[slice_idx]
-          slices[i].draw(slice, y, ZOrder::SPRITES, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
+          slices[i].draw(slice, y, ZOrder::SPRITES + z_order_distance, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
           drawn_slice_idx = slice_idx
           
           while((drawn_slice_idx - x) <= ((i+1) * sprite_pixel_factor))
