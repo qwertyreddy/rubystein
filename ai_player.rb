@@ -306,7 +306,7 @@ class Enemy < AIPlayer
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, step_size = 2, animation_interval = 0.2)
+  def initialize(window, map, x, y, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
