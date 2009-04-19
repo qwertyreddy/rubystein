@@ -70,11 +70,13 @@ class GameWindow < Gosu::Window
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
+    @song = Gosu::Song.new(self, 'getthem.mp3')
+    @song.play(true)
   end
 
   def update
-    process_movement_input
     invoke_ai
+    process_movement_input
     invoke_doors
   end
 
@@ -207,7 +209,7 @@ class GameWindow < Gosu::Window
   end
 
   def draw_hud
-    @hud.draw(0, 415, ZOrder::HUD)
+    @hud.draw(0, 405, ZOrder::HUD)
   end
 
   def draw_weapon

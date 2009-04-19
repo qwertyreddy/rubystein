@@ -140,17 +140,25 @@ class AIPlayer
   def interact(player, drawn_sprite_x)
     return if @health <= 0
     
-    #if !drawn_sprite_x.include?(self) && rand > 0.4
-    #  self.fire(player)
-    #  return
-    #end
+    if @firing_left > 0
+      if (@current_anim_seq_id == 0)
+        self.fire(player)
+        puts player.health
+      end
+      @firing_left -= 1
+      return
+    end
     
-    dx = player.x - @x
-    dy = (player.y - @y) * -1
+    if drawn_sprite_x.include?(self) && rand > 0.96
+      @firing_left = rand(4) * 6
+    end
     
-    angle_rad = Math::atan2(dy, dx)
-    dx = @steps_removed_from_player * @step_size * Math::cos(angle_rad)
-    dy = @steps_removed_from_player * @step_size * Math::sin(angle_rad)
+    #dx = player.x - @x
+    #dy = (player.y - @y) * -1
+    
+    #angle_rad = Math::atan2(dy, dx)
+    #dx = @steps_removed_from_player * @step_size * Math::cos(angle_rad)
+    #dy = @steps_removed_from_player * @step_size * Math::sin(angle_rad)
     
     #FIXME : Fix that the path should not go directly to the player, but should stop
     #        one or two blocks ahead.
@@ -177,6 +185,7 @@ class Enemy < AIPlayer
     @health = 100
     @map = map
     @steps_removed_from_player = 22
+    @firing_left = 0
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -194,7 +203,7 @@ class Enemy < AIPlayer
   
   def take_damage_from(player)
     return if @current_state == :dead
-    @health -= 5
+    @health -= 5 # TODO: Need to refactor this to take into account different weapons.
     self.current_state = (@health > 0) ? :damaged : :dead
   end
   
@@ -289,6 +298,8 @@ class Enemy < AIPlayer
   
   def fire(player)
     return if @current_status == :dead
+    
+    player.take_damage_from(self)
     
     self.current_state = :firing
   end

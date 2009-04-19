@@ -67,6 +67,10 @@ class Player
     @y += dy
   end
   
+  def take_damage_from(player)
+    @health -= 2 # TODO: @health -= player.weapon.damage
+  end
+  
   def fire
     @fire_sound.play
   end
