@@ -25,14 +25,15 @@ class GameWindow < Gosu::Window
     
     @map = Map.new([
         # Top left element represents (x=0,y=0)
-        [1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 3,-1, 3, 1],
-        [1, 0, 0, 2, 0, 0, 0, 1],
-        [1, 0, 0,-1, 0, 0, 0, 1],
-        [1, 0, 0, 2, 0, 0, 0, 1],
-        [1, 0, 0, 1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1]],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 1, 3,-1, 3, 1, 1],
+        [1, 0, 0, 2, 0, 0, 0, 1, 1],
+        [1, 0, 0,-1, 0, 0, 0, 1, 1],
+        [1, 0, 0, 2, 0, 0, 0, 1, 1],
+        [1, 0, 0, 1, 0, 0, 0, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
           { :north => 'door_s_1.png', :east => 'blue1_2.png', :south => 'door_s_1.png', :west => 'blue1_2.png' },
@@ -49,8 +50,8 @@ class GameWindow < Gosu::Window
     
     @map.sprites = [
       Lamp.new(self, 288, 96),
-      Lamp.new(self, 224, 224),
-      Hans.new(self, @map, 6 * 64, 92)
+      Lamp.new(self, 224, 224)#,
+      #Hans.new(self, @map, 6 * 64, 92)
     ]
     
     @player = Player.new(self)
