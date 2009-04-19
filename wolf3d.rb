@@ -30,7 +30,7 @@ class GameWindow < Gosu::Window
         [1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 1, 3,-1, 3, 1],
+        [1, 0, 0, 1, 3,-1, 3, 1, 1],
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
         [1, 0, 0,-1, 0, 0, 0, 0, 1],
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
@@ -51,9 +51,10 @@ class GameWindow < Gosu::Window
     )
     
     @map.sprites = [
-      #Lamp.new(self, 288, 96),
-      #Lamp.new(self, 224, 224)#,
-      #Hans.new(self, @map, 6 * 64, 92)
+      Lamp.new(self, 5.5 * 64, 2.5 * 64),
+      Lamp.new(self, 2.5 * 64, 5.5 * 64),
+      Hans.new(self, @map, 6 * 64, 92),
+      Hans.new(self, @map, 7 * 64, 5 * 64)
     ]
     
     @player = Player.new(self)
