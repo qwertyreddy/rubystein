@@ -83,7 +83,13 @@ class Map
     
     ax = start_x + (start_y - ay) / Math.tan(angle * Math::PI / 180)
     
-    return Infinity, Infinity if(ax < 0 || ax > Config::WINDOW_WIDTH || ay < 0 || ay > Config::WINDOW_HEIGHT)
+    #if not on_map?(*Map.matrixify(ay, ax))
+    #  [Infinity, Infinity]
+    #end
+    
+    #if(ax < 0 || ax >= Config::WINDOW_WIDTH || ay < 0 || ay >= Config::WINDOW_HEIGHT)
+    #  [Infinity, Infinity]
+    #end
     
     if(!hit?(ax, ay, angle, :horizontal))
       # Extend the ray
@@ -123,9 +129,9 @@ class Map
       by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
     
       # If the casted ray gets out of the playfield, emit infinity.
-      if(bx < 0 || bx > Config::WINDOW_WIDTH || by < 0 || by > Config::WINDOW_HEIGHT)
-        [Infinity, Infinity]
-      else
+      #if(bx < 0 || bx >= Config::WINDOW_WIDTH || by < 0 || by >= Config::WINDOW_HEIGHT)
+      #  [Infinity, Infinity]
+      #else
         if(!hit?(bx, by, angle, :vertical))
           #Extend the ray
           find_vertical_intersection(bx, by, angle)
@@ -143,7 +149,7 @@ class Map
             [bx, by]
           end
         end
-      end
+      #end
     end
   end
   

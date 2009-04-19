@@ -19,6 +19,8 @@ module ZOrder
 end
 
 class GameWindow < Gosu::Window
+  Infinity = 1.0 / 0
+  
   def initialize
     super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
@@ -29,10 +31,10 @@ class GameWindow < Gosu::Window
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 1, 3,-1, 3, 1, 1],
-        [1, 0, 0, 2, 0, 0, 0, 1, 1],
-        [1, 0, 0,-1, 0, 0, 0, 1, 1],
-        [1, 0, 0, 2, 0, 0, 0, 1, 1],
-        [1, 0, 0, 1, 0, 0, 0, 1, 1],
+        [1, 0, 0, 2, 0, 0, 0, 0, 1],
+        [1, 0, 0,-1, 0, 0, 0, 0, 1],
+        [1, 0, 0, 2, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
@@ -49,8 +51,8 @@ class GameWindow < Gosu::Window
     )
     
     @map.sprites = [
-      Lamp.new(self, 288, 96),
-      Lamp.new(self, 224, 224)#,
+      #Lamp.new(self, 288, 96),
+      #Lamp.new(self, 224, 224)#,
       #Hans.new(self, @map, 6 * 64, 92)
     ]
     
@@ -193,6 +195,8 @@ class GameWindow < Gosu::Window
       
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
+      
+      puts "#{type} -- #{ray_angle} -- #{map_x} -- #{map_x}" if map_x == Infinity || map_y == Infinity
       
       texture = @map.texture_for(type, map_x, map_y, ray_angle)
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
