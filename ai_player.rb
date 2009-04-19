@@ -52,8 +52,17 @@ module AStar
   def dist_between(a, b)
     a_x, a_y = a
     b_x, b_y = b
-      
-    return Math.sqrt((a_x - b_x) ** 2 + (a_y - b_y) ** 2)
+    
+    col_a, row_a = Map.matrixify(a_x, a_y)
+    col_b, row_b = Map.matrixify(b_x, b_y)
+    
+    if col_a == col_b && row_a != row_b
+      1.0
+    elsif col_a != col_b && row_a == row_b
+      1.0
+    else
+      1.4142135623731 # Sqrt(1**2 + 1**2)
+    end
   end
   
   def neighbor_nodes(map, node)
@@ -88,7 +97,10 @@ module AStar
   end
   
   def reconstruct_path(came_from, current_node)
+    #puts "START TRACE"
+    
     while came_from[current_node]
+      #puts "#{current_node[0]}, #{current_node[1]}"
       parent = came_from[current_node]
       
       if came_from[parent].nil?
@@ -99,6 +111,7 @@ module AStar
       end
     end
     
+    #puts "No path found"
   end
   
   def smallest_f_score(set, f_score)
@@ -127,7 +140,6 @@ class AIPlayer
   def interact(player, drawn_sprite_x)
     return if @health <= 0
     
-    
     #if !drawn_sprite_x.include?(self) && rand > 0.4
     #  self.fire(player)
     #  return
@@ -136,31 +148,19 @@ class AIPlayer
     dx = player.x - @x
     dy = (player.y - @y) * -1
     
-    angle_rad = Math::atan2(dy, dx) * -1
+    angle_rad = Math::atan2(dy, dx)
     dx = @steps_removed_from_player * @step_size * Math::cos(angle_rad)
     dy = @steps_removed_from_player * @step_size * Math::sin(angle_rad)
     
+    #FIXME : Fix that the path should not go directly to the player, but should stop
+    #        one or two blocks ahead.
+    
+    dx = 0
+    dy = 0
+    
     path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x - dx, player.y - dy))
     if not path.nil?
-      d = Map::GRID_WIDTH_HEIGHT / 2
-      
-      x = path[0] * Map::GRID_WIDTH_HEIGHT
-      y = path[1] * Map::GRID_WIDTH_HEIGHT
-      
-      if @map.hit?(x - 1, y)
-        x += d + 1
-      elsif @map.hit?(x + 1, y)
-        x -= d - 1
-      elsif @map.hit?(x, y - 1)
-        y += d + 1
-      elsif @map.hit?(x, y + 1)
-        y -= d - 1
-      elsif @map.hit?(x - 1, y - 1)
-        x += d + 1
-        y += d + 1
-      end
-      
-      self.step_to(x, y)
+      self.step_to_adjacent_squarily(path[1], path[0])
     end
   end
 end
@@ -198,9 +198,43 @@ class Enemy < AIPlayer
     self.current_state = (@health > 0) ? :damaged : :dead
   end
   
+  def step_to_adjacent_squarily(target_row, target_column)
+    my_column, my_row = Map.matrixify(@x, @y)
+    x = my_column
+    y = my_row
+    
+    if my_column == target_column || my_row == target_row
+      type = "orthogonal"
+      # Orthogonal
+      x = target_column # * Map::GRID_WIDTH_HEIGHT
+      y = target_row    # * Map::GRID_WIDTH_HEIGHT
+    else
+      # Diagonal
+      type = "diagonal"
+      x = my_column
+      y = target_row
+      
+      if not @map.walkable?(y, x)
+        x = target_column
+        y = my_row
+      end
+    end
+    
+    x += 0.5
+    y += 0.5
+    
+    x *= Map::GRID_WIDTH_HEIGHT
+    y *= Map::GRID_WIDTH_HEIGHT
+    
+    puts "#{Time.now} -- (#{x}, #{y})"
+    self.step_to(x, y)
+    
+  end
+  
   def step_to(x, y)
     return if @current_state == :dead
-    if @x == x && @y == y
+    
+    if (@x == x && @y == y)
       self.current_state = :idle
       return
     end
