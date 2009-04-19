@@ -226,7 +226,7 @@ class Enemy < AIPlayer
     x *= Map::GRID_WIDTH_HEIGHT
     y *= Map::GRID_WIDTH_HEIGHT
     
-    puts "#{Time.now} -- (#{x}, #{y})"
+    #puts "#{Time.now} -- (#{x}, #{y})"
     self.step_to(x, y)
     
   end
