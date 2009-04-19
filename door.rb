@@ -3,7 +3,7 @@ require 'map'
 class Door
   attr_accessor :pos
   attr_reader   :state
-  OPEN_CLOSE_STEP = 1
+  OPEN_CLOSE_STEP = 0.5
 
   def initialize
     @state = :closed

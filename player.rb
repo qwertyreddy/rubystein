@@ -23,7 +23,6 @@ class Player
     @angle  = 0.0
     @health = 100
     @window = window
-    @fire_sound = Gosu::Sample.new(window, 'fire.wav')
   end
   
   def angle_in_radians
@@ -69,10 +68,6 @@ class Player
   
   def take_damage_from(player)
     @health -= 2 # TODO: @health -= player.weapon.damage
-  end
-  
-  def fire
-    @fire_sound.play
   end
   
 end

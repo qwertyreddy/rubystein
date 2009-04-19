@@ -72,6 +72,9 @@ class GameWindow < Gosu::Window
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
     @song = Gosu::Song.new(self, 'getthem.mp3')
     @song.play(true)
+    @fire_sound = Gosu::Sample.new(self, 'fire.wav')
+    @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
+    @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
   end
 
   def update
@@ -106,8 +109,10 @@ class GameWindow < Gosu::Window
       
       if !door.nil?
         if door.open?
+          @door_close_sound.play
           door.close!
         elsif door.closed?
+          @door_open_sound.play
           door.open!
         end
         return
@@ -223,7 +228,7 @@ class GameWindow < Gosu::Window
     
     if @fired_weapon
       @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
-      @player.fire
+      @fire_sound.play
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
     end
