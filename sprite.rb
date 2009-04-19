@@ -8,6 +8,7 @@ module Sprite
   attr_accessor :y
   attr_accessor :window
   attr_accessor :slices
+  attr_accessor :z_order
 end
 
 class SpritePool
