@@ -30,7 +30,7 @@ class GameWindow < Gosu::Window
         [1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 3,-1, 3, 1, 1],
+        [1, 0, 0, 1, 1, 3,-1, 3, 1],
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
         [1, 0, 0,-1, 0, 0, 0, 0, 1],
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
@@ -195,9 +195,7 @@ class GameWindow < Gosu::Window
       
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
-      
-      puts "#{type} -- #{ray_angle} -- #{map_x} -- #{map_x}" if map_x == Infinity || map_y == Infinity
-      
+            
       texture = @map.texture_for(type, map_x, map_y, ray_angle)
       texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       

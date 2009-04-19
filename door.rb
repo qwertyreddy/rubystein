@@ -19,7 +19,7 @@ class Door
   end
   
   def open?
-    return @pos == Map::GRID_WIDTH_HEIGHT
+    return @pos >= Map::GRID_WIDTH_HEIGHT
   end
   
   def close!

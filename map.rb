@@ -76,9 +76,11 @@ class Map
     if(angle > 0 && angle < 180)
       # Ray facing upwards
       ay = (grid_y * GRID_WIDTH_HEIGHT) - 1
+      #ay = 0 if ay < 0
     else
       # Ray facing downwards
       ay = ( grid_y + 1 ) * GRID_WIDTH_HEIGHT
+      #ay = grid_y * GRID_WIDTH_HEIGHT if not on_map?(*Map.matrixify(ay, start_x))
     end
     
     ax = start_x + (start_y - ay) / Math.tan(angle * Math::PI / 180)
@@ -121,9 +123,11 @@ class Map
       if(angle > 90 && angle < 270)
         # Ray facing left
         bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
+        #bx = 0 if bx < 0
       else
         # Ray facing right
         bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
+        #bx = (grid_x) * GRID_WIDTH_HEIGHT if not on_map?(*Map.matrixify(start_y, bx))
       end
     
       by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
@@ -166,7 +170,6 @@ class Map
       else
         if texture_id == 0
           puts "#{type} -- #{x} -- #{y} -- #{angle}"
-          exit
           return @textures[-1][:south][x%TEX_WIDTH] if texture_id == 0
         end
         texture[:south][x % TEX_WIDTH]
@@ -212,11 +215,12 @@ class Map
       end
       
       offset_on_door = offset + offset_door
+      offset_on_door %= GRID_WIDTH_HEIGHT
       
       if type == :horizontal
-        @doors[row][column].pos < offset_on_door
+        @doors[row][column].pos <= offset_on_door
       elsif type == :vertical
-        @doors[row][column].pos < offset_on_door
+        @doors[row][column].pos <= offset_on_door
       else
         !self.walkable?(row, column)
       end
