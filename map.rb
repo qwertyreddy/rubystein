@@ -123,11 +123,9 @@ class Map
       if(angle > 90 && angle < 270)
         # Ray facing left
         bx = (grid_x * GRID_WIDTH_HEIGHT) - 1
-        #bx = 0 if bx < 0
       else
         # Ray facing right
         bx = (grid_x + 1) * GRID_WIDTH_HEIGHT
-        #bx = (grid_x) * GRID_WIDTH_HEIGHT if not on_map?(*Map.matrixify(start_y, bx))
       end
     
       by = start_y + (start_x - bx) * Math.tan(angle * Math::PI / 180)
@@ -148,11 +146,11 @@ class Map
           column, row = Map.matrixify(bx,by)
       
           if door?(row, column)
-            dx = (angle > 90 && angle < 270) ? HALF_GRID_WIDTH_HEIGHT * -1 : HALF_GRID_WIDTH_HEIGHT
+            dx = (angle > 90 && angle < 270) ? MIN_HALF_GRID_WIDTH_HEIGHT : HALF_GRID_WIDTH_HEIGHT
 
             door_offset = HALF_GRID_WIDTH_HEIGHT * Math::tan(angle * Math::PI / 180).abs
             door_offset *= -1 if angle > 0 && angle < 180
-        
+            
             [bx + dx, by + door_offset]
           else
             [bx, by]
@@ -194,12 +192,22 @@ class Map
       if door?(row, column)
         texture[:west][(y - @doors[row][column].pos) % TEX_HEIGHT]
       else
+        if texture_id == 0
+          puts "North: #{type} -- #{x} -- #{y} -- #{angle}"
+          return @textures[-1][:north][y % TEX_WIDTH]
+        end
+        
         texture[:west][(TEX_HEIGHT - y) % TEX_HEIGHT]
       end
     elsif type == :vertical && angle < 90 || angle > 270
       if door?(row, column)
         texture[:east][(y - @doors[row][column].pos) % TEX_HEIGHT]
       else
+        if texture_id == 0
+          puts "East: #{type} -- #{x} -- #{y} -- #{angle}"
+          return @textures[-1][:east][y % TEX_WIDTH]
+        end
+        
         texture[:east][y % TEX_HEIGHT]
       end
     end
@@ -213,14 +221,14 @@ class Map
     column, row = Map.matrixify(x,y)
     
     if(angle && (type == :horizontal || type == :vertical) && door?(row, column))
-      offset = (type == :horizontal) ? (x % GRID_WIDTH_HEIGHT) : (y % GRID_WIDTH_HEIGHT)
+      offset = (type == :horizontal) ? x : y
       offset_door = 0
 
       dx = (angle > 90 && angle < 270) ? MIN_HALF_GRID_WIDTH_HEIGHT : HALF_GRID_WIDTH_HEIGHT
       
       if type == :vertical
         offset_door = dx * Math::tan(angle * Math::PI / 180) * -1
-      elsif type == :horizontal        
+      else        
         offset_door = dx / Math::tan(angle * Math::PI / 180).abs
       end
       
