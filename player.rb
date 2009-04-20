@@ -2,7 +2,7 @@ require 'weapon'
 
 class Player
   include Damageable
-  STEP_SIZE = 10
+  STEP_SIZE = 12
   ANGLE_SPEED = 6
   FOV = 60.0 # Field of View
   HALF_FOV = FOV / 2
