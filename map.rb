@@ -28,7 +28,12 @@ class Map
     @width  = matrix_row_column[0].size
     @height = matrix_row_column.size
     @window = window
-    @doors  = [[nil] * @width] * @height
+    @doors  = []
+    
+    @height.times do
+      column = [nil] * @width
+      @doors << column
+    end
     
     row = 0
     while(row < @height)

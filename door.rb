@@ -4,7 +4,7 @@ class Door
   attr_accessor :pos
   attr_reader   :state
   attr_reader   :opened_at
-  OPEN_CLOSE_STEP = 0.25
+  OPEN_CLOSE_STEP = 4
   STAYS_SECONDS_OPEN = 7
 
   def initialize
