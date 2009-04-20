@@ -78,9 +78,9 @@ class GameWindow < Gosu::Window
   end
 
   def update
+    process_movement_input
     invoke_ai
     invoke_doors
-    process_movement_input
   end
 
   def invoke_ai
@@ -103,8 +103,6 @@ class GameWindow < Gosu::Window
             door.close!
           end
         end
-        
-        #door.interact unless door.nil?
       }
     }
   end
@@ -119,9 +117,6 @@ class GameWindow < Gosu::Window
       column, row = Map.matrixify(@player.x, @player.y)
       door = @map.get_door(row, column, @player.angle)
       
-      #if !door.nil? && door.closed?
-      #  @door_open_sound.play
-      #  door.open!
       if !door.nil?
         if door.open?
           @door_close_sound.play

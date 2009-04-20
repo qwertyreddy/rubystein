@@ -49,11 +49,11 @@ class Player
   end
   
   def can_move_forward?(map)
-    return !map.hit?(@x + dx, @y - dy)
+    return !map.hit?(@x + 4*dx, @y - 4*dy)
   end
   
   def can_move_backward?(map)
-    return !map.hit?(@x - dx, @y + dy)
+    return !map.hit?(@x - 4*dx, @y + 4*dy)
   end
   
   def move_forward

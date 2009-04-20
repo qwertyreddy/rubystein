@@ -136,6 +136,11 @@ class Map
       #if(bx < 0 || bx >= Config::WINDOW_WIDTH || by < 0 || by >= Config::WINDOW_HEIGHT)
       #  [Infinity, Infinity]
       #else
+      
+      #if not on_map?(*Map.matrixify(by, bx))
+      #  [Infinity, Infinity]
+      #end
+      
         if(!hit?(bx, by, angle, :vertical))
           #Extend the ray
           find_vertical_intersection(bx, by, angle)
@@ -219,7 +224,7 @@ class Map
         offset_door = dx / Math::tan(angle * Math::PI / 180).abs
       end
       
-      offset_on_door = offset.ceil + offset_door.ceil
+      offset_on_door = offset + offset_door
       offset_on_door %= GRID_WIDTH_HEIGHT
       
       if type == :horizontal
