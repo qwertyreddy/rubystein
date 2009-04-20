@@ -50,11 +50,18 @@ class GameWindow < Gosu::Window
         self
     )
     
-    @map.sprites = [
+    @map.props = [
       Lamp.new(self, 5.5 * 64, 2.5 * 64),
-      Lamp.new(self, 2.5 * 64, 5.5 * 64),
+      Lamp.new(self, 2.5 * 64, 5.5 * 64)
+    ]
+    
+    @map.players = [
       Hans.new(self, @map, 6 * 64, 92),
       Hans.new(self, @map, 7 * 64, 5 * 64)
+    ]
+    
+    @map.items = [
+      Rails.new(self, @map, 5 * 64, 92)
     ]
     
     @player = Player.new(self)
@@ -71,6 +78,7 @@ class GameWindow < Gosu::Window
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
     @song = Gosu::Song.new(self, 'getthem.mp3')
+    @song.volume = 0.3
     @song.play(true)
     @fire_sound = Gosu::Sample.new(self, 'fire.wav')
     @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
@@ -79,13 +87,20 @@ class GameWindow < Gosu::Window
 
   def update
     process_movement_input
-    invoke_ai
+    invoke_players
+    invoke_items
     invoke_doors
   end
 
-  def invoke_ai
-    @map.sprites.each { |sprite|
-      sprite.interact(@player, @drawn_sprite_x) if sprite.respond_to? :interact
+  def invoke_players
+    @map.players.each { |ai_player|
+      ai_player.interact(@player, @drawn_sprite_x)
+    }
+  end
+
+  def invoke_items
+    @map.items.each { |item|
+      item.interact(@player)
     }
   end
 
@@ -238,7 +253,7 @@ class GameWindow < Gosu::Window
     
     if @fired_weapon
       @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
-      @fire_sound.play
+      @fire_sound.play(0.2)
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
     end

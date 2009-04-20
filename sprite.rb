@@ -1,4 +1,7 @@
+require 'rubygems'
+require 'gosu'
 require 'weapon'
+require 'map'
 
 module Sprite
   TEX_WIDTH  = 64
@@ -35,3 +38,29 @@ class Lamp
   end
 end
 
+class Rails
+  include Sprite
+  
+  @@interact_sound = nil
+  
+  def initialize(window, map, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @map = map
+    @slices = SpritePool::get(window, 'rails.bmp', TEX_HEIGHT)
+    
+    @@interact_sound = Gosu::Sample.new(@window, 'ammo.mp3') if @@interact_sound.nil?
+  end
+  
+  def interact(player)
+    my_row, my_column = Map.matrixify(@y, @x)
+    player_row, player_column = Map.matrixify(player.y, player.x)
+    
+    if my_row == player_row && my_column == player_column && player.health < Player::MAX_HEALTH
+      @@interact_sound.play
+      player.health = (player.health + 5 >= Player::MAX_HEALTH) ? Player::MAX_HEALTH : player.health + 5
+      @map.items.delete(self)
+    end
+  end
+end

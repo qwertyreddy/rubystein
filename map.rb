@@ -13,7 +13,10 @@ class Map
   attr_accessor :matrix
   attr_reader   :window
   attr_reader   :textures
-  attr_accessor :sprites
+  attr_accessor :props
+  attr_accessor :players
+  attr_accessor :items
+  #attr_accessor :sprites
   attr_accessor :doors
   attr_reader   :width
   attr_reader   :height
@@ -49,7 +52,13 @@ class Map
       
       @textures << pair
     }
-    @sprites = []
+    @items   = []
+    @players = []
+    @props   = []
+  end
+  
+  def sprites
+    @items + @players + @props
   end
   
   def find_nearest_intersection(start_x, start_y, angle)

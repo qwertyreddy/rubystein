@@ -8,6 +8,8 @@ class Player
   HALF_FOV = FOV / 2
   DISTANCE_TO_PROJECTION = (Config::WINDOW_WIDTH / 2) / Math.tan((FOV / 2) * Math::PI / 180)
   RAY_ANGLE_DELTA = (FOV / Config::WINDOW_WIDTH)
+  MAX_HEALTH = 100
+  
   
   attr_accessor :x
   attr_accessor :y
