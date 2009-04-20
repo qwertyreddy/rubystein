@@ -170,7 +170,7 @@ class Map
       else
         if texture_id == 0
           puts "#{type} -- #{x} -- #{y} -- #{angle}"
-          return @textures[-1][:south][x%TEX_WIDTH] if texture_id == 0
+          return @textures[-1][:south][x % TEX_WIDTH]
         end
         texture[:south][x % TEX_WIDTH]
       end
@@ -178,6 +178,11 @@ class Map
       if door?(row, column)
         texture[:north][(x - @doors[row][column].pos) % TEX_WIDTH]
       else
+        if texture_id == 0
+          puts "North: #{type} -- #{x} -- #{y} -- #{angle}"
+          return @textures[-1][:north][x % TEX_WIDTH]
+        end
+        
         texture[:north][(TEX_WIDTH - x) % TEX_WIDTH]
       end
     elsif type == :vertical && angle > 90 && angle < 270
@@ -214,7 +219,7 @@ class Map
         offset_door = dx / Math::tan(angle * Math::PI / 180).abs
       end
       
-      offset_on_door = offset + offset_door
+      offset_on_door = offset.ceil + offset_door.ceil
       offset_on_door %= GRID_WIDTH_HEIGHT
       
       if type == :horizontal

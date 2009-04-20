@@ -79,8 +79,8 @@ class GameWindow < Gosu::Window
 
   def update
     invoke_ai
-    process_movement_input
     invoke_doors
+    process_movement_input
   end
 
   def invoke_ai
