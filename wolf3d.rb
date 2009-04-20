@@ -24,7 +24,7 @@ class GameWindow < Gosu::Window
   Infinity = 1.0 / 0
   
   def initialize
-    super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1.0 / Config::FPS)
+    super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1000.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
     
     level = Level1
