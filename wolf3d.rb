@@ -10,6 +10,8 @@ require 'ai_player'
 require 'sprite'
 require 'door'
 
+require 'level'
+
 module ZOrder
   BACKGROUND = 0
   LEVEL      = 1
@@ -25,50 +27,57 @@ class GameWindow < Gosu::Window
     super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
     
-    @map = Map.new([
+    level = Level1
+    
+    @map = Map.new(level::MATRIX, level::WORLD_TEXTURES, self)
+    
+    #@map = Map.new([
         # Top left element represents (x=0,y=0)
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 3,-1, 3, 1, 1],
-        [1, 0, 0, 2, 0, 0, 0, 0, 1],
-        [1, 0, 0,-1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 2, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]],
-        [
-          { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
-          { :north => 'door_s_1.png', :east => 'blue1_2.png', :south => 'door_s_1.png', :west => 'blue1_2.png' },
-          { :north => 'blue1_1.png', :east => 'door_s_2.png', :south => 'blue1_1.png', :west => 'door_s_2.png' },
-          { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
-          { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
-          { :north => 'wood_php_1.png', :east => 'wood_php_1.png', :south => 'wood_php_1.png', :west => 'wood_php_1.png' },
-          { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
-          { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' },
-          { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' }
-        ],
-        self
-    )
+    #    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    #    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    #    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    #    [1, 0, 0, 1, 3,-1, 3, 1, 1],
+    #    [1, 0, 0, 2, 0, 0, 0, 0, 1],
+    #    [1, 0, 0,-1, 0, 0, 0, 0, 1],
+    #    [1, 0, 0, 2, 0, 0, 0, 0, 1],
+    #    [1, 0, 0, 1, 0, 0, 0, 0, 1],
+    #    [1, 1, 1, 1, 1, 1, 1, 1, 1]],
+    #    [
+    #      { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
+    #      { :north => 'door_s_1.png', :east => 'blue1_2.png', :south => 'door_s_1.png', :west => 'blue1_2.png' },
+    #      { :north => 'blue1_1.png', :east => 'door_s_2.png', :south => 'blue1_1.png', :west => 'door_s_2.png' },
+    #      { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
+    #      { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
+    #      { :north => 'wood_php_1.png', :east => 'wood_php_1.png', :south => 'wood_php_1.png', :west => 'wood_php_1.png' },
+    #      { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
+    #      { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' },
+    #      { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' }
+    #    ],
+    #    self
+    #)
     
-    @map.props = [
-      Lamp.new(self, 5.5 * 64, 2.5 * 64),
-      Lamp.new(self, 2.5 * 64, 5.5 * 64)
-    ]
+    #@map.props = [
+    #  Lamp.new(self, 5.5 * 64, 2.5 * 64),
+    #  Lamp.new(self, 2.5 * 64, 5.5 * 64)
+    #]
     
-    @map.players = [
-      Hans.new(self, @map, 6 * 64, 92),
-      Hans.new(self, @map, 7 * 64, 5 * 64)
-    ]
+    #@map.players = [
+    #  Hans.new(self, @map, 6 * 64, 92),
+    #  Hans.new(self, @map, 7 * 64, 5 * 64)
+    #]
     
-    @map.items = [
-      Rails.new(self, @map, 1.5 * 64, 7 * 64)
-    ]
+    #@map.items = [
+    #  Rails.new(self, @map, 1.5 * 64, 7 * 64)
+    #]
     
     @player = Player.new(self)
     @player.height = 0.5
-    @player.x = 64 * 1.5
-    @player.y = 64 * 1.5
-    @player.angle = 0
+    #@player.x = 64 * 1.5
+    #@player.y = 64 * 1.5
+    #@player.angle = 0
+    @player.x = level::PLAYER_X
+    @player.y = level::PLAYER_Y
+    @player.angle = level::PLAYER_ANGLE
     
     @wall_perp_distances   = [0]   * Config::WINDOW_WIDTH
     @drawn_sprite_x        = [nil] * Config::WINDOW_WIDTH
@@ -83,7 +92,6 @@ class GameWindow < Gosu::Window
     @fire_sound = Gosu::Sample.new(self, 'fire.wav')
     @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
     @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
-    
     
     @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
     
@@ -109,15 +117,16 @@ class GameWindow < Gosu::Window
   end
 
   def invoke_doors
-    @map.doors.each { |row|
-      row.each { |door|
+    current_time = Time.now.to_i
+
+    @map.doors.each { |doors_row|
+      doors_row.each { |door|
         if not door.nil?
           door.interact
           
-          current_time = Time.now.to_i
           row, column = Map.matrixify(@player.y, @player.x)
 
-          if door.open? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
+          if door.open? && !@map.doors[row][column].nil? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
             @door_close_sound.play
             door.close!
           end

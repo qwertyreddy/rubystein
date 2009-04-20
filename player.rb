@@ -69,7 +69,9 @@ class Player
   end
   
   def take_damage_from(player)
-    @health -= 2 # TODO: @health -= player.weapon.damage
+    return if @health <= 0
+    @health -= 4 # TODO: @health -= player.weapon.damage
+    @health = 0 if @health < 0
   end
   
 end

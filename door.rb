@@ -4,7 +4,7 @@ class Door
   attr_accessor :pos
   attr_reader   :state
   attr_reader   :opened_at
-  OPEN_CLOSE_STEP = 1
+  OPEN_CLOSE_STEP = 0.25
   STAYS_SECONDS_OPEN = 7
 
   def initialize
@@ -14,12 +14,12 @@ class Door
   end
 
   def open!
-    if closed?
+    if self.closed?
       @state = :opening
       @opened_at = Time.now.to_i
     end
     
-    if !open? && @state == :opening
+    if !self.open? && @state == :opening
       @pos += OPEN_CLOSE_STEP
     end
   end
@@ -29,11 +29,11 @@ class Door
   end
   
   def close!
-    if open?
+    if self.open?
       @state = :closing
     end
     
-    if !closed? && @state == :closing
+    if !self.closed? && @state == :closing
       @pos -= OPEN_CLOSE_STEP
     end
   end
@@ -44,9 +44,9 @@ class Door
   
   def interact
     if @state == :opening
-      open!
+      self.open!
     elsif @state == :closing
-      close!
+      self.close!
     end
   end
   
