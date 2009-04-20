@@ -34,7 +34,7 @@ class GameWindow < Gosu::Window
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
         [1, 0, 0,-1, 0, 0, 0, 0, 1],
         [1, 0, 0, 2, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 0, 0, 0, 0, 1],
+        [1, 0, 0, 1, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1]],
         [
           { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
@@ -92,7 +92,19 @@ class GameWindow < Gosu::Window
   def invoke_doors
     @map.doors.each { |row|
       row.each { |door|
-        door.interact unless door.nil?
+        if not door.nil?
+          door.interact
+          
+          current_time = Time.now.to_i
+          row, column = Map.matrixify(@player.y, @player.x)
+
+          if door.open? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
+            @door_close_sound.play
+            door.close!
+          end
+        end
+        
+        #door.interact unless door.nil?
       }
     }
   end
@@ -107,6 +119,9 @@ class GameWindow < Gosu::Window
       column, row = Map.matrixify(@player.x, @player.y)
       door = @map.get_door(row, column, @player.angle)
       
+      #if !door.nil? && door.closed?
+      #  @door_open_sound.play
+      #  door.open!
       if !door.nil?
         if door.open?
           @door_close_sound.play

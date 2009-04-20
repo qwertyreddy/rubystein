@@ -3,15 +3,21 @@ require 'map'
 class Door
   attr_accessor :pos
   attr_reader   :state
-  OPEN_CLOSE_STEP = 0.5
+  attr_reader   :opened_at
+  OPEN_CLOSE_STEP = 1
+  STAYS_SECONDS_OPEN = 8
 
   def initialize
     @state = :closed
     @pos   = 0
+    @opened_at = 0
   end
 
   def open!
-    @state = :opening if closed?
+    if closed?
+      @state = :opening
+      @opened_at = Time.now.to_i
+    end
     
     if !open? && @state == :opening
       @pos += OPEN_CLOSE_STEP
@@ -23,7 +29,9 @@ class Door
   end
   
   def close!
-    @state = :closing if open?
+    if open?
+      @state = :closing
+    end
     
     if !closed? && @state == :closing
       @pos -= OPEN_CLOSE_STEP
