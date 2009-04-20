@@ -83,6 +83,10 @@ class GameWindow < Gosu::Window
     @fire_sound = Gosu::Sample.new(self, 'fire.wav')
     @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
     @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
+    
+    
+    @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
+    
   end
 
   def update
@@ -240,6 +244,24 @@ class GameWindow < Gosu::Window
 
   def draw_hud
     @hud.draw(0, 405, ZOrder::HUD)
+    if @player.health <= 85 && @player.health > 70
+      portret_id = 1
+    elsif @player.health <= 70 && @player.health > 55
+      portret_id = 2
+    elsif @player.health <= 55 && @player.health > 40
+      portret_id = 3
+    elsif @player.health <= 40 && @player.health > 25
+      portret_id = 4
+    elsif @player.health <= 25 && @player.health > 10
+      portret_id = 5
+    elsif @player.health <= 10
+      portret_id = 6
+    else
+      portret_id = 0
+    end
+    
+    
+    @hud_portret[portret_id].draw(268, 414, ZOrder::HUD)
   end
 
   def draw_weapon

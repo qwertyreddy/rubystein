@@ -47,7 +47,7 @@ class Map
       pair = {}
       
       tex_file.each_pair {|tex_type, tex_path|
-        pair[tex_type] = SpritePool::get(window, tex_path, TEX_HEIGHT)
+        pair[tex_type] = SpritePool::get(window, tex_path)
       }
       
       @textures << pair

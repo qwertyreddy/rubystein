@@ -17,10 +17,10 @@ end
 class SpritePool
   @@files = {}
   
-  def self.get(window, file_path, sprite_height)
+  def self.get(window, file_path, sprite_height = Sprite::TEX_HEIGHT, sprite_width = 1)
     file_path = File.expand_path(file_path)
     if !@@files[file_path]
-      @@files[file_path] = Gosu::Image::load_tiles(window, file_path, 1, Sprite::TEX_HEIGHT, true)
+      @@files[file_path] = Gosu::Image::load_tiles(window, file_path, sprite_width, sprite_height, true)
     end
     
     return @@files[file_path]
