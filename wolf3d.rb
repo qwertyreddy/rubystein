@@ -231,7 +231,10 @@ class GameWindow < Gosu::Window
     ray_angle         = (360 + @player.angle + (Player::FOV / 2)) % 360
     ray_angle_delta   = Player::RAY_ANGLE_DELTA
     
-    (0...Config::WINDOW_WIDTH).each { |slice|
+    #(0...Config::WINDOW_WIDTH).each { |slice|
+    slice = 0
+    while slice < Config::WINDOW_WIDTH
+    
       type, distance, map_x, map_y = @map.find_nearest_intersection(@player.x, @player.y, ray_angle)
       
       # Correct spherical distortion
@@ -244,11 +247,22 @@ class GameWindow < Gosu::Window
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
             
-      texture = @map.texture_for(type, map_x, map_y, ray_angle)
-      texture.draw(slice, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
+      n = 0
+      while n < Config::SUB_DIVISION
+        texture = @map.texture_for(type, map_x, map_y, ray_angle)
+        texture.draw(slice + n, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       
-      ray_angle = (360 + ray_angle - ray_angle_delta) % 360
-    }
+        ray_angle = (360 + ray_angle - ray_angle_delta) % 360
+        n += 1
+      end
+      
+      if n == 0
+        slice += 1
+      else
+        slice += n
+      end
+    end
+    #}
   end
 
   def draw_hud
