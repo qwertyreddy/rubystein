@@ -61,7 +61,7 @@ class GameWindow < Gosu::Window
     ]
     
     @map.items = [
-      Rails.new(self, @map, 5 * 64, 92)
+      Rails.new(self, @map, 1.5 * 64, 7 * 64)
     ]
     
     @player = Player.new(self)
