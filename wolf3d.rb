@@ -126,7 +126,7 @@ class GameWindow < Gosu::Window
           
           row, column = Map.matrixify(@player.y, @player.x)
 
-          if door.open? && !@map.doors[row][column].nil? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
+          if door.open? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
             @door_close_sound.play
             door.close!
           end

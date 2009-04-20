@@ -2,8 +2,8 @@ require 'weapon'
 
 class Player
   include Damageable
-  STEP_SIZE = 8
-  ANGLE_SPEED = 5
+  STEP_SIZE = 12
+  ANGLE_SPEED = 6
   FOV = 60.0 # Field of View
   HALF_FOV = FOV / 2
   DISTANCE_TO_PROJECTION = (Config::WINDOW_WIDTH / 2) / Math.tan((FOV / 2) * Math::PI / 180)
