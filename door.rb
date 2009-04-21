@@ -5,7 +5,7 @@ class Door
   attr_reader   :state
   attr_reader   :opened_at
   OPEN_CLOSE_STEP = 8
-  STAYS_SECONDS_OPEN = 7
+  STAYS_SECONDS_OPEN = 4
 
   def initialize
     @state = :closed

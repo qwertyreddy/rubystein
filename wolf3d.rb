@@ -248,7 +248,7 @@ class GameWindow < Gosu::Window
       slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
             
       n = 0
-      while n < Config::SUB_DIVISION
+      while n < Config::SUB_DIVISION && (slice + n) < Config::WINDOW_WIDTH
         texture = @map.texture_for(type, map_x, map_y, ray_angle)
         texture.draw(slice + n, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
       

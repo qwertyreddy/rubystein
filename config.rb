@@ -3,5 +3,5 @@ module Config
   WINDOW_HEIGHT = 480
   FULLSCREEN    = false
   FPS           = 60
-  SUB_DIVISION  = 2
+  SUB_DIVISION  = 3
 end
