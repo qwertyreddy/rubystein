@@ -61,6 +61,17 @@ class Bones
   end
 end
 
+class Skeleton
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'skeleton.bmp', TEX_HEIGHT)
+  end
+end
+
 class Powerup
   include Sprite
   
