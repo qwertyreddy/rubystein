@@ -150,7 +150,6 @@ class AIPlayer
     if @firing_left > 0
       if (@current_anim_seq_id == 0)
         self.fire(player)
-        puts player.health
       end
       @firing_left -= 1
       return

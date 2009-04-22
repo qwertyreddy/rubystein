@@ -23,13 +23,20 @@ end
 
 class GameWindow < Gosu::Window
   Infinity = 1.0 / 0
+  POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(100, 255, 0, 0)
+  POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(100, 0, 255, 0)
+  
+  TOP  = 0
+  LEFT = 0
+  RIGHT = Config::WINDOW_WIDTH - 1
+  BOTTOM = Config::WINDOW_HEIGHT - 1
   
   def initialize
     super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1000.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
     
     @map = MapPool.get(self, 0)
-        
+    
     @player = Player.new(self)
     @player.height = 0.5
     @player.x = @map.player_x_init
@@ -51,19 +58,36 @@ class GameWindow < Gosu::Window
     @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
     @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
     
+    # Screenflashing counters
+    @powerup_screen_flash   = 0
+    @powerdown_screen_flash = 0
+    
     @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
     
     @ai_schedule_index = 0
   end
 
   def update
+    old_player_health = @player.health
     process_movement_input
     invoke_players
     invoke_items
     invoke_doors
-    
-    row, col = Map.matrixify(@player.y, @player.x)
-    puts "#{col},#{row}"
+    determine_screen_flash(old_player_health)
+    #row, col = Map.matrixify(@player.y, @player.x)
+    #puts "#{col},#{row}"
+  end
+
+  def determine_screen_flash(old_health)
+    if old_health < @player.health
+      # Power-up
+      @powerup_screen_flash   = 100
+      @powerdown_screen_flash = 0
+    elsif old_health > @player.health
+      # Power-down
+      @powerdown_screen_flash = 100
+      @powerup_screen_flash   = 0
+    end
   end
 
   # Invoke AI players' AI. Maximum of AI_INVOCATIONS_PER_LOOP AI invocations per call.
@@ -313,11 +337,32 @@ class GameWindow < Gosu::Window
     end
   end
 
+  def draw_screen_flash
+    if @powerdown_screen_flash > 0 || @powerup_screen_flash > 0
+      if @powerdown_screen_flash > 0
+        screen_flash_color = POWERDOWN_SCREEN_FLASH_COLOR
+        screen_flash_color.alpha = @powerdown_screen_flash
+        @powerdown_screen_flash -= 10
+      elsif @powerup_screen_flash > 0
+        screen_flash_color = POWERUP_SCREEN_FLASH_COLOR
+        screen_flash_color.alpha = @powerup_screen_flash
+        @powerup_screen_flash -= 10
+      end
+      
+      draw_quad(
+        TOP, LEFT, screen_flash_color, RIGHT, TOP,
+        screen_flash_color, RIGHT, BOTTOM, screen_flash_color,
+        LEFT, BOTTOM, screen_flash_color, ZOrder::HUD + 3
+      )
+    end
+  end
+
   def draw
     draw_scene
     draw_sprites
     draw_weapon
     draw_hud
+    draw_screen_flash
   end
   
 end
