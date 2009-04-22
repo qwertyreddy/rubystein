@@ -94,13 +94,14 @@ public
     { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' }
   ]
 
-  PLAYER_X = 29.5 * 64
-  PLAYER_Y = 57.5 * 64
+  PLAYER_X = 29.5 * Map::GRID_WIDTH_HEIGHT
+  PLAYER_Y = 57.5 * Map::GRID_WIDTH_HEIGHT
   PLAYER_ANGLE = 0
   
   def self.create(window)
     map = Map.new(MATRIX, WORLD_TEXTURES, PLAYER_X, PLAYER_Y, PLAYER_ANGLE, window)
     map.props = [
+      DeadGuard.new(window, 31.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 31 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT)

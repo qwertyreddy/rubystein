@@ -39,6 +39,17 @@ class Lamp
   end
 end
 
+class DeadGuard
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'deadguard.bmp', TEX_HEIGHT)
+  end
+end
+
 class Powerup
   include Sprite
   
