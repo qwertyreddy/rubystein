@@ -23,8 +23,10 @@ end
 
 class GameWindow < Gosu::Window
   Infinity = 1.0 / 0
-  POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(100, 255, 0, 0)
-  POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(100, 0, 255, 0)
+  SCREEN_FLASH_MAX_ALPHA = 100
+  SCREEN_FLASH_STEP      = 5
+  POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 255, 0, 0)
+  POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 0, 255, 0)
   
   TOP  = 0
   LEFT = 0
@@ -342,11 +344,11 @@ class GameWindow < Gosu::Window
       if @powerdown_screen_flash > 0
         screen_flash_color = POWERDOWN_SCREEN_FLASH_COLOR
         screen_flash_color.alpha = @powerdown_screen_flash
-        @powerdown_screen_flash -= 10
+        @powerdown_screen_flash -= SCREEN_FLASH_STEP
       elsif @powerup_screen_flash > 0
         screen_flash_color = POWERUP_SCREEN_FLASH_COLOR
         screen_flash_color.alpha = @powerup_screen_flash
-        @powerup_screen_flash -= 10
+        @powerup_screen_flash -= SCREEN_FLASH_STEP
       end
       
       draw_quad(
