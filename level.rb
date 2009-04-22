@@ -114,6 +114,10 @@ public
       Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT)
     ]
     
+    map.players = [
+      Hans.new(window, map, 40.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT)
+    ]
+    
     map
   end
 end
