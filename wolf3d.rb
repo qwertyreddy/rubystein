@@ -59,6 +59,9 @@ class GameWindow < Gosu::Window
     invoke_players
     invoke_items
     invoke_doors
+    
+    row, col = Map.matrixify(@player.y, @player.x)
+    puts "#{col},#{row}"
   end
 
   def invoke_players
