@@ -135,7 +135,14 @@ class AIPlayer
   include Sprite
   include Damageable
   
+  # Maximum distance (in blocks) that this player can see.
+  attr_accessor :sight
+  
   attr_accessor :steps_removed_from_player
+  
+  def initialize
+    @sight = 10
+  end
   
   def interact(player, drawn_sprite_x)
     return if @health <= 0
@@ -178,6 +185,7 @@ class Enemy < AIPlayer
   attr_accessor :animation_interval
   
   def initialize(window, kind_tex_paths, map, x, y, step_size = 4, animation_interval = 0.2)
+    super()
     @window = window
     @x = x
     @y = y
