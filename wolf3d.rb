@@ -279,14 +279,12 @@ class GameWindow < Gosu::Window
     end
     
     @hud_portret[portret_id].draw(268, 414, ZOrder::HUD)
-    self.draw_health
+    self.draw_number(366, @player.health)
   end
 
-  def draw_health
-    x = 366
-    
+  def draw_number(x, number)
     n = 1
-    while (@player.health == 0 && n == 1) || n <= @player.health
+    while (number == 0 && n == 1) || n <= number
       health_digit = (@player.health / n).to_i
       health_digit %= 10
       
