@@ -65,7 +65,7 @@ class GameWindow < Gosu::Window
   end
 
   def invoke_players
-    r_threshold = (Map::GRID_WIDTH_HEIGHT * 12) ** 2
+    r_threshold = (Map::GRID_WIDTH_HEIGHT * 10) ** 2
     
     @map.players.each { |ai_player|
       dx = @player.x - ai_player.x
