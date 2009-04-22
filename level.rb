@@ -99,6 +99,11 @@ public
   PLAYER_ANGLE = 0
   
   def self.create(window)
-    Map.new(MATRIX, WORLD_TEXTURES, PLAYER_X, PLAYER_Y, PLAYER_ANGLE, window)
+    map = Map.new(MATRIX, WORLD_TEXTURES, PLAYER_X, PLAYER_Y, PLAYER_ANGLE, window)
+    map.props = [
+      Lamp.new(window, 29.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT)
+    ]
+    
+    map
   end
 end

@@ -212,16 +212,15 @@ class GameWindow < Gosu::Window
       corrected_angle = ray_angle - @player.angle
       corrected_distance = distance * Math::cos(corrected_angle * Math::PI / 180)
       
-      @wall_perp_distances[slice] = corrected_distance
-      
       slice_height = ((Map::TEX_HEIGHT / corrected_distance) * Player::DISTANCE_TO_PROJECTION)
       slice_y = (Config::WINDOW_HEIGHT - slice_height) * (1 - @player.height)
             
       n = 0
       while n < Config::SUB_DIVISION && (slice + n) < Config::WINDOW_WIDTH
+        @wall_perp_distances[slice + n] = corrected_distance
         texture = @map.texture_for(type, map_x, map_y, ray_angle)
         texture.draw(slice + n, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
-      
+        
         ray_angle = (360 + ray_angle - ray_angle_delta) % 360
         n += 1
       end
