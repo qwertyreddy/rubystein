@@ -105,19 +105,35 @@ public
       Bones.new(window, 40.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
       Bones.new(window, 28.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT),
       Skeleton.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
+      Skeleton.new(window, 36.0 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 31 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT)
+      Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
+      ColonelSanders.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map.items = [
       Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      
+      Rails.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
+      
+      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map.players = [
       Hans.new(window, map, 40.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
+      
+      Hans.new(window, map, 31.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      Hans.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 31.0 * Map::GRID_WIDTH_HEIGHT),
+      
       Hans.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 39.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 27.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),

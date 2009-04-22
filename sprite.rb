@@ -72,6 +72,17 @@ class Skeleton
   end
 end
 
+class ColonelSanders
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'colonel_sanders.bmp', TEX_HEIGHT)
+  end
+end
+
 class Powerup
   include Sprite
   
@@ -100,7 +111,7 @@ end
 
 class Food < Powerup
   def initialize(window, map, x, y)
-    super(window, map, x, y, 20, SpritePool::get(window, 'food.bmp', TEX_HEIGHT))
+    super(window, map, x, y, 25, SpritePool::get(window, 'food.bmp', TEX_HEIGHT))
   end
 end
 
