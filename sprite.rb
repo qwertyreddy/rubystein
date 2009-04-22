@@ -75,8 +75,6 @@ end
 class Powerup
   include Sprite
   
-  HEALTH_UP = 20
-  
   def initialize(window, map, x, y, power_up, slices, sound_file = nil)
     @window = window
     @x = x
@@ -94,7 +92,7 @@ class Powerup
     
     if my_row == player_row && my_column == player_column && player.health < Player::MAX_HEALTH
       @interact_sound.play
-      player.health = (player.health + HEALTH_UP >= Player::MAX_HEALTH) ? Player::MAX_HEALTH : player.health + HEALTH_UP
+      player.health = (player.health + @power_up >= Player::MAX_HEALTH) ? Player::MAX_HEALTH : player.health + @power_up
       @map.items.delete(self)
     end
   end
