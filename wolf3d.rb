@@ -283,18 +283,18 @@ class GameWindow < Gosu::Window
   end
 
   def draw_health
-    x = 335
+    x = 366
     
-    n = 100
-    while n >= 1
+    n = 1
+    while (@player.health == 0 && n == 1) || n <= @player.health
       health_digit = (@player.health / n).to_i
       health_digit %= 10
       
       @hud_numbers[health_digit].draw(x, 435, ZOrder::HUD + 1)
       
-      x += 16
+      x -= 16
       
-      n /= 10
+      n *= 10
     end
   end
 
