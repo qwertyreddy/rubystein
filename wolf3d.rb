@@ -40,6 +40,7 @@ class GameWindow < Gosu::Window
     @drawn_sprite_x        = [nil] * Config::WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
+    @hud_numbers = SpritePool.get(self, 'numbers.png', 32, 16)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
@@ -277,8 +278,24 @@ class GameWindow < Gosu::Window
       portret_id = 0
     end
     
-    
     @hud_portret[portret_id].draw(268, 414, ZOrder::HUD)
+    self.draw_health
+  end
+
+  def draw_health
+    x = 335
+    
+    n = 100
+    while n >= 1
+      health_digit = (@player.health / n).to_i
+      health_digit %= 10
+      
+      @hud_numbers[health_digit].draw(x, 435, ZOrder::HUD + 1)
+      
+      x += 16
+      
+      n /= 10
+    end
   end
 
   def draw_weapon
