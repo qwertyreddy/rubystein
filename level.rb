@@ -1,4 +1,11 @@
-class Level1
+require 'map'
+
+class Level0
+private
+  def new
+  end
+  
+public
   MATRIX = [
   	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -90,4 +97,8 @@ class Level1
   PLAYER_X = 29.5 * 64
   PLAYER_Y = 57.5 * 64
   PLAYER_ANGLE = 0
+  
+  def self.create(window)
+    Map.new(MATRIX, WORLD_TEXTURES, PLAYER_X, PLAYER_Y, PLAYER_ANGLE, window)
+  end
 end

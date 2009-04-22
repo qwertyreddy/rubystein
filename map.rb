@@ -21,12 +21,21 @@ class Map
   attr_reader   :width
   attr_reader   :height
   
+  attr_reader :player_x_init
+  attr_reader :player_y_init
+  attr_reader :player_angle_init
+  
   # @require for i in 0...matrix_row_column.size:
   #   matrix_row_column[i].size == matrix_row_column[i+1].size
-  def initialize(matrix_row_column, texture_files, window)
+  def initialize(matrix_row_column, texture_files, player_x_init, player_y_init, player_angle_init, window)
     @matrix = matrix_row_column
     @width  = matrix_row_column[0].size
     @height = matrix_row_column.size
+    
+    @player_x_init     = player_x_init
+    @player_y_init     = player_y_init
+    @player_angle_init = player_angle_init
+    
     @window = window
     @doors  = []
     
@@ -289,5 +298,22 @@ class Map
   
   def self.matrixify(x, y)
     [(x / GRID_WIDTH_HEIGHT).to_i, (y / GRID_WIDTH_HEIGHT).to_i]
+  end
+end
+
+
+
+class MapPool
+  @@maps = []
+  
+  def self.get(window, n = 0)
+    n = n.to_i
+    if @@maps[n].nil?
+      klass = eval("Level#{n}")
+      
+      @@maps[n] = klass.create(window)
+    end
+    
+    @@maps[n]
   end
 end

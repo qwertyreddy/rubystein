@@ -27,34 +27,7 @@ class GameWindow < Gosu::Window
     super(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT, Config::FULLSCREEN, 1000.0 / Config::FPS)
     self.caption = 'Rubystein 3d by Phusion CS Company'
     
-    level = Level1
-    
-    @map = Map.new(level::MATRIX, level::WORLD_TEXTURES, self)
-    
-    #@map = Map.new([
-        # Top left element represents (x=0,y=0)
-    #    [1, 1, 1, 1, 1, 1, 1, 1, 1],
-    #    [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    #    [1, 0, 0, 0, 0, 0, 0, 0, 1],
-    #    [1, 0, 0, 1, 3,-1, 3, 1, 1],
-    #    [1, 0, 0, 2, 0, 0, 0, 0, 1],
-    #    [1, 0, 0,-1, 0, 0, 0, 0, 1],
-    #    [1, 0, 0, 2, 0, 0, 0, 0, 1],
-    #    [1, 0, 0, 1, 0, 0, 0, 0, 1],
-    #    [1, 1, 1, 1, 1, 1, 1, 1, 1]],
-    #    [
-    #      { :north => 'blue1_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
-    #      { :north => 'door_s_1.png', :east => 'blue1_2.png', :south => 'door_s_1.png', :west => 'blue1_2.png' },
-    #      { :north => 'blue1_1.png', :east => 'door_s_2.png', :south => 'blue1_1.png', :west => 'door_s_2.png' },
-    #      { :north => 'grey1_1.png', :east => 'grey1_2.png', :south => 'grey1_1.png', :west => 'grey1_2.png' },
-    #      { :north => 'wood1_1.png', :east => 'wood1_2.png', :south => 'wood1_1.png', :west => 'wood1_2.png' },
-    #      { :north => 'wood_php_1.png', :east => 'wood_php_1.png', :south => 'wood_php_1.png', :west => 'wood_php_1.png' },
-    #      { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
-    #      { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' },
-    #      { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' }
-    #    ],
-    #    self
-    #)
+    @map = MapPool.get(self, 0)
     
     #@map.props = [
     #  Lamp.new(self, 5.5 * 64, 2.5 * 64),
@@ -72,12 +45,9 @@ class GameWindow < Gosu::Window
     
     @player = Player.new(self)
     @player.height = 0.5
-    #@player.x = 64 * 1.5
-    #@player.y = 64 * 1.5
-    #@player.angle = 0
-    @player.x = level::PLAYER_X
-    @player.y = level::PLAYER_Y
-    @player.angle = level::PLAYER_ANGLE
+    @player.x = @map.player_x_init
+    @player.y = @map.player_y_init
+    @player.angle = @map.player_angle_init
     
     @wall_perp_distances   = [0]   * Config::WINDOW_WIDTH
     @drawn_sprite_x        = [nil] * Config::WINDOW_WIDTH
