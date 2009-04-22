@@ -4,6 +4,7 @@ require 'gosu'
 
 require 'config'
 require 'map'
+require 'sound'
 require 'weapon'
 require 'player'
 require 'ai_player'
@@ -28,21 +29,7 @@ class GameWindow < Gosu::Window
     self.caption = 'Rubystein 3d by Phusion CS Company'
     
     @map = MapPool.get(self, 0)
-    
-    #@map.props = [
-    #  Lamp.new(self, 5.5 * 64, 2.5 * 64),
-    #  Lamp.new(self, 2.5 * 64, 5.5 * 64)
-    #]
-    
-    #@map.players = [
-    #  Hans.new(self, @map, 6 * 64, 92),
-    #  Hans.new(self, @map, 7 * 64, 5 * 64)
-    #]
-    
-    #@map.items = [
-    #  Rails.new(self, @map, 1.5 * 64, 7 * 64)
-    #]
-    
+        
     @player = Player.new(self)
     @player.height = 0.5
     @player.x = @map.player_x_init

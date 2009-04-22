@@ -107,7 +107,7 @@ public
     ]
     
     map.items = [
-      
+      Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT)
     ]
     
     map

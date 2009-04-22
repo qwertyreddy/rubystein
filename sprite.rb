@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'gosu'
+require 'sound'
 require 'weapon'
 require 'map'
 
@@ -38,23 +39,20 @@ class Lamp
   end
 end
 
-class Rails
+class Powerup
   include Sprite
-  
-  @@interact_sound = nil
   
   HEALTH_UP = 20
   
-  def initialize(window, map, x, y)
+  def initialize(window, map, x, y, power_up, slices, sound_file = nil)
     @window = window
     @x = x
     @y = y
     @map = map
-    @slices = SpritePool::get(window, 'rails.bmp', TEX_HEIGHT)
-    @power_up = 20
+    @slices = slices
+    @power_up = power_up
     
-    
-    @@interact_sound = Gosu::Sample.new(@window, 'ammo.mp3') if @@interact_sound.nil?
+    @interact_sound = sound_file.nil? ? SoundPool::get(window, 'ammo.mp3') : SoundPool::get(window, sound_file)
   end
   
   def interact(player)
@@ -62,9 +60,21 @@ class Rails
     player_row, player_column = Map.matrixify(player.y, player.x)
     
     if my_row == player_row && my_column == player_column && player.health < Player::MAX_HEALTH
-      @@interact_sound.play
+      @interact_sound.play
       player.health = (player.health + HEALTH_UP >= Player::MAX_HEALTH) ? Player::MAX_HEALTH : player.health + HEALTH_UP
       @map.items.delete(self)
     end
+  end
+end
+
+class Food < Powerup
+  def initialize(window, map, x, y)
+    super(window, map, x, y, 20, SpritePool::get(window, 'food.bmp', TEX_HEIGHT))
+  end
+end
+
+class Rails < Powerup
+  def initialize(window, map, x, y)
+    super(window, map, x, y, 100, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT))
   end
 end
