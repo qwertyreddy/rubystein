@@ -4,4 +4,5 @@ module Config
   FULLSCREEN    = false
   FPS           = 60
   SUB_DIVISION  = 3
+  AI_INVOCATIONS_PER_LOOP = 2
 end

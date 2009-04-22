@@ -52,6 +52,7 @@ class GameWindow < Gosu::Window
     
     @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
     
+    @ai_schedule_index = 0
   end
 
   def update
@@ -64,17 +65,44 @@ class GameWindow < Gosu::Window
     puts "#{col},#{row}"
   end
 
+  # Invoke AI players' AI. Maximum of AI_INVOCATIONS_PER_LOOP AI invocations per call.
   def invoke_players
-    @map.players.each { |ai_player|
-      dx = @player.x - ai_player.x
-      dy = @player.y - ai_player.y
-      
-      square_distance_to_main_character = dx * dx + dy * dy
-      
-      if square_distance_to_main_character < (ai_player.sight * Map::GRID_WIDTH_HEIGHT) ** 2
-        ai_player.interact(@player, @drawn_sprite_x)
+    if @ai_schedule_index > @map.players.size - 1
+      @ai_schedule_index = 0
+    end
+    
+    if !@map.players.empty?
+      if @map.players.size > Config::AI_INVOCATIONS_PER_LOOP
+        max_num_invoked = Config::AI_INVOCATIONS_PER_LOOP
+      else
+        max_num_invoked = @map.players.size
       end
-    }
+      num_invoked = 0
+      i = 0
+      real_index_of_last_invoked_ai_player = 0
+      
+      while i < @map.players.size && num_invoked < max_num_invoked
+        real_index = (@ai_schedule_index + i) % @map.players.size
+        ai_player = @map.players[real_index]
+        
+        dx = @player.x - ai_player.x
+        dy = @player.y - ai_player.y
+        
+        # Only invoke the AI if the player is sufficiently close to the
+        # main character.
+        square_distance_to_main_character = dx * dx + dy * dy
+        
+        if square_distance_to_main_character < (ai_player.sight * Map::GRID_WIDTH_HEIGHT) ** 2
+          ai_player.interact(@player, @drawn_sprite_x)
+          real_index_of_last_invoked_ai_player = real_index
+          num_invoked += 1
+        end
+        
+        i += 1
+      end
+      
+      @ai_schedule_index = (real_index_of_last_invoked_ai_player + 1) % @map.players.size
+    end
   end
 
   def invoke_items
