@@ -271,7 +271,7 @@ class GameWindow < Gosu::Window
       while n < Config::SUB_DIVISION && (slice + n) < Config::WINDOW_WIDTH
         @wall_perp_distances[slice + n] = corrected_distance
         texture = @map.texture_for(type, map_x, map_y, ray_angle)
-        texture.draw(slice + n, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT)
+        texture.draw(slice + n, slice_y, ZOrder::LEVEL, 1, slice_height / Map::TEX_HEIGHT) if texture
         
         ray_angle = (360 + ray_angle - ray_angle_delta) % 360
         n += 1
