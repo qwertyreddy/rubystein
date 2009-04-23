@@ -94,8 +94,16 @@ public
     { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' },
   ]
 
-  PLAYER_X = 29.5 * Map::GRID_WIDTH_HEIGHT
-  PLAYER_Y = 57.5 * Map::GRID_WIDTH_HEIGHT
+  if ARGV[0]
+    PLAYER_X = ARGV[0].to_i * Map::GRID_WIDTH_HEIGHT
+  else
+    PLAYER_X = 29.5 * Map::GRID_WIDTH_HEIGHT
+  end
+  if ARGV[1]
+    PLAYER_Y = ARGV[1].to_i * Map::GRID_WIDTH_HEIGHT
+  else
+    PLAYER_Y = 57.5 * Map::GRID_WIDTH_HEIGHT
+  end
   PLAYER_ANGLE = 0
   
   def self.create(window)
