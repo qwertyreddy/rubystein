@@ -335,7 +335,9 @@ class Ronald < Enemy
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
       :firing  => ['ronald_attack.png', 'ronald_attack2.png'],
       :damaged => ['ronald_damaged.png'],
-      :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
+      :dead    => ['ronald_dead.png', 'ronald_dead2.png', 'ronald_dead3.png', 'ronald_dead4.png',
+                   'ronald_dead5.png', 'ronald_dead6.png', 'ronald_dead7.png', 'ronald_dead8.png',
+                   'ronald_dead9.png', 'ronald_dead10.png']
     }
     
     super(window, sprites, map, x, y, step_size, animation_interval)
