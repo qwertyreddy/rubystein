@@ -177,7 +177,8 @@ public
       Hans.new(window, map, 31.0 * Map::GRID_WIDTH_HEIGHT, 35.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 31.0 * Map::GRID_WIDTH_HEIGHT),
       
-      Hans.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 39.0 * Map::GRID_WIDTH_HEIGHT),
+      Ronald.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 39.0 * Map::GRID_WIDTH_HEIGHT),
+      
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 27.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
