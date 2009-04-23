@@ -61,6 +61,17 @@ class Koziarski
   end
 end
 
+class Pratik
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'pratik.bmp', TEX_HEIGHT)
+  end
+end
+
 class DeadGuard
   include Sprite
   

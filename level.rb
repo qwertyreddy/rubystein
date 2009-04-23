@@ -117,6 +117,7 @@ public
       Chandelier.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Chandelier.new(window, 29.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Koziarski.new(window, 33.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      Pratik.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       ColonelSanders.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
