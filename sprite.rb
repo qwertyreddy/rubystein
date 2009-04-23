@@ -105,6 +105,39 @@ class Skeleton
   end
 end
 
+class GreenPlant
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'plantgreen.png', TEX_HEIGHT)
+  end
+end
+
+class Flag
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'flag.png', TEX_HEIGHT)
+  end
+end
+
+class Armor
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'armor.png', TEX_HEIGHT)
+  end
+end
+
 class ColonelSanders
   include Sprite
   

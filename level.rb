@@ -121,11 +121,25 @@ public
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 58.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 47.0 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 42.0 * Map::GRID_WIDTH_HEIGHT),
+      
       Chandelier.new(window, 39.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Chandelier.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Chandelier.new(window, 29.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      GreenPlant.new(window, 27.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
+      GreenPlant.new(window, 27.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
+      GreenPlant.new(window, 41.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
+      GreenPlant.new(window, 41.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
+      Flag.new(window, 35.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
+      Flag.new(window, 33.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
       Koziarski.new(window, 33.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Pratik.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      
+      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
+      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
+      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 19.0 * Map::GRID_WIDTH_HEIGHT),
+      Armor.new(window, 37.0 * Map::GRID_WIDTH_HEIGHT, 22.5 * Map::GRID_WIDTH_HEIGHT),
+      Armor.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 22.5 * Map::GRID_WIDTH_HEIGHT),
+      
       ColonelSanders.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
