@@ -135,11 +135,14 @@ class AIPlayer
   
   # Maximum distance (in blocks) that this player can see.
   attr_accessor :sight
+  # This enemy must not be closer than the given number of blocks to the main character.
+  attr_accessor :min_dinstance
   
   attr_accessor :steps_removed_from_player
   
   def initialize
     @sight = 10
+    @min_distance = 2
   end
   
   def interact(player, drawn_sprite_x)
@@ -164,15 +167,16 @@ class AIPlayer
     #dx = @steps_removed_from_player * @step_size * Math::cos(angle_rad)
     #dy = @steps_removed_from_player * @step_size * Math::sin(angle_rad)
     
-    #FIXME : Fix that the path should not go directly to the player, but should stop
-    #        one or two blocks ahead.
-    
     dx = 0
     dy = 0
     
-    path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x - dx, player.y - dy))
-    if not path.nil?
-      self.step_to_adjacent_squarily(path.y, path.x)
+    start = Coordinate.new(*Map.matrixify(@x, @y))
+    goal  = Coordinate.new(*Map.matrixify(player.x - dx, player.y - dy))
+    if heuristic_estimate_of_distance(start, goal) > @min_distance
+      path  = self.find_path(@map, start, goal)
+      if path
+        self.step_to_adjacent_squarily(path.y, path.x)
+      end
     end
   end
 end
