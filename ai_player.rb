@@ -3,7 +3,12 @@ require 'sprite'
 require 'weapon'
 
 module AStar
+  Coordinate = Struct.new(:x, :y)
+  
   def find_path(map, start, goal)
+    start  = Coordinate.new(start[0], start[1])
+    goal   = Coordinate.new(goal[0], goal[1])
+    
     closed = []
     open   = [start]
     
@@ -25,7 +30,7 @@ module AStar
       neighbor_nodes = neighbor_nodes(map, x)
       
       neighbor_nodes.each do |y|
-        next if closed.include?(y) or not map.walkable?(y[1], y[0])
+        next if closed.include?(y) or not map.walkable?(y.y, y.x)
         
         tentative_g_score = g_score[x] + dist_between(x, y)
         tentative_is_better = false
@@ -50,11 +55,8 @@ module AStar
   end
   
   def dist_between(a, b)
-    a_x, a_y = a
-    b_x, b_y = b
-    
-    col_a, row_a = Map.matrixify(a_x, a_y)
-    col_b, row_b = Map.matrixify(b_x, b_y)
+    col_a, row_a = Map.matrixify(a.x, a.y)
+    col_b, row_b = Map.matrixify(b.x, b.y)
     
     if col_a == col_b && row_a != row_b
       1.0
@@ -66,7 +68,7 @@ module AStar
   end
   
   def neighbor_nodes(map, node)
-    node_x, node_y = node
+    node_x, node_y = node.x, node.y
     result = []
 
     x = node_x - 1
@@ -76,7 +78,7 @@ module AStar
       y = node_y - 1
       
       while(y <= y_max && y < map.height)
-        result << [x, y] unless (x == node_x && y == node_y)
+        result << Coordinate.new(x, y) unless (x == node_x && y == node_y)
         y += 1
       end
       
@@ -89,11 +91,7 @@ module AStar
   
   def heuristic_estimate_of_distance(start, goal)
     # Manhattan distance
-    start_x, start_y = start
-    goal_x, goal_y   = goal
-    result = (goal_x - start_x).abs + (goal_y - start_y).abs
-    
-    return result
+    (goal.x - start.x).abs + (goal.y - start.y).abs
   end
   
   def reconstruct_path(came_from, current_node)
@@ -114,11 +112,11 @@ module AStar
     #puts "No path found"
   end
   
-  def smallest_f_score(set, f_score)
-    x_min = set[0]
+  def smallest_f_score(list_of_coordinates, f_score)
+    x_min = list_of_coordinates[0]
     f_min = f_score[x_min]
     
-    set.each {|x|
+    list_of_coordinates.each {|x|
       if f_score[x] < f_min
         f_min = f_score[x]
         x_min = x
@@ -174,7 +172,7 @@ class AIPlayer
     
     path = self.find_path(@map, Map.matrixify(@x, @y), Map.matrixify(player.x - dx, player.y - dy))
     if not path.nil?
-      self.step_to_adjacent_squarily(path[1], path[0])
+      self.step_to_adjacent_squarily(path.y, path.x)
     end
   end
 end
