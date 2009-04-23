@@ -21,7 +21,12 @@ class SpritePool
   def self.get(window, file_path, sprite_height = Sprite::TEX_HEIGHT, sprite_width = 1)
     file_path = File.expand_path(file_path)
     if !@@files[file_path]
-      @@files[file_path] = Gosu::Image::load_tiles(window, file_path, sprite_width, sprite_height, true)
+      begin
+        @@files[file_path] = Gosu::Image::load_tiles(window, file_path, sprite_width, sprite_height, true)
+      rescue
+        STDERR.puts "Cannot load #{file_path}"
+        raise
+      end
     end
     
     return @@files[file_path]
@@ -47,28 +52,6 @@ class Chandelier
     @x = x
     @y = y
     @slices = SpritePool::get(window, 'chandelier.bmp', TEX_HEIGHT)
-  end
-end
-
-class Koziarski
-  include Sprite
-  
-  def initialize(window, x, y)
-    @window = window
-    @x = x
-    @y = y
-    @slices = SpritePool::get(window, 'michael_koziarski.bmp', TEX_HEIGHT)
-  end
-end
-
-class Pratik
-  include Sprite
-  
-  def initialize(window, x, y)
-    @window = window
-    @x = x
-    @y = y
-    @slices = SpritePool::get(window, 'pratik.bmp', TEX_HEIGHT)
   end
 end
 
