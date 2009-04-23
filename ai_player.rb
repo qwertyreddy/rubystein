@@ -334,7 +334,7 @@ class Ronald < Enemy
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
       :firing  => ['ronald_attack.png', 'ronald_attack2.png'],
-      :damaged => ['zedshaw_damaged.png'],
+      :damaged => ['ronald_damaged.png'],
       :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
     }
     
