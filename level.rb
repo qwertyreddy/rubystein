@@ -14,7 +14,7 @@ public
   	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-  	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,17,5,5,5,17,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,4,4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,4,0,0,0,0,4,1,1,1,1,1,1,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   	[1,1,1,1,1,4,0,0,0,0,4,4,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,5,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -40,7 +40,7 @@ public
   	[4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,4,4,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1],
   	[4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,4,4,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1],
   	[4,0,0,0,0,8,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,1],
-  	[4,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,15,16,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,1,1],
+  	[4,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,15,16,0,0,0,17,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,1,1],
   	[4,0,0,0,0,8,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,1],
   	[4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1],
   	[4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1],
@@ -95,6 +95,7 @@ public
     
     { :north => 'pratik.png', :east => 'pratik.png', :south => 'pratik.png', :west => 'pratik.png' },
     { :north => 'koz.png', :east => 'koz.png', :south => 'koz.png', :west => 'koz.png' },
+    { :north => 'mongrel.png', :east => 'mongrel.png', :south => 'mongrel.png', :west => 'mongrel.png' },
     
     { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' },
   ]
@@ -118,7 +119,7 @@ public
       Bones.new(window, 40.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
       Bones.new(window, 28.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT),
       Skeleton.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Skeleton.new(window, 36.0 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
+      Skeleton.new(window, 35.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 31 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
@@ -136,8 +137,6 @@ public
       GreenPlant.new(window, 41.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
       Flag.new(window, 35.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
       Flag.new(window, 33.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
-      #Koziarski.new(window, 33.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
-      #Pratik.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
@@ -146,14 +145,18 @@ public
       Armor.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 22.5 * Map::GRID_WIDTH_HEIGHT),
       
       ColonelSanders.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
+      TableWithChairs.new(window, 36.0 * Map::GRID_WIDTH_HEIGHT, 13.5 * Map::GRID_WIDTH_HEIGHT),
+      TableWithChairs.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map.items = [
       Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 29.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
+      PHP.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 61.0 * Map::GRID_WIDTH_HEIGHT),
       
+      Food.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
       Rails.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
+      PHP.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
       
       Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
@@ -176,8 +179,8 @@ public
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
       
-      Zed.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 10.0 * Map::GRID_WIDTH_HEIGHT),
-      Zed.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 11.0 * Map::GRID_WIDTH_HEIGHT),
+      Zed.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
+      Zed.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map

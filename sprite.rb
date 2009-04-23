@@ -44,6 +44,17 @@ class Lamp
   end
 end
 
+class TableWithChairs
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'tablechairs.png', TEX_HEIGHT)
+  end
+end
+
 class Chandelier
   include Sprite
   
@@ -150,9 +161,16 @@ class Powerup
     my_row, my_column = Map.matrixify(@y, @x)
     player_row, player_column = Map.matrixify(player.y, player.x)
     
-    if my_row == player_row && my_column == player_column && player.health < Player::MAX_HEALTH
+    if my_row == player_row && my_column == player_column &&
+       ((@power_up > 0 && player.health < Player::MAX_HEALTH) || (@power_up < 0 && player.health > 0))
       @interact_sound.play
-      player.health = (player.health + @power_up >= Player::MAX_HEALTH) ? Player::MAX_HEALTH : player.health + @power_up
+      new_health = player.health + @power_up
+      if new_health > Player::MAX_HEALTH
+        new_health = Player::MAX_HEALTH
+      elsif new_health < 0
+        new_health = 0
+      end
+      player.health = new_health
       @map.items.delete(self)
     end
   end
@@ -167,5 +185,11 @@ end
 class Rails < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, 100, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT))
+  end
+end
+
+class PHP < Powerup
+  def initialize(window, map, x, y)
+    super(window, map, x, y, -25, SpritePool::get(window, 'php.png', TEX_HEIGHT), 'fuck_you.mp3')
   end
 end
