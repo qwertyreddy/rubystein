@@ -67,6 +67,8 @@ class GameWindow < Gosu::Window
     @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
     
     @ai_schedule_index = 0
+    @last_row = nil
+    @last_col = nil
   end
 
   def update
@@ -76,8 +78,13 @@ class GameWindow < Gosu::Window
     invoke_items
     invoke_doors
     determine_screen_flash(old_player_health)
+    
     row, col = Map.matrixify(@player.y, @player.x)
-    puts "#{col},#{row}"
+    if @last_row != row || @last_col != col
+      puts "#{col},#{row}"
+      @last_row = row
+      @last_col = col
+    end
   end
 
   def determine_screen_flash(old_health)
