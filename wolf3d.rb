@@ -76,8 +76,8 @@ class GameWindow < Gosu::Window
     invoke_items
     invoke_doors
     determine_screen_flash(old_player_health)
-    #row, col = Map.matrixify(@player.y, @player.x)
-    #puts "#{col},#{row}"
+    row, col = Map.matrixify(@player.y, @player.x)
+    puts "#{col},#{row}"
   end
 
   def determine_screen_flash(old_health)

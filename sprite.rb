@@ -39,6 +39,28 @@ class Lamp
   end
 end
 
+class Chandelier
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'chandelier.bmp', TEX_HEIGHT)
+  end
+end
+
+class Koziarski
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'michael_koziarski.bmp', TEX_HEIGHT)
+  end
+end
+
 class DeadGuard
   include Sprite
   

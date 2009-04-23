@@ -91,7 +91,7 @@ public
     { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
     { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' },
     
-    { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' }
+    { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' },
   ]
 
   PLAYER_X = 29.5 * Map::GRID_WIDTH_HEIGHT
@@ -111,6 +111,12 @@ public
       Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
       Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 58.5 * Map::GRID_WIDTH_HEIGHT),
+      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 47.0 * Map::GRID_WIDTH_HEIGHT),
+      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 42.0 * Map::GRID_WIDTH_HEIGHT),
+      Chandelier.new(window, 39.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      Chandelier.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      Chandelier.new(window, 29.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
+      Koziarski.new(window, 33.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
       ColonelSanders.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
