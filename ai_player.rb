@@ -327,3 +327,18 @@ class Hans < Enemy
     super(window, sprites, map, x, y, step_size, animation_interval)
   end
 end
+
+class Zed < Enemy
+  def initialize(window, map, x, y, step_size = 3, animation_interval = 0.2)
+    sprites = {
+      :idle    => ['zedshaw.png'],
+      :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
+      :firing  => ['zedshaw_attack.png', 'zedshaw_attack2.png'],
+      :damaged => ['zedshaw_damaged.png'],
+      :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
+    }
+    
+    super(window, sprites, map, x, y, step_size, animation_interval)
+    @health = 400
+  end
+end
