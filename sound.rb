@@ -9,6 +9,6 @@ class SoundPool
       @@sounds[file_name] = Gosu::Sample.new(window, file_name)
     end
     
-    @@sounds[file_name]
+    return @@sounds[file_name]
   end
 end

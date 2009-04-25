@@ -1,6 +1,7 @@
 require 'map'
 require 'sprite'
 require 'weapon'
+require 'sound'
 
 module AStar
   Coordinate = Struct.new(:x, :y)
@@ -148,6 +149,8 @@ class AIPlayer
   def interact(player, drawn_sprite_x)
     return if @health <= 0
     
+    self.current_state = :idle if @current_state == :firing && @firing_left == 0
+    
     if @firing_left > 0
       if (@current_anim_seq_id == 0)
         self.fire(player)
@@ -185,7 +188,7 @@ class Enemy < AIPlayer
   attr_accessor :step_size
   attr_accessor :animation_interval
   
-  def initialize(window, kind_tex_paths, map, x, y, kill_score = 100, step_size = 4, animation_interval = 0.2)
+  def initialize(window, kind_tex_paths, map, x, y, firing_sound, kill_score = 100, step_size = 4, animation_interval = 0.2)
     super()
     @window = window
     @x = x
@@ -196,6 +199,7 @@ class Enemy < AIPlayer
     @steps_removed_from_player = 22
     @firing_left = 0
     @kill_score  = kill_score
+    @firing_sound = SoundPool::get(window, firing_sound)
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -218,6 +222,8 @@ class Enemy < AIPlayer
       self.current_state = :damaged
     else
       self.current_state = :dead
+      #TODO : play deathsound here.
+      #@firing_sound.play
       player.score += @kill_score
     end
   end
@@ -313,7 +319,7 @@ class Enemy < AIPlayer
   
   def fire(player)
     return if @current_status == :dead
-    
+    @firing_sound.play
     player.take_damage_from(self)
     
     self.current_state = :firing
@@ -321,7 +327,7 @@ class Enemy < AIPlayer
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, kill_score = 100, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
@@ -330,12 +336,12 @@ class Hans < Enemy
       :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
     }
     
-    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
   end
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, kill_score = 500, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
@@ -346,13 +352,13 @@ class Ronald < Enemy
                    'ronald_dead9.png', 'ronald_dead10.png']
     }
     
-    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
   end
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, kill_score = 1000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['zedshaw.png'],
       :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
@@ -361,7 +367,7 @@ class Zed < Enemy
       :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
     }
     
-    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
     @health = 400
   end
 end
