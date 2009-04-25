@@ -18,6 +18,7 @@ class Player
   attr_accessor :health
   attr_accessor :weapon
   attr_accessor :window
+  attr_accessor :score
   
   def initialize(window)
     @x = 0.0
@@ -25,6 +26,7 @@ class Player
     @angle  = 0.0
     @health = 100
     @window = window
+    @score  = 0
   end
   
   def angle_in_radians

@@ -185,7 +185,7 @@ class Enemy < AIPlayer
   attr_accessor :step_size
   attr_accessor :animation_interval
   
-  def initialize(window, kind_tex_paths, map, x, y, step_size = 4, animation_interval = 0.2)
+  def initialize(window, kind_tex_paths, map, x, y, kill_score = 100, step_size = 4, animation_interval = 0.2)
     super()
     @window = window
     @x = x
@@ -195,6 +195,7 @@ class Enemy < AIPlayer
     @map = map
     @steps_removed_from_player = 22
     @firing_left = 0
+    @kill_score  = kill_score
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -213,7 +214,12 @@ class Enemy < AIPlayer
   def take_damage_from(player)
     return if @current_state == :dead
     @health -= 5 # TODO: Need to refactor this to take into account different weapons.
-    self.current_state = (@health > 0) ? :damaged : :dead
+    if @health > 0
+      self.current_state = :damaged
+    else
+      self.current_state = :dead
+      player.score += @kill_score
+    end
   end
   
   def step_to_adjacent_squarily(target_row, target_column)
@@ -315,7 +321,7 @@ class Enemy < AIPlayer
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, kill_score = 100, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
@@ -324,12 +330,12 @@ class Hans < Enemy
       :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
     }
     
-    super(window, sprites, map, x, y, step_size, animation_interval)
+    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
   end
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, kill_score = 500, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
@@ -340,13 +346,13 @@ class Ronald < Enemy
                    'ronald_dead9.png', 'ronald_dead10.png']
     }
     
-    super(window, sprites, map, x, y, step_size, animation_interval)
+    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
     @health = 200
   end
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, kill_score = 1000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['zedshaw.png'],
       :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
@@ -355,7 +361,7 @@ class Zed < Enemy
       :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
     }
     
-    super(window, sprites, map, x, y, step_size, animation_interval)
+    super(window, sprites, map, x, y, kill_score, step_size, animation_interval)
     @health = 400
   end
 end
