@@ -45,8 +45,8 @@ class GameWindow < Gosu::Window
     @player.y = @map.player_y_init
     @player.angle = @map.player_angle_init
     
-    @wall_perp_distances   = [0]   * Config::WINDOW_WIDTH
-    @drawn_sprite_x        = [nil] * Config::WINDOW_WIDTH
+    @wall_perp_distances   = [0]   #* Config::WINDOW_WIDTH
+    @drawn_sprite_x        = [nil] #* Config::WINDOW_WIDTH
     
     @hud = Gosu::Image::new(self, 'hud.png', true)
     @hud_numbers = SpritePool.get(self, 'numbers.png', 32, 16)
@@ -185,8 +185,10 @@ class GameWindow < Gosu::Window
         return
       end
       
-      if not ( sprite = @drawn_sprite_x[Config::WINDOW_WIDTH/2] ).nil? and sprite.respond_to? :take_damage_from and sprite.health > 0
-        sprite.take_damage_from(@player)
+      sprite_in_crosshair = @drawn_sprite_x[Config::WINDOW_WIDTH/2]
+      
+      if sprite_in_crosshair && sprite_in_crosshair.respond_to?(:take_damage_from) && sprite_in_crosshair.respond_to?(:dead?) && !sprite_in_crosshair.dead?
+        sprite_in_crosshair.take_damage_from(@player)
       end
       
       @fired_weapon = true
@@ -239,11 +241,11 @@ class GameWindow < Gosu::Window
           slices[i].draw(slice, y, sprite.z_order, sprite_pixel_factor, sprite_pixel_factor, 0xffffffff)
           drawn_slice_idx = slice_idx
           
-          while((drawn_slice_idx - x) <= ((i+1) * sprite_pixel_factor))
-            if not (@drawn_sprite_x[drawn_slice_idx] && sprite.z_order > @drawn_sprite_x[drawn_slice_idx].z_order && sprite.respond_to?(:dead?) && sprite.dead?)
-              @drawn_sprite_x[drawn_slice_idx] = sprite 
-            end
-            drawn_slice_idx += 1
+          if sprite.respond_to?(:dead?) && !sprite.dead?
+            old_sprite = @drawn_sprite_x[drawn_slice_idx]
+            old_sprite_is_alive_and_in_front_of_sprite = old_sprite && old_sprite.z_order > sprite.z_order && old_sprite.respond_to?(:dead?) && !old_sprite.dead?
+            
+            @drawn_sprite_x[drawn_slice_idx] = sprite if not old_sprite_is_alive_and_in_front_of_sprite
           end
         end
         
@@ -260,7 +262,6 @@ class GameWindow < Gosu::Window
     ray_angle         = (360 + @player.angle + (Player::FOV / 2)) % 360
     ray_angle_delta   = Player::RAY_ANGLE_DELTA
     
-    #(0...Config::WINDOW_WIDTH).each { |slice|
     slice = 0
     while slice < Config::WINDOW_WIDTH
     
@@ -284,13 +285,8 @@ class GameWindow < Gosu::Window
         n += 1
       end
       
-      if n == 0
-        slice += 1
-      else
-        slice += n
-      end
+      slice += (n == 0) ? 1 : n
     end
-    #}
   end
 
   def draw_hud
