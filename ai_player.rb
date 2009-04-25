@@ -141,9 +141,9 @@ class AIPlayer
   
   attr_accessor :steps_removed_from_player
   
-  def initialize
-    @sight = 10
-    @min_distance = 2
+  def initialize(sight = 10, min_distance = 2)
+    @sight = sight
+    @min_distance = min_distance
   end
   
   def interact(player, drawn_sprite_x)
@@ -159,7 +159,7 @@ class AIPlayer
       return
     end
     
-    if drawn_sprite_x.include?(self) && rand > 0.96
+    if (drawn_sprite_x.include?(self) && rand > 0.96)
       @firing_left = rand(4) * 6
     end
     
@@ -326,6 +326,36 @@ class Enemy < AIPlayer
   end
 end
 
+class MeleeEnemy < Enemy
+  def interact(player, drawn_sprite_x)
+    return if @health <= 0
+    
+    self.current_state = :idle if @current_state == :firing && @firing_left == 0
+    
+    if @firing_left > 0
+      if (@current_anim_seq_id == 0)
+        self.fire(player)
+      end
+      @firing_left -= 1
+      return
+    end
+    
+    start = Coordinate.new(*Map.matrixify(@x, @y))
+    goal  = Coordinate.new(*Map.matrixify(player.x, player.y))
+    
+    h = heuristic_estimate_of_distance(start, goal)
+    
+    if h > @min_distance
+      path  = self.find_path(@map, start, goal)
+      if path
+        self.step_to_adjacent_squarily(path.y, path.x)
+      end
+    elsif h == @min_distance && drawn_sprite_x.include?(self) && rand > 0.5
+      @firing_left = rand(4) * 6
+    end
+  end
+end
+
 class Hans < Enemy
   def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
     sprites = {
@@ -369,5 +399,21 @@ class Zed < Enemy
     
     super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
     @health = 400
+  end
+end
+
+class Dog < MeleeEnemy
+  def initialize(window, map, x, y, firing_sound = 'dog_bark.mp3', kill_score = 100, step_size = 7, animation_interval = 0.2)
+    sprites = {
+      :idle => ['dog_walking.png'],
+      :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],
+      :firing  => ['dog_attacking.png', 'dog_attacking2.png', 'dog_attacking3.png'],
+      :damaged => ['dog_dead.png', 'dog_dead2.png'],
+      :dead    => ['dog_dead.png', 'dog_dead2.png', 'dog_dead3.png', 'dog_dead4.png']
+    }
+    
+    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
+    @health = 100
+    @min_distance = 0
   end
 end
