@@ -245,7 +245,12 @@ class GameWindow < Gosu::Window
             old_sprite = @drawn_sprite_x[drawn_slice_idx]
             old_sprite_is_alive_and_in_front_of_sprite = old_sprite && old_sprite.z_order > sprite.z_order && old_sprite.respond_to?(:dead?) && !old_sprite.dead?
             
-            @drawn_sprite_x[drawn_slice_idx] = sprite if not old_sprite_is_alive_and_in_front_of_sprite
+            if not old_sprite_is_alive_and_in_front_of_sprite
+              while(drawn_slice_idx < (slice + sprite_pixel_factor))
+                @drawn_sprite_x[drawn_slice_idx] = sprite if not old_sprite_is_alive_and_in_front_of_sprite
+                drawn_slice_idx += 1
+              end
+            end
           end
         end
         
