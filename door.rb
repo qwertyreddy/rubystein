@@ -6,6 +6,7 @@ class Door
   attr_reader   :opened_at
   OPEN_CLOSE_STEP = 8
   STAYS_SECONDS_OPEN = 4
+  FULL_VOLUME_WITHIN_GRID_BLOCKS = 5.0
 
   def initialize
     @state = :closed

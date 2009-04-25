@@ -148,15 +148,23 @@ class GameWindow < Gosu::Window
   def invoke_doors
     current_time = Time.now.to_i
 
-    @map.doors.each { |doors_row|
-      doors_row.each { |door|
+    @map.doors.each_with_index { |doors_row, doors_row_index|
+      doors_row.each_with_index { |door, doors_column_index|
         if not door.nil?
           door.interact
           
           row, column = Map.matrixify(@player.y, @player.x)
 
+          d_row    = row - doors_row_index
+          d_column = column - doors_column_index
+          r_2 = (d_row * d_row) + (d_column * d_column)
+          r_2 = (Door::FULL_VOLUME_WITHIN_GRID_BLOCKS * Door::FULL_VOLUME_WITHIN_GRID_BLOCKS) if r_2 == 0
+          
+          door_close_sound_volume = (Door::FULL_VOLUME_WITHIN_GRID_BLOCKS * Door::FULL_VOLUME_WITHIN_GRID_BLOCKS) / r_2
+          door_close_sound_volume = 1.0 if door_close_sound_volume > 1.0
+
           if door.open? && @map.doors[row][column] != door && (current_time - door.opened_at) >= Door::STAYS_SECONDS_OPEN
-            @door_close_sound.play
+            @door_close_sound.play(door_close_sound_volume) if door_close_sound_volume > 0
             door.close!
           end
         end
