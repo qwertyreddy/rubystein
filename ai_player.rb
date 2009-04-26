@@ -330,8 +330,6 @@ class Enemy < AIPlayer
     
     volume = f_2 / (r_2 * 1.25)
     
-    puts volume
-    
     @firing_sound.play(volume)
     player.take_damage_from(self)
     
@@ -369,8 +367,27 @@ class MeleeEnemy < Enemy
   end
 end
 
+class Guard < Enemy
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'guardshot.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
+    sprites = {
+      :idle    => ['guard_idle.png'],
+      :walking => ['guard_walking.png', 'guard_walking2.png', 'guard_walking3.png', 'guard_walking4.png'],
+      :firing  => ['guard_firing.png', 'guard_firing2.png'],
+      :damaged => ['guard_damaged.png', 'guard_dead.png'],
+      :dead    => ['guard_dead.png', 'guard_dead2.png', 'guard_dead3.png', 'guard_dead4.png', 'guard_dead5.png']
+    }
+    
+    # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
+    death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
+    death_sound ||= death_sounds[rand(death_sounds.size - 1)]
+    
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
+    @health = 50
+  end
+end
+
 class Hans < Enemy
-  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'machine_gun_burst.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
@@ -388,7 +405,7 @@ class Hans < Enemy
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 2000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
@@ -405,7 +422,7 @@ class Ronald < Enemy
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['zedshaw.png'],
       :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
@@ -420,7 +437,7 @@ class Zed < Enemy
 end
 
 class Dog < MeleeEnemy
-  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 100, step_size = 7, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
     sprites = {
       :idle => ['dog_walking.png'],
       :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],
