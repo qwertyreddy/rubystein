@@ -188,7 +188,7 @@ class Enemy < AIPlayer
   attr_accessor :step_size
   attr_accessor :animation_interval
   
-  def initialize(window, kind_tex_paths, map, x, y, firing_sound, kill_score = 100, step_size = 4, animation_interval = 0.2)
+  def initialize(window, kind_tex_paths, map, x, y, death_sound, firing_sound, kill_score = 100, step_size = 4, animation_interval = 0.2)
     super()
     @window = window
     @x = x
@@ -200,6 +200,7 @@ class Enemy < AIPlayer
     @firing_left = 0
     @kill_score  = kill_score
     @firing_sound = SoundPool::get(window, firing_sound)
+    @death_sound  = SoundPool::get(window, death_sound)
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -223,7 +224,7 @@ class Enemy < AIPlayer
     else
       self.current_state = :dead
       #TODO : play deathsound here.
-      #@firing_sound.play
+      @death_sound.play
       player.score += @kill_score
     end
   end
@@ -357,7 +358,7 @@ class MeleeEnemy < Enemy
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'machine_gun_burst.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
@@ -366,12 +367,16 @@ class Hans < Enemy
       :dead    => ['hans9.bmp', 'hans10.bmp', 'hans11.bmp']
     }
     
-    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
+    # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
+    death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav']
+    death_sound ||= death_sounds[rand(death_sounds.size)]
+    
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
@@ -382,13 +387,13 @@ class Ronald < Enemy
                    'ronald_dead9.png', 'ronald_dead10.png']
     }
     
-    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
   end
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['zedshaw.png'],
       :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
@@ -397,13 +402,13 @@ class Zed < Enemy
       :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
     }
     
-    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 400
   end
 end
 
 class Dog < MeleeEnemy
-  def initialize(window, map, x, y, firing_sound = 'dog_bark.mp3', kill_score = 100, step_size = 7, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 100, step_size = 7, animation_interval = 0.2)
     sprites = {
       :idle => ['dog_walking.png'],
       :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],
@@ -412,7 +417,7 @@ class Dog < MeleeEnemy
       :dead    => ['dog_dead.png', 'dog_dead2.png', 'dog_dead3.png', 'dog_dead4.png']
     }
     
-    super(window, sprites, map, x, y, firing_sound, kill_score, step_size, animation_interval)
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 100
     @min_distance = 0
   end
