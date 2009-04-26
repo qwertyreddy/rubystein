@@ -185,6 +185,8 @@ class AIPlayer
 end
 
 class Enemy < AIPlayer
+  FIRING_SOUND_BLOCKS = 2.5
+  
   attr_accessor :step_size
   attr_accessor :animation_interval
   
@@ -320,7 +322,17 @@ class Enemy < AIPlayer
   
   def fire(player)
     return if @current_status == :dead
-    @firing_sound.play
+    dx = player.x - @x
+    dy = player.y - @y
+    r_2 = dx * dx + dy * dy
+    f_2 = FIRING_SOUND_BLOCKS * FIRING_SOUND_BLOCKS * Map::GRID_WIDTH_HEIGHT * Map::GRID_WIDTH_HEIGHT
+    r_2 = f_2 if r_2 < f_2
+    
+    volume = f_2 / (r_2 * 1.25)
+    
+    puts volume
+    
+    @firing_sound.play(volume)
     player.take_damage_from(self)
     
     self.current_state = :firing
