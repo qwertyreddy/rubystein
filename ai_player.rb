@@ -369,7 +369,7 @@ class Hans < Enemy
     
     # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
     death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav']
-    death_sound ||= death_sounds[rand(death_sounds.size)]
+    death_sound ||= death_sounds[rand(death_sounds.size - 1)]
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
