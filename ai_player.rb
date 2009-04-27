@@ -419,7 +419,7 @@ class Ronald < Enemy
     }
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 200
+    @health = 250
   end
 end
 
@@ -438,6 +438,22 @@ class Zed < Enemy
   end
 end
 
+class Thin < Enemy
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'meine_sql.wav', kill_score = 500, step_size = 3, animation_interval = 0.5)
+    sprites = {
+      :idle    => ['thin.png'],
+      :walking => ['thin.png', 'thin2.png'],
+      :firing  => ['thin_attacking.png', 'thin_attacking2.png'],
+      :damaged => ['thin_damaged.png'],
+      :dead    => ['thin_dead.png', 'thin_dead2.png', 'thin_dead3.png', 'thin_dead4.png']
+    }
+    
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
+    @health = 130
+    @min_distance = 1
+  end
+end
+
 class Dog < MeleeEnemy
   def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
     sprites = {
@@ -450,6 +466,6 @@ class Dog < MeleeEnemy
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 100
-    @min_distance = 0
+    @min_distance = 1
   end
 end
