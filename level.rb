@@ -161,6 +161,8 @@ public
       Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 29.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
       PHP.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 61.0 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
       
       Food.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
       Rails.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
@@ -179,6 +181,15 @@ public
       Guard.new(window, map, 40.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
       Thin.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
+      
+      Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 38.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 38.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
+      Dog.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
       
       Hans.new(window, map, 31.0 * Map::GRID_WIDTH_HEIGHT, 35.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 31.0 * Map::GRID_WIDTH_HEIGHT),

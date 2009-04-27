@@ -449,7 +449,7 @@ class Thin < Enemy
     }
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 130
+    @health = 200
     @min_distance = 1
   end
 end
