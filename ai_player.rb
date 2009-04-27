@@ -225,7 +225,7 @@ class Enemy < AIPlayer
       self.current_state = :damaged
     else
       self.current_state = :dead
-      #TODO : play deathsound here.
+      @firing_sound_sample.stop if @firing_sound_sample
       @death_sound.play
       player.score += @kill_score
     end
@@ -330,7 +330,9 @@ class Enemy < AIPlayer
     
     volume = f_2 / (r_2 * 1.25)
     
-    @firing_sound.play(volume)
+    if @firing_sound_sample.nil? || !@firing_sound_sample.playing?
+      @firing_sound_sample = @firing_sound.play(volume)
+    end
     player.take_damage_from(self)
     
     self.current_state = :firing
@@ -405,7 +407,7 @@ class Hans < Enemy
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 2000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'balloon.mp3', firing_sound = 'floating.mp3', kill_score = 2000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
