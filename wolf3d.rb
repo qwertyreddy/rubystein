@@ -20,6 +20,9 @@ module ZOrder
   SPRITES    = 2
   WEAPON     = 9999
   HUD        = 10000
+  SCREEN_FLASH    = HUD + 3
+  TEXT_BACKGROUND = HUD + 4
+  TEXT            = HUD + 5
 end
 
 class GameWindow < Gosu::Window
@@ -29,6 +32,8 @@ class GameWindow < Gosu::Window
   POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 255, 0, 0)
   POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 141, 198, 63)
   TEXT_BACKGROUND_COLOR        = Gosu::Color.new(128, 0, 0, 0)
+  TEXT_BACKGROUND_PADDING      = 6
+  TEXT_VERTICAL_SPACING        = 1
   MIN_TEXT_APPEARENCE_TIME     = 3
   
   TOP  = 0
@@ -384,7 +389,7 @@ class GameWindow < Gosu::Window
       draw_quad(
         TOP, LEFT, screen_flash_color, RIGHT, TOP,
         screen_flash_color, RIGHT, BOTTOM, screen_flash_color,
-        LEFT, BOTTOM, screen_flash_color, ZOrder::HUD + 3
+        LEFT, BOTTOM, screen_flash_color, ZOrder::SCREEN_FLASH
       )
     end
   end
@@ -395,21 +400,31 @@ class GameWindow < Gosu::Window
         @active_text = nil
         @active_text_timeout = nil
       else
-        image = ImagePool.get_text(self, @active_text)
-        image_x = (RIGHT - LEFT) / 2 - image.width / 2
-        image_y = 20
-      
-        bg_left = image_x - 7
-        bg_top  = image_y - 7
-        bg_right  = image_x + image.width + 7
-        bg_bottom = image_y + image.height + 7
-      
+        images  = ImagePool.get_text(self, @active_text)
+        y       = 12
+        bg_top  = y
+        bg_left = bg_right = bg_bottom = nil
+        
+        images.each do |image|
+          x = (RIGHT - LEFT) / 2 - image.width / 2
+          image.draw(x, y, ZOrder::TEXT)
+          y += image.height + TEXT_VERTICAL_SPACING
+          
+          bg_left = x if bg_left.nil? || x < bg_left
+          bg_right = x + image.width if bg_right.nil? || x + image.width > bg_right
+        end
+        bg_bottom = y - TEXT_VERTICAL_SPACING
+        
+        bg_left   -= TEXT_BACKGROUND_PADDING
+        bg_right  += TEXT_BACKGROUND_PADDING
+        bg_top    -= TEXT_BACKGROUND_PADDING
+        bg_bottom += TEXT_BACKGROUND_PADDING
+        
         draw_quad(bg_left, bg_top, TEXT_BACKGROUND_COLOR,
                   bg_right, bg_top, TEXT_BACKGROUND_COLOR,
                   bg_right, bg_bottom, TEXT_BACKGROUND_COLOR,
                   bg_left, bg_bottom, TEXT_BACKGROUND_COLOR,
-                  ZOrder::HUD + 4)
-        image.draw(image_x, image_y, ZOrder::HUD + 5)
+                  ZOrder::TEXT_BACKGROUND)
       end
     end
   end

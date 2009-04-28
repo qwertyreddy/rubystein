@@ -14,7 +14,10 @@ class ImagePool
   
   def self.get_text(window, text)
     if !@@image_texts.has_key?(text)
-      @@image_texts[text] = Gosu::Image.from_text(window, text, "Arial", 24)
+      lines = text.split("\n")
+      @@image_texts[text] = lines.map do |line|
+        Gosu::Image.from_text(window, line, "Arial", 24)
+      end
     end
     @@image_texts[text]
   end
