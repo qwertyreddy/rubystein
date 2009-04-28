@@ -221,7 +221,7 @@ end
 
 class Info < Powerup
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
-    super(window, map, x, y, 35, SpritePool::get(window, 'info_tile.png', TEX_HEIGHT))
+    super(window, map, x, y, 35, SpritePool::get(window, 'info.png', TEX_HEIGHT))
     @always_interact = true
     @text = text
     @change_bg_song_to = change_bg_song_to
