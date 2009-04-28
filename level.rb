@@ -191,7 +191,7 @@ public
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
       
       Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
-               "Fabio Akita: \"OMG HELP MEE! DUN WANNA DIE!!11\""),
+               "AkitaOnRails: \"OMG HELP MEE! DUN WANNA DIE!!11\""),
       Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
                "Antonio Cangiano: \"Now on sale: Ruby on\nRails for Microsoft Developers\""),
       Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 55.5 * Map::GRID_WIDTH_HEIGHT,
