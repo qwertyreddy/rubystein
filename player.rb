@@ -11,6 +11,7 @@ class Player
   MAX_HEALTH = 100
   
   
+  attr_reader   :attrs
   attr_accessor :x
   attr_accessor :y
   attr_accessor :height
@@ -27,6 +28,7 @@ class Player
     @health = 100
     @window = window
     @score  = 0
+    @attrs  = {}
   end
   
   def angle_in_radians

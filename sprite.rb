@@ -143,43 +143,66 @@ class ColonelSanders
   end
 end
 
-class Powerup
+class Item
   include Sprite
   
-  def initialize(window, map, x, y, power_up, slices, sound_file = nil)
+  def initialize(window, map, x, y, slices)
     @window = window
     @x = x
     @y = y
     @map = map
     @slices = slices
-    @power_up = power_up
-    
-    @interact_sound = sound_file.nil? ? SoundPool::get(window, 'ammo.mp3') : SoundPool::get(window, sound_file)
   end
   
-  def interact(player)
-    my_row, my_column = Map.matrixify(@y, @x)
-    player_row, player_column = Map.matrixify(player.y, player.x)
-    
-    if my_row == player_row && my_column == player_column &&
-       (@always_interact ||
-        (@power_up > 0 && player.health < Player::MAX_HEALTH) ||
-        (@power_up < 0 && player.health > 0)
-       )
-      @interact_sound.play
-      @window.show_text(@text) if @text
-      new_health = player.health + @power_up
-      if new_health > Player::MAX_HEALTH
-        new_health = Player::MAX_HEALTH
-      elsif new_health < 0
-        new_health = 0
-      end
-      player.health = new_health
-      @map.items.delete(self)
-      true
+  def interaction_has_effect?(player)
+    last_item_interaction = player.attrs[:last_item_interaction]
+    if last_item_interaction[:x] != (player.x / Map::GRID_WIDTH_HEIGHT).to_i &&
+       last_item_interaction[:y] != (player.y / Map::GRID_WIDTH_HEIGHT).to_i
+      my_row, my_column = Map.matrixify(@y, @x)
+      player_row, player_column = Map.matrixify(player.y, player.x)
+      my_row == player_row && my_column == player_column
     else
       false
     end
+  end
+  
+  def interact(player)
+    player.attrs[:last_item_interaction] ||= {}
+    if interaction_has_effect?(player)
+      player.attrs[:last_item_interaction][:x] = (player.x / Map::GRID_WIDTH_HEIGHT).to_i
+      player.attrs[:last_item_interaction][:y] = (player.y / Map::GRID_WIDTH_HEIGHT).to_i
+      execute_interaction_effect(player)
+    end
+  end
+end
+
+class Powerup < Item
+  include Sprite
+  
+  def initialize(window, map, x, y, power_up, slices, sound_file = nil)
+    super(window, map, x, y, slices)
+    @power_up = power_up
+    @interact_sound = SoundPool::get(window, sound_file || 'ammo.mp3')
+  end
+  
+  def interaction_has_effect?(player)
+    super(player) && (
+      (@power_up > 0 && player.health < Player::MAX_HEALTH) ||
+      (@power_up < 0 && player.health > 0)
+    )
+  end
+  
+  def execute_interaction_effect(player)
+    @interact_sound.play
+    @window.show_text(@text) if @text
+    new_health = player.health + @power_up
+    if new_health > Player::MAX_HEALTH
+      new_health = Player::MAX_HEALTH
+    elsif new_health < 0
+      new_health = 0
+    end
+    player.health = new_health
+    @map.items.delete(self)
   end
 end
 
@@ -204,32 +227,15 @@ class PHP < Powerup
   end
 end
 
-class Peepcode < Powerup
+class Info < Item
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
-    super(window, map, x, y, 35, SpritePool::get(window, 'peepcode_powerup.png', TEX_HEIGHT))
-    @always_interact = true
+    super(window, map, x, y, SpritePool::get(window, 'info.png', TEX_HEIGHT))
     @text = text
     @change_bg_song_to = change_bg_song_to
   end
   
-  def interact(player)
-    if super(player) && @change_bg_song_to
-      @window.background_song = @change_bg_song_to
-    end
-  end
-end
-
-class Info < Powerup
-  def initialize(window, map, x, y, text, change_bg_song_to = nil)
-    super(window, map, x, y, 35, SpritePool::get(window, 'info.png', TEX_HEIGHT))
-    @always_interact = true
-    @text = text
-    @change_bg_song_to = change_bg_song_to
-  end
-  
-  def interact(player)
-    if super(player) && @change_bg_song_to
-      @window.background_song = @change_bg_song_to
-    end
+  def execute_interaction_effect(player)
+    @window.show_text(@text) if @text
+    @window.background_song = @change_bg_song_to if @change_bg_song_to
   end
 end
