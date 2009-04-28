@@ -132,6 +132,17 @@ class Armor
   end
 end
 
+class Vase
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'vase.png', TEX_HEIGHT)
+  end
+end
+
 class ColonelSanders
   include Sprite
   
