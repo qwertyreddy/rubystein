@@ -29,7 +29,7 @@ class GameWindow < Gosu::Window
   POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 255, 0, 0)
   POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 141, 198, 63)
   TEXT_BACKGROUND_COLOR        = Gosu::Color.new(128, 0, 0, 0)
-  TEXT_APPEARENCE_TIME         = 3
+  MIN_TEXT_APPEARENCE_TIME     = 3
   
   TOP  = 0
   LEFT = 0
@@ -216,7 +216,9 @@ class GameWindow < Gosu::Window
   
   def show_text(text)
     @active_text = text
-    @active_text_time = Time.now
+    @active_text_timeout = 0.6 + (text.size * 0.1)
+    @active_text_timeout = MIN_TEXT_APPEARENCE_TIME if @active_text_timeout < MIN_TEXT_APPEARENCE_TIME
+    @active_text_timeout = Time.now + @active_text_timeout
   end
 
   def draw_sprites
@@ -389,9 +391,9 @@ class GameWindow < Gosu::Window
   
   def draw_text
     if @active_text
-      if @active_text_time + TEXT_APPEARENCE_TIME < Time.now
+      if Time.now > @active_text_timeout
         @active_text = nil
-        @active_text_time = nil
+        @active_text_timeout = nil
       else
         image = ImagePool.get_text(self, @active_text)
         image_x = (RIGHT - LEFT) / 2 - image.width / 2
