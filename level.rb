@@ -180,6 +180,10 @@ public
                    "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
       Peepcode.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
                    "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
+      Peepcode.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
+                   "Don't worry Pratik, Koz, I'll free you guys in no time!"),
+      Peepcode.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
+                   "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\""),
     ]
     
     map.players = [
