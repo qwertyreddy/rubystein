@@ -196,7 +196,7 @@ class Enemy < AIPlayer
     @x = x
     @y = y
     @slices = {}
-    @health = 100
+    @health ||= 100
     @map = map
     @steps_removed_from_player = 22
     @firing_left = 0
@@ -440,12 +440,30 @@ class Zed < Enemy
     }
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 400
+    @health = 300
+  end
+end
+
+class TrueZed < Enemy
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+    sprites = {
+      :idle    => ['rockzed.png'],
+      :walking => ['rockzed_moving.png', 'rockzed_moving2.png'],
+      :firing  => ['rockzed_attacking.png', 'rockzed_attacking2.png', 'rockzed_attacking3.png',
+                   'rockzed_attacking4.png', 'rockzed_attacking5.png', 'rockzed_attacking6.png',
+                   'rockzed_attacking7.png', 'rockzed_attacking8.png', 'rockzed_attacking9.png'],
+      :damaged => ['zedshaw_damaged.png'],
+      :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
+    }
+    
+    @name = "True Zed Shaw"
+    @health = 500
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
 end
 
 class Thin < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'meine_sql.wav', kill_score = 500, step_size = 3, animation_interval = 0.5)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 500, step_size = 3, animation_interval = 0.5)
     sprites = {
       :idle    => ['thin.png'],
       :walking => ['thin.png', 'thin2.png'],
@@ -453,6 +471,10 @@ class Thin < Enemy
       :damaged => ['thin_damaged.png'],
       :dead    => ['thin_dead.png', 'thin_dead2.png', 'thin_dead3.png', 'thin_dead4.png']
     }
+    
+    sounds         = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
+    death_sound  ||= sounds[rand(sounds.size - 1)]
+    firing_sound ||= sounds[rand(sounds.size - 1)]
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200

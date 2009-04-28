@@ -205,12 +205,14 @@ public
       Hans.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 31.0 * Map::GRID_WIDTH_HEIGHT),
       
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 27.0 * Map::GRID_WIDTH_HEIGHT),
-      Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),
+      Guard.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
       
       Ronald.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
       Zed.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
       Zed.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
+      
+      TrueZed.new(window, map, 19.0 * Map::GRID_WIDTH_HEIGHT, 18.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map
