@@ -9,7 +9,6 @@ SOUND_TO_TEXT = {
   'dog_bark.mp3'    => 'Bark!',
   'dog_cry.mp3'     => ':-(',
   'floating.mp3'    => 'They are all FLOATING!',
-  'fuck_you.mp3'    => '\"Fuck you!\"',
 }
 
 class SoundPool

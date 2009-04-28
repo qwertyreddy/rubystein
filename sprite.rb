@@ -164,6 +164,7 @@ class Powerup
     if my_row == player_row && my_column == player_column &&
        ((@power_up > 0 && player.health < Player::MAX_HEALTH) || (@power_up < 0 && player.health > 0))
       @interact_sound.play
+      @window.show_text(@text) if @text
       new_health = player.health + @power_up
       if new_health > Player::MAX_HEALTH
         new_health = Player::MAX_HEALTH
@@ -179,17 +180,20 @@ end
 class Food < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, 25, SpritePool::get(window, 'food.bmp', TEX_HEIGHT))
+    @text = 'Food: +25 HP!'
   end
 end
 
 class Rails < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, 100, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT))
+    @text = 'Rails: +100 HP!'
   end
 end
 
 class PHP < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, -25, SpritePool::get(window, 'php.png', TEX_HEIGHT), 'fuck_you.mp3')
+    @text = 'PHP: "Fuck you!"'
   end
 end
