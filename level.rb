@@ -176,13 +176,13 @@ public
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
       
-      Peepcode.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT,
+      Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT,
                    "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
-      Peepcode.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
+      Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
                    "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
-      Peepcode.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
+      Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
                    "Don't worry Pratik, Koz, I'll free you guys in no time!"),
-      Peepcode.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT,
+      Info.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT,
                    "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\"",
                    "enter_zed.ogg"),
     ]
