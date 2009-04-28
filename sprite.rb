@@ -234,7 +234,7 @@ end
 
 class Info < Item
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
-    super(window, map, x, y, SpritePool::get(window, 'info.png', TEX_HEIGHT))
+    super(window, map, x, y, SpritePool::get(window, @image || 'info.png', TEX_HEIGHT))
     @text = text
     @sound = SoundPool::get(window, 'Message_Received.ogg')
     @change_bg_song_to = change_bg_song_to
@@ -244,5 +244,12 @@ class Info < Item
     @sound.play
     @window.show_text(@text) if @text
     @window.background_song = @change_bg_song_to if @change_bg_song_to
+  end
+end
+
+class InvisibleInfo < Info
+  def initialize(window, map, x, y, text, change_bg_song_to = nil)
+    @image = 'invisible_item.png'
+    super(window, map, x, y, text, change_bg_song_to)
   end
 end

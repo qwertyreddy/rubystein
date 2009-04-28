@@ -189,8 +189,11 @@ public
       Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
                "Don't worry Pratik, Koz, I'll free you guys in no time!"),
       Info.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT,
-               "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\"",
-               "enter_zed.ogg"),
+               "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\""),
+      InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
+                        nil, "enter_zed.ogg"),
+      InvisibleInfo.new(window, map, 29.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT,
+                        "Those weren't Zed Shaws, they're too weak.\nThe real one must be hiding somewhere!"),
     ]
     
     map.players = [
