@@ -61,9 +61,7 @@ class GameWindow < Gosu::Window
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
-    @song = Gosu::Song.new(self, 'getthem.mp3')
-    @song.volume = 0.3
-    @song.play(true)
+    self.background_song = nil  # Play default background song.
     @fire_sound = Gosu::Sample.new(self, 'fire.wav')
     @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
     @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
@@ -77,6 +75,13 @@ class GameWindow < Gosu::Window
     @ai_schedule_index = 0
     @last_row = nil
     @last_col = nil
+  end
+  
+  def background_song=(filename)
+    @bg_song.stop if @bg_song
+    @bg_song = Gosu::Song.new(self, filename || 'getthem.mp3')
+    @bg_song.volume = 0.3
+    @bg_song.play(true)
   end
 
   def update

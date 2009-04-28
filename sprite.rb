@@ -176,6 +176,9 @@ class Powerup
       end
       player.health = new_health
       @map.items.delete(self)
+      true
+    else
+      false
     end
   end
 end
@@ -202,9 +205,16 @@ class PHP < Powerup
 end
 
 class Peepcode < Powerup
-  def initialize(window, map, x, y, text)
+  def initialize(window, map, x, y, text, change_bg_song_to = nil)
     super(window, map, x, y, 35, SpritePool::get(window, 'peepcode_powerup.png', TEX_HEIGHT))
     @always_interact = true
     @text = text
+    @change_bg_song_to = change_bg_song_to
+  end
+  
+  def interact(player)
+    if super(player) && @change_bg_song_to
+      @window.background_song = @change_bg_song_to
+    end
   end
 end
