@@ -162,8 +162,8 @@ class AIPlayer
       return
     end
     
-    if (drawn_sprite_x.include?(self) && rand > 0.96)
-      @firing_left = rand(4) * 6
+    if (drawn_sprite_x.include?(self) && rand > 0.8)
+      @firing_left = 1 + rand(5)
     end
     
     #dx = player.x - @x
@@ -372,7 +372,7 @@ class MeleeEnemy < Enemy
         self.step_to_adjacent_squarily(path.y, path.x)
       end
     elsif h == @min_distance && drawn_sprite_x.include?(self) && rand > 0.5
-      @firing_left = rand(4) * 6
+      @firing_left = 1 + rand(5)
     end
   end
 end
