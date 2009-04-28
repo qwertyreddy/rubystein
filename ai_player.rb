@@ -452,8 +452,9 @@ class TrueZed < Enemy
       :firing  => ['rockzed_attacking.png', 'rockzed_attacking2.png', 'rockzed_attacking3.png',
                    'rockzed_attacking4.png', 'rockzed_attacking5.png', 'rockzed_attacking6.png',
                    'rockzed_attacking7.png', 'rockzed_attacking8.png', 'rockzed_attacking9.png'],
-      :damaged => ['zedshaw_damaged.png'],
-      :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
+      :damaged => ['rockzed_damaged.png'],
+      :dead    => ['rockzed_dead.png', 'rockzed_dead2.png', 'rockzed_dead4.png', 'rockzed_dead5.png',
+                   'rockzed_dead6.png']
     }
     
     @name = "True Zed Shaw"
