@@ -175,12 +175,17 @@ public
       Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
+      
+      Peepcode.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT,
+                   "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
+      Peepcode.new(window, map, 34.0 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
+                   "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
     ]
     
     map.players = [
       Guard.new(window, map, 40.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
       Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
+      Thin.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 41.5 * Map::GRID_WIDTH_HEIGHT),
       
       Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
       Dog.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),

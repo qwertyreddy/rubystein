@@ -16,7 +16,7 @@ class ImagePool
     if !@@image_texts.has_key?(text)
       lines = text.split("\n")
       @@image_texts[text] = lines.map do |line|
-        Gosu::Image.from_text(window, line, "Arial", 24)
+        Gosu::Image.from_text(window, line, "Arial", 26)
       end
     end
     @@image_texts[text]
