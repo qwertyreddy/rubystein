@@ -225,6 +225,13 @@ class PHP < Powerup
   end
 end
 
+class Fries < Powerup
+  def initialize(window, map, x, y)
+    super(window, map, x, y, 35, SpritePool::get(window, 'ronald_dead10.png', TEX_HEIGHT), 'fuck_you.mp3')
+    @text = "French Fries: +35 HP!\nBut don't eat too much, it's bad for your health."
+  end
+end
+
 class Info < Item
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
     super(window, map, x, y, SpritePool::get(window, 'info.png', TEX_HEIGHT))

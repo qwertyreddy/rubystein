@@ -309,6 +309,11 @@ class Enemy < AIPlayer
     # Serve up current slice
     now = Time.now.to_f
     
+    if @current_state == :dead && @current_anim_seq_id + 1 == @slices[:dead].size && !@on_death_called
+      @on_death_called = true
+      on_death if respond_to?(:on_death)
+    end
+    
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
       if now >= @last_draw_time + @animation_interval
         @current_anim_seq_id += 1
@@ -429,6 +434,11 @@ class Ronald < Enemy
     @name = "Pennywise McDonalds"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 250
+  end
+  
+  def on_death
+    @map.players.delete(self)
+    @map.items << Fries.new(@window, @map, x, y)
   end
 end
 
