@@ -470,6 +470,7 @@ class Dog < MeleeEnemy
       :dead    => ['dog_dead.png', 'dog_dead2.png', 'dog_dead3.png', 'dog_dead4.png']
     }
     
+    @name = "Mongrel"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 100
     @min_distance = 1
