@@ -152,12 +152,12 @@ class Item
     @y = y
     @map = map
     @slices = slices
+    @last_interaction_time = 0
   end
   
   def interaction_has_effect?(player)
-    last_item_interaction = player.attrs[:last_item_interaction]
-    if last_item_interaction[:x] != (player.x / Map::GRID_WIDTH_HEIGHT).to_i &&
-       last_item_interaction[:y] != (player.y / Map::GRID_WIDTH_HEIGHT).to_i
+    # Hack: do not repeatedly interact with player who's standing still.
+    if @last_interaction_time + 10 < Time.now.to_f
       my_row, my_column = Map.matrixify(@y, @x)
       player_row, player_column = Map.matrixify(player.y, player.x)
       my_row == player_row && my_column == player_column
@@ -167,10 +167,8 @@ class Item
   end
   
   def interact(player)
-    player.attrs[:last_item_interaction] ||= {}
     if interaction_has_effect?(player)
-      player.attrs[:last_item_interaction][:x] = (player.x / Map::GRID_WIDTH_HEIGHT).to_i
-      player.attrs[:last_item_interaction][:y] = (player.y / Map::GRID_WIDTH_HEIGHT).to_i
+      @last_interaction_time = Time.now.to_f
       execute_interaction_effect(player)
     end
   end
