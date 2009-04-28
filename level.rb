@@ -158,7 +158,7 @@ public
     ]
     
     map.items = [
-      Food.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
+      Food.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 29.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
       PHP.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 61.0 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
@@ -176,15 +176,21 @@ public
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
       
+      Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
+               "Fabio Akita: \"OMG HELP MEE! DUN WANNA DIE!!11\""),
+      Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
+               "Antonio Cangiano: \"Now on sale: Ruby on\nRails for Microsoft Developers\""),
+      Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 55.5 * Map::GRID_WIDTH_HEIGHT,
+               "Peter Cooper: \"You are our last hope.\nShow the people that Rails CAN scale!\""),
       Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT,
-                   "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
+               "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
       Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
-                   "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
+               "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
       Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
-                   "Don't worry Pratik, Koz, I'll free you guys in no time!"),
+               "Don't worry Pratik, Koz, I'll free you guys in no time!"),
       Info.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT,
-                   "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\"",
-                   "enter_zed.ogg"),
+               "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\"",
+               "enter_zed.ogg"),
     ]
     
     map.players = [
