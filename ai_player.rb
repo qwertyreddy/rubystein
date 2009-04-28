@@ -383,7 +383,7 @@ class MeleeEnemy < Enemy
 end
 
 class Guard < Enemy
-  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'guardshot.mp3', kill_score = 100, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 100, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['guard_idle.png'],
       :walking => ['guard_walking.png', 'guard_walking2.png', 'guard_walking3.png', 'guard_walking4.png'],
@@ -392,9 +392,9 @@ class Guard < Enemy
       :dead    => ['guard_dead.png', 'guard_dead2.png', 'guard_dead3.png', 'guard_dead4.png', 'guard_dead5.png']
     }
     
-    # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
-    death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
-    death_sound ||= death_sounds[rand(death_sounds.size - 1)]
+    sounds  = ['long live php.mp3', 'myphplife.mp3', 'my damn php life.mp3', 'phpforever.mp3']
+    firing_sound ||= sounds[rand(sounds.size - 1)]
+    death_sound  ||= sounds[rand(sounds.size - 1)]
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 50
