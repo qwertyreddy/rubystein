@@ -448,7 +448,7 @@ class Zed < Enemy
 end
 
 class TrueZed < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'test_all_the_effing_time_is_lame.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['rockzed.png'],
       :walking => ['rockzed_moving.png', 'rockzed_moving2.png'],
