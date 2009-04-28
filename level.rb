@@ -190,6 +190,9 @@ public
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
       
+      Food.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 10.5 * Map::GRID_WIDTH_HEIGHT),
+      Rails.new(window, map, 20.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
+      
       Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
                "AkitaOnRails: \"OMG HELP MEE! DUN WANNA DIE!!11\""),
       Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
@@ -207,7 +210,8 @@ public
       InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
                         nil, "enter_zed.ogg"),
       InvisibleInfo.new(window, map, 29.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT,
-                        "Those weren't Zed Shaws, they're too weak.\nThe real one must be hiding somewhere!"),
+                        "Those weren't Zed Shaws, they're too weak.\nThe real one must be hiding somewhere!",
+                        "getthem.mp3"),
     ]
     
     map.players = [
@@ -236,7 +240,13 @@ public
       Zed.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
       Zed.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
       
-      TrueZed.new(window, map, 19.0 * Map::GRID_WIDTH_HEIGHT, 18.0 * Map::GRID_WIDTH_HEIGHT),
+      Guard.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 11.0 * Map::GRID_WIDTH_HEIGHT),
+      Guard.new(window, map, 24.5 * Map::GRID_WIDTH_HEIGHT, 12.0 * Map::GRID_WIDTH_HEIGHT),
+      Guard.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 15.0 * Map::GRID_WIDTH_HEIGHT),
+      Guard.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
+      Hans.new(window, map, 17.5 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
+      
+      TrueZed.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map
