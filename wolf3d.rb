@@ -10,6 +10,7 @@ require 'player'
 require 'ai_player'
 require 'sprite'
 require 'door'
+require 'image_pool'
 
 require 'level'
 
@@ -27,6 +28,8 @@ class GameWindow < Gosu::Window
   SCREEN_FLASH_STEP      = 5
   POWERDOWN_SCREEN_FLASH_COLOR = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 255, 0, 0)
   POWERUP_SCREEN_FLASH_COLOR   = Gosu::Color.new(SCREEN_FLASH_MAX_ALPHA, 141, 198, 63)
+  TEXT_BACKGROUND_COLOR        = Gosu::Color.new(128, 0, 0, 0)
+  TEXT_APPEARENCE_TIME         = 3
   
   TOP  = 0
   LEFT = 0
@@ -210,6 +213,11 @@ class GameWindow < Gosu::Window
       close
     end
   end
+  
+  def show_text(text)
+    @active_text = text
+    @active_text_time = Time.now
+  end
 
   def draw_sprites
     @drawn_sprite_x.clear
@@ -378,6 +386,31 @@ class GameWindow < Gosu::Window
       )
     end
   end
+  
+  def draw_text
+    if @active_text
+      if @active_text_time + TEXT_APPEARENCE_TIME < Time.now
+        @active_text = nil
+        @active_text_time = nil
+      else
+        image = ImagePool.get_text(self, @active_text)
+        image_x = (RIGHT - LEFT) / 2 - image.width / 2
+        image_y = 20
+      
+        bg_left = image_x - 7
+        bg_top  = image_y - 7
+        bg_right  = image_x + image.width + 7
+        bg_bottom = image_y + image.height + 7
+      
+        draw_quad(bg_left, bg_top, TEXT_BACKGROUND_COLOR,
+                  bg_right, bg_top, TEXT_BACKGROUND_COLOR,
+                  bg_right, bg_bottom, TEXT_BACKGROUND_COLOR,
+                  bg_left, bg_bottom, TEXT_BACKGROUND_COLOR,
+                  ZOrder::HUD + 4)
+        image.draw(image_x, image_y, ZOrder::HUD + 5)
+      end
+    end
+  end
 
   def draw
     draw_scene
@@ -385,6 +418,7 @@ class GameWindow < Gosu::Window
     draw_weapon
     draw_hud
     draw_screen_flash
+    draw_text
   end
   
 end

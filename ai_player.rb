@@ -203,6 +203,9 @@ class Enemy < AIPlayer
     @kill_score  = kill_score
     @firing_sound = SoundPool::get(window, firing_sound)
     @death_sound  = SoundPool::get(window, death_sound)
+    @name       ||= self.class.to_s
+    @firing_text  = "#{@name}: \"#{SOUND_TO_TEXT[firing_sound]}\"" if SOUND_TO_TEXT.has_key?(firing_sound)
+    @death_text   = "#{@name}: \"#{SOUND_TO_TEXT[death_sound]}\"" if SOUND_TO_TEXT.has_key?(death_sound)
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -227,6 +230,7 @@ class Enemy < AIPlayer
       self.current_state = :dead
       @firing_sound_sample.stop if @firing_sound_sample
       @death_sound.play
+      @window.show_text(@death_text) if @death_text
       player.score += @kill_score
     end
   end
@@ -332,6 +336,7 @@ class Enemy < AIPlayer
     
     if @firing_sound_sample.nil? || !@firing_sound_sample.playing?
       @firing_sound_sample = @firing_sound.play(volume)
+      @window.show_text(@firing_text) if @firing_text
     end
     player.take_damage_from(self)
     
@@ -418,6 +423,7 @@ class Ronald < Enemy
                    'ronald_dead9.png', 'ronald_dead10.png']
     }
     
+    @name = "Pennywise McDonalds"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 250
   end
