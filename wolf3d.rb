@@ -69,6 +69,7 @@ class GameWindow < Gosu::Window
     @hud_numbers = SpritePool.get(self, 'numbers.png', 32, 16)
     @weapon_idle = Gosu::Image::new(self, 'hand1.bmp', true)
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
+    @rainbow     = Gosu::Image.new(self, 'rainbow.png', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
     self.background_song = nil  # Play default background song.
     @fire_sound = Gosu::Sample.new(self, 'fire.wav')
@@ -505,6 +506,7 @@ class GameWindow < Gosu::Window
     
     if @fired_weapon
       @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
+      @rainbow.draw(290, 150 + dy, ZOrder::WEAPON + 1)
       @fire_sound.play(0.2)
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
