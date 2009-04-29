@@ -99,7 +99,25 @@ class GameWindow < Gosu::Window
       @last_col = col
     end
   end
+  
+  def draw
+    draw_scene
+    draw_sprites
+    draw_weapon
+    draw_hud
+    draw_screen_flash
+    draw_text
+  end
+  
+  def show_text(text)
+    @active_text = text
+    @active_text_timeout = 0.6 + (text.size * 0.15)
+    @active_text_timeout = MIN_TEXT_APPEARENCE_TIME if @active_text_timeout < MIN_TEXT_APPEARENCE_TIME
+    @active_text_timeout = Time.now + @active_text_timeout
+  end
 
+  private
+  
   def determine_screen_flash(old_health)
     if old_health < @player.health
       # Power-up
@@ -223,13 +241,6 @@ class GameWindow < Gosu::Window
       close
     end
   end
-  
-  def show_text(text)
-    @active_text = text
-    @active_text_timeout = 0.6 + (text.size * 0.15)
-    @active_text_timeout = MIN_TEXT_APPEARENCE_TIME if @active_text_timeout < MIN_TEXT_APPEARENCE_TIME
-    @active_text_timeout = Time.now + @active_text_timeout
-  end
 
   def draw_sprites
     @drawn_sprite_x.clear
@@ -343,9 +354,9 @@ class GameWindow < Gosu::Window
     
     @hud_portret[portret_id].draw(268, 414, ZOrder::HUD)
     # Health
-    self.draw_number(@player.health, 375)
+    draw_number(@player.health, 375)
     # Score
-    self.draw_number(@player.score, 178)
+    draw_number(@player.score, 178)
   end
 
   def draw_number(number, x, y = 435)
@@ -432,15 +443,6 @@ class GameWindow < Gosu::Window
                   ZOrder::TEXT_BACKGROUND)
       end
     end
-  end
-
-  def draw
-    draw_scene
-    draw_sprites
-    draw_weapon
-    draw_hud
-    draw_screen_flash
-    draw_text
   end
   
 end
