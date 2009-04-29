@@ -23,6 +23,7 @@ module ZOrder
   SCREEN_FLASH    = HUD + 3
   TEXT_BACKGROUND = HUD + 4
   TEXT            = HUD + 5
+  FADE_OUT_OVERLAY = HUD + 6
 end
 
 class GameWindow < Gosu::Window
@@ -35,6 +36,14 @@ class GameWindow < Gosu::Window
   TEXT_BACKGROUND_PADDING      = 6
   TEXT_VERTICAL_SPACING        = 1
   MIN_TEXT_APPEARENCE_TIME     = 3
+  FADE_OUT_OVERLAY_COLOR       = Gosu::Color.new(0, 0, 0, 0)
+  BOSS_PRESENTATION_BACKGROUND_COLOR = Gosu::Color.new(255, 0, 61, 204)
+  BOSS_PRESENTATION_CYAN_LINE_COLOR  = Gosu::Color.new(255, 0, 186, 251)
+  BOSS_PRESENTATION_WHITE_LINE_COLOR = Gosu::Color.new(255, 255, 255, 255)
+  BOSS_PRESENTATION_TITLE_FONT = "Myriad Pro"
+  BOSS_PRESENTATION_TITLE_FONT_SIZE = 35
+  BOSS_PRESENTATION_FONT       = "Myriad Pro"
+  BOSS_PRESENTATION_FONT_SIZE  = 45
   
   TOP  = 0
   LEFT = 0
@@ -72,6 +81,8 @@ class GameWindow < Gosu::Window
     
     @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
     
+    @mode = :normal
+    
     @ai_schedule_index = 0
     @last_row = nil
     @last_col = nil
@@ -85,28 +96,50 @@ class GameWindow < Gosu::Window
   end
 
   def update
-    old_player_health = @player.health
-    process_movement_input
-    invoke_players
-    invoke_items
-    invoke_doors
-    determine_screen_flash(old_player_health)
-    
-    row, col = Map.matrixify(@player.y, @player.x)
-    if @last_row != row || @last_col != col
-      puts "#{col},#{row}"
-      @last_row = row
-      @last_col = col
+    case @mode
+    when :normal, :fading_out
+      update_fade_out_progress
+      old_player_health = @player.health
+      process_movement_input
+      if @mode != :fading_out
+        invoke_players
+        invoke_items
+        invoke_doors
+      end
+      determine_screen_flash(old_player_health)
+      
+      row, col = Map.matrixify(@player.y, @player.x)
+      if @last_row != row || @last_col != col
+        puts "#{col},#{row}"
+        @last_row = row
+        @last_col = col
+      end
+      
+    when :presenting_boss
+      update_boss_presentation_progress
+      
+    else
+      abort "Invalid mode '#{@mode}'"
     end
   end
   
   def draw
-    draw_scene
-    draw_sprites
-    draw_weapon
-    draw_hud
-    draw_screen_flash
-    draw_text
+    case @mode
+    when :normal, :fading_out
+      draw_scene
+      draw_sprites
+      draw_weapon
+      draw_hud
+      draw_screen_flash
+      draw_text
+      draw_fade_out_overlay
+      
+    when :presenting_boss
+      draw_boss_presentation
+      
+    else
+      abort "Invalid mode '#{@mode}'"
+    end
   end
   
   def show_text(text)
@@ -114,6 +147,39 @@ class GameWindow < Gosu::Window
     @active_text_timeout = 0.6 + (text.size * 0.15)
     @active_text_timeout = MIN_TEXT_APPEARENCE_TIME if @active_text_timeout < MIN_TEXT_APPEARENCE_TIME
     @active_text_timeout = Time.now + @active_text_timeout
+  end
+  
+  def fade_out(&when_done)
+    @mode = :fading_out
+    @fade_out = {
+      :start_time => Time.now,
+      :duration   => 1,
+      :progress   => 0,
+      :alpha      => 0,
+      :when_done  => when_done
+    }
+  end
+  
+  def present_boss(name, avatar_filename, duration = 1)
+    fade_out do
+      @bg_song.stop
+      @mode = :presenting_boss
+      @presenting_boss = {
+        :name => name,
+        :duration => duration,
+        :sound => SoundPool.get(self, 'megaman_game_start.mp3').play,
+        :avatar => Gosu::Image.new(self, avatar_filename, false),
+        :title_image => Gosu::Image.from_text(self, "Boss",
+                                              BOSS_PRESENTATION_TITLE_FONT,
+                                              BOSS_PRESENTATION_TITLE_FONT_SIZE),
+        :name_width => Gosu::Image.from_text(self, name, BOSS_PRESENTATION_FONT,
+                                             BOSS_PRESENTATION_FONT_SIZE).width,
+        :stars => Gosu::Image.new(self, 'stars.png', false),
+        :state => :opening,
+        :start_time => Time.now,
+      }
+      update_boss_presentation_progress
+    end
   end
 
   private
@@ -127,6 +193,61 @@ class GameWindow < Gosu::Window
       # Power-down
       @powerdown_screen_flash = 100
       @powerup_screen_flash   = 0
+    end
+  end
+  
+  def update_fade_out_progress
+    if @fade_out
+      @fade_out[:progress] = (Time.now - @fade_out[:start_time]) / @fade_out[:duration]
+      @fade_out[:alpha] = (255.0 * @fade_out[:progress]).to_i
+      if @fade_out[:progress] > 1
+        @mode == :normal
+        when_done = @fade_out[:when_done]
+        @fade_out = nil
+        when_done.call
+      end
+    end
+  end
+  
+  def update_boss_presentation_progress
+    args = @presenting_boss
+        
+    case args[:state]
+    when :opening
+      animation_duration = 0.7
+      max_background_size = 100
+      args[:background_size] = ((Time.now - args[:start_time]) / animation_duration) * max_background_size
+      if args[:background_size] >= max_background_size
+        args[:state] = :presenting
+        args[:start_time] = Time.now
+        args[:chars] = 0
+        args[:stars_start_time] = Time.now
+      end
+      
+    when :presenting
+      chars_per_second = 6
+      args[:chars] = ((Time.now - args[:start_time]) * chars_per_second).to_i
+      if args[:chars] > args[:name].size
+        args[:chars] = args[:name].size 
+        args[:state] = :waiting_until_done
+      end
+    
+    when :waiting_until_done
+      if !args[:sound].playing?
+        args[:state] = :done
+        args[:start_time] = Time.now
+      end
+      
+    when :done
+      if Time.now - args[:start_time] > args[:duration]
+        @presenting_boss = nil
+        @bg_song.play(true)
+        @mode = :normal
+      end
+    end
+    
+    if args[:state] != :opening
+      args[:stars_pos] = ((Time.now - args[:stars_start_time]) * -200) % args[:stars].width
     end
   end
 
@@ -441,6 +562,93 @@ class GameWindow < Gosu::Window
                   bg_right, bg_bottom, TEXT_BACKGROUND_COLOR,
                   bg_left, bg_bottom, TEXT_BACKGROUND_COLOR,
                   ZOrder::TEXT_BACKGROUND)
+      end
+    end
+  end
+  
+  def draw_fade_out_overlay
+    if @fade_out
+      FADE_OUT_OVERLAY_COLOR.alpha = @fade_out[:alpha]
+      draw_quad(LEFT,  TOP, FADE_OUT_OVERLAY_COLOR,
+                RIGHT, TOP, FADE_OUT_OVERLAY_COLOR,
+                RIGHT, BOTTOM, FADE_OUT_OVERLAY_COLOR,
+                LEFT,  BOTTOM, FADE_OUT_OVERLAY_COLOR,
+                ZOrder::FADE_OUT_OVERLAY)
+    end
+  end
+  
+  def draw_boss_presentation
+    if @presenting_boss
+      args = @presenting_boss
+      
+      top = (BOTTOM - TOP) / 2 - args[:background_size] / 2
+      bottom = top + args[:background_size]
+      
+      draw_quad(LEFT, top - 50, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, top - 50, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, top - 48, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                LEFT, top - 48, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                1)
+      draw_quad(LEFT, top - 25, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, top - 25, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, top - 23, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                LEFT, top - 23, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                1)
+      draw_quad(LEFT, top - 15, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                RIGHT, top - 15, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                RIGHT, top - 10, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                LEFT, top - 10, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                1)
+      draw_quad(LEFT, top - 7, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, top - 7, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, top - 4, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                LEFT, top - 4, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                1)
+      draw_quad(LEFT, top, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, top, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, bottom, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                LEFT, bottom, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                1)
+      draw_quad(LEFT, bottom + 50, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, bottom + 50, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, bottom + 48, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                LEFT, bottom + 48, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                1)
+      draw_quad(LEFT, bottom + 25, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, bottom + 25, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                RIGHT, bottom + 23, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                LEFT, bottom + 23, BOSS_PRESENTATION_WHITE_LINE_COLOR,
+                1)
+      draw_quad(LEFT, bottom + 15, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                RIGHT, bottom + 15, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                RIGHT, bottom + 10, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                LEFT, bottom + 10, BOSS_PRESENTATION_CYAN_LINE_COLOR,
+                1)
+      draw_quad(LEFT, bottom + 7, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, bottom + 7, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                RIGHT, bottom + 4, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                LEFT, bottom + 4, BOSS_PRESENTATION_BACKGROUND_COLOR,
+                1)
+      
+      if args[:state] == :presenting || args[:state] == :waiting_until_done || args[:state] == :done
+        args[:stars].draw(args[:stars_pos], 0, 2)
+        args[:stars].draw(args[:stars_pos] - args[:stars].width, 0, 2)
+        args[:stars].draw(args[:stars_pos] + args[:stars].width, 0, 2)
+        args[:stars].draw(args[:stars_pos], BOTTOM - args[:stars].height, 2)
+        args[:stars].draw(args[:stars_pos] - args[:stars].width, BOTTOM - args[:stars].height, 2)
+        args[:stars].draw(args[:stars_pos] + args[:stars].width, BOTTOM - args[:stars].height, 2)
+        
+        args[:title_image].draw((RIGHT - LEFT) / 2 - args[:title_image].width / 2,
+                                top - args[:title_image].height - 80, 3)
+        
+        image = Gosu::Image.from_text(self, args[:name][0 .. args[:chars]],
+                    BOSS_PRESENTATION_FONT, BOSS_PRESENTATION_FONT_SIZE)
+        image.draw((RIGHT - LEFT) / 2 - args[:name_width] / 2, bottom + 80, 3)
+      end
+      if args[:state] == :waiting_until_done || args[:state] == :done
+        args[:avatar].draw((RIGHT - LEFT) / 2 - args[:avatar].width / 2,
+                           (BOTTOM - TOP) / 2 - args[:avatar].height / 2,
+                           2)
       end
     end
   end

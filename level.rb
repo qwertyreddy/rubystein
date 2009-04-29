@@ -238,6 +238,10 @@ public
                "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\""),
       InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
                         nil, "enter_zed.ogg"),
+      InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
+          window.present_boss("Zed Shaw", "zedshaw_large.png")
+          map.items.delete(item)
+        },
       
       # Eastern room.
       Peepcode.new(window, map, 51.5 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
