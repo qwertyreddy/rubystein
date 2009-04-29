@@ -506,7 +506,7 @@ class GameWindow < Gosu::Window
     
     if @fired_weapon
       @weapon_fire.draw(200, 240 + dy, ZOrder::WEAPON)
-      @rainbow.draw(290, 150 + dy, ZOrder::WEAPON + 1)
+      @rainbow.draw(270, 110 + dy, ZOrder::WEAPON + 1)
       @fire_sound.play(0.2)
     else
       @weapon_idle.draw(200, 276 + dy, ZOrder::WEAPON)
