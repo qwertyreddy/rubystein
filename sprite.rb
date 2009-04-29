@@ -44,6 +44,17 @@ class Lamp
   end
 end
 
+class Table
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'table.png', TEX_HEIGHT)
+  end
+end
+
 class TableWithChairs
   include Sprite
   
@@ -52,6 +63,28 @@ class TableWithChairs
     @x = x
     @y = y
     @slices = SpritePool::get(window, 'tablechairs.png', TEX_HEIGHT)
+  end
+end
+
+class Well
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'well.png', TEX_HEIGHT)
+  end
+end
+
+class BrownBarrel
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'brownbarrel.png', TEX_HEIGHT)
   end
 end
 
@@ -158,6 +191,11 @@ end
 # An sprite that interacts with the player when they touch each other.
 class Interactable
   include Sprite
+  
+  attr_accessor :window
+  attr_accessor :x
+  attr_accessor :y
+  attr_accessor :map
   
   def initialize(window, map, x, y, slices)
     @window = window
@@ -273,27 +311,32 @@ class Fries < Powerup
 end
 
 class Info < Interactable
-  def initialize(window, map, x, y, text, change_bg_song_to = nil)
+  attr_accessor :play_sound
+  
+  def initialize(window, map, x, y, text = nil, change_bg_song_to = nil, &block)
     super(window, map, x, y, SpritePool::get(window, @image || 'info.png', TEX_HEIGHT))
+    @play_sound = true
     @text = text
     @sound = SoundPool::get(window, 'Message_Received.ogg')
     @change_bg_song_to = change_bg_song_to
+    @block = block
   end
   
   private
   
   def execute_interaction_effect(player)
     super(player)
-    @sound.play
     @window.show_text(@text) if @text
     @window.background_song = @change_bg_song_to if @change_bg_song_to
+    @block.call(self, player) if @block
+    @sound.play if @play_sound
   end
 end
 
 class InvisibleInfo < Info
-  def initialize(window, map, x, y, text, change_bg_song_to = nil)
+  def initialize(window, map, x, y, text = nil, change_bg_song_to = nil, &block)
     @image = 'invisible_item.png'
-    super(window, map, x, y, text, change_bg_song_to)
+    super(window, map, x, y, text, change_bg_song_to, &block)
   end
 end
 

@@ -226,7 +226,7 @@ class GameWindow < Gosu::Window
   
   def show_text(text)
     @active_text = text
-    @active_text_timeout = 0.6 + (text.size * 0.1)
+    @active_text_timeout = 0.6 + (text.size * 0.15)
     @active_text_timeout = MIN_TEXT_APPEARENCE_TIME if @active_text_timeout < MIN_TEXT_APPEARENCE_TIME
     @active_text_timeout = Time.now + @active_text_timeout
   end
