@@ -336,6 +336,7 @@ public
       Guard.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 15.0 * Map::GRID_WIDTH_HEIGHT),
       Guard.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 17.5 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
+      Thin.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 18.0 * Map::GRID_WIDTH_HEIGHT),
       
       TrueZed.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
     ]
