@@ -250,7 +250,7 @@ public
       Food.new(window, map, 55.0 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
       Food.new(window, map, 55.0 * Map::GRID_WIDTH_HEIGHT, 43.5 * Map::GRID_WIDTH_HEIGHT),
-      InvisibleInfo.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
+      InvisibleInfo.new(window, map, 44.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
           if player.max_health >= 150 && !@power_150_felt
             @power_150_felt = true
             window.show_text("I can feel it... THE POWER!!!")
