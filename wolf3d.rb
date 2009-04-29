@@ -80,7 +80,7 @@ class GameWindow < Gosu::Window
   def background_song=(filename)
     @bg_song.stop if @bg_song
     @bg_song = Gosu::Song.new(self, filename || 'getthem.mp3')
-    @bg_song.volume = 0.3
+    @bg_song.volume = 0.25
     @bg_song.play(true)
   end
 
