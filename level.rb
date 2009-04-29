@@ -269,6 +269,10 @@ public
           window.show_text("Fighting makes me hungry.") if !@eaten_at_kfc
           item.play_sound = !@eaten_at_kfc
         },
+      InvisibleInfo.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
+          window.present_boss("Hongli Lai", "hongli_large.png")
+          map.items.delete(self)
+        },
       InvisibleInfo.new(window, map, 49.9 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
           window.show_text("Is there anything to eat?") if !@eaten_at_kfc
           item.play_sound = !@eaten_at_kfc
@@ -321,8 +325,7 @@ public
       Guard.new(window, map, 49.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
       Hans.new(window, map, 47.5 * Map::GRID_WIDTH_HEIGHT, 40.5 * Map::GRID_WIDTH_HEIGHT),
       Thin.new(window, map, 49.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 59.5 * Map::GRID_WIDTH_HEIGHT, 31.5 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 60.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
+      Hongli.new(window, map, 59.5 * Map::GRID_WIDTH_HEIGHT, 31.5 * Map::GRID_WIDTH_HEIGHT),
       
       # Path to north room.
       Hans.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
