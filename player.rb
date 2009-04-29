@@ -8,10 +8,8 @@ class Player
   HALF_FOV = FOV / 2
   DISTANCE_TO_PROJECTION = (Config::WINDOW_WIDTH / 2) / Math.tan((FOV / 2) * Math::PI / 180)
   RAY_ANGLE_DELTA = (FOV / Config::WINDOW_WIDTH)
-  MAX_HEALTH = 100
   
   
-  attr_reader   :attrs
   attr_accessor :x
   attr_accessor :y
   attr_accessor :height
@@ -20,6 +18,7 @@ class Player
   attr_accessor :weapon
   attr_accessor :window
   attr_accessor :score
+  attr_accessor :max_health
   
   def initialize(window)
     @x = 0.0
@@ -28,7 +27,7 @@ class Player
     @health = 100
     @window = window
     @score  = 0
-    @attrs  = {}
+    @max_health = 100
   end
   
   def angle_in_radians
@@ -72,6 +71,10 @@ class Player
     @y += dy
   end
   
+  def health_percent
+    @health * 100.0 / @max_health
+  end
+
   def take_damage_from(player)
     return if @health <= 0
     @health -= 4 # TODO: @health -= player.weapon.damage

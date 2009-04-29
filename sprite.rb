@@ -154,7 +154,9 @@ class ColonelSanders
   end
 end
 
-class Item
+
+# An sprite that interacts with the player when they touch each other.
+class Interactable
   include Sprite
   
   def initialize(window, map, x, y, slices)
@@ -165,6 +167,15 @@ class Item
     @slices = slices
     @last_interaction_time = 0
   end
+  
+  def interact(player)
+    if interaction_has_effect?(player)
+      @last_interaction_time = Time.now.to_f
+      execute_interaction_effect(player)
+    end
+  end
+
+  private
   
   def interaction_has_effect?(player)
     # Hack: do not repeatedly interact with player who's standing still.
@@ -177,73 +188,85 @@ class Item
     end
   end
   
-  def interact(player)
-    if interaction_has_effect?(player)
-      @last_interaction_time = Time.now.to_f
-      execute_interaction_effect(player)
-    end
+  def execute_interaction_effect(player)
   end
 end
 
-class Powerup < Item
-  include Sprite
-  
-  def initialize(window, map, x, y, power_up, slices, sound_file = nil)
+# An item that can be picked up once.
+class Item < Interactable
+  def initialize(window, map, x, y, slices, text = nil, sound_file = nil)
     super(window, map, x, y, slices)
-    @power_up = power_up
-    @interact_sound = SoundPool::get(window, sound_file || 'ammo.mp3')
+    @text  = text
+    @sound = SoundPool::get(window, sound_file || 'ammo.mp3')
   end
+  
+  private
+  
+  def execute_interaction_effect(player)
+    super(player)
+    @sound.play
+    @window.show_text(@text) if @text
+    @map.items.delete(self)
+  end
+end
+
+# Item which increases or decreases HP. Will only interact when the player's
+# HP is < 100% (for positive powerups) and > 0% (for negative power ups).
+class Powerup < Item
+  def initialize(window, map, x, y, slices, power_up, text = nil, sound_file = nil)
+    super(window, map, x, y, slices, text, sound_file)
+    @power_up = power_up
+  end
+  
+  private
   
   def interaction_has_effect?(player)
     super(player) && (
-      (@power_up > 0 && player.health < Player::MAX_HEALTH) ||
+      (@power_up > 0 && player.health < player.max_health) ||
       (@power_up < 0 && player.health > 0)
     )
   end
   
   def execute_interaction_effect(player)
-    @interact_sound.play
-    @window.show_text(@text) if @text
+    super(player)
     new_health = player.health + @power_up
-    if new_health > Player::MAX_HEALTH
-      new_health = Player::MAX_HEALTH
+    if new_health > player.max_health
+      new_health = player.max_health
     elsif new_health < 0
       new_health = 0
     end
     player.health = new_health
-    @map.items.delete(self)
   end
 end
 
 class Food < Powerup
   def initialize(window, map, x, y)
-    super(window, map, x, y, 25, SpritePool::get(window, 'food.bmp', TEX_HEIGHT))
-    @text = 'Food: +25 HP!'
+    super(window, map, x, y, SpritePool::get(window, 'food.bmp', TEX_HEIGHT), 25, "Food: +25 HP!")
   end
 end
 
 class Rails < Powerup
   def initialize(window, map, x, y)
-    super(window, map, x, y, 100, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT))
-    @text = 'Rails: +100 HP!'
+    super(window, map, x, y, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT), 100, "Rails: +100 HP!")
   end
 end
 
 class PHP < Powerup
   def initialize(window, map, x, y)
-    super(window, map, x, y, -25, SpritePool::get(window, 'php.png', TEX_HEIGHT), 'fuck_you.mp3')
-    @text = 'PHP: "Fuck you!"'
+    super(window, map, x, y, SpritePool::get(window, 'php.png', TEX_HEIGHT), -25,
+          'PHP: "Fuck you!"', 'fuck_you.mp3')
   end
 end
 
 class Fries < Powerup
   def initialize(window, map, x, y)
-    super(window, map, x, y, 35, SpritePool::get(window, 'ronald_dead10.png', TEX_HEIGHT), 'fuck_you.mp3')
-    @text = "French Fries: +35 HP!\nBut don't eat too much, it's bad for your health."
+    super(window, map, x, y, SpritePool::get(window, 'ronald_dead10.png', TEX_HEIGHT), 40,
+          "French Fries: +40 HP!\nBut don't eat too much, it's bad for your health.",
+          'fuck_you.mp3')
   end
 end
 
-class Info < Item
+class Info < Interactable
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
     super(window, map, x, y, SpritePool::get(window, @image || 'info.png', TEX_HEIGHT))
     @text = text
@@ -251,7 +274,10 @@ class Info < Item
     @change_bg_song_to = change_bg_song_to
   end
   
+  private
+  
   def execute_interaction_effect(player)
+    super(player)
     @sound.play
     @window.show_text(@text) if @text
     @window.background_song = @change_bg_song_to if @change_bg_song_to
@@ -262,5 +288,21 @@ class InvisibleInfo < Info
   def initialize(window, map, x, y, text, change_bg_song_to = nil)
     @image = 'invisible_item.png'
     super(window, map, x, y, text, change_bg_song_to)
+  end
+end
+
+class Phusion < Item
+  def initialize(window, map, x, y, new_max_health)
+    super(window, map, x, y, SpritePool::get(window, 'phusion_logo.png', TEX_HEIGHT))
+    @new_max_health = new_max_health
+  end
+  
+  private
+  
+  def execute_interaction_effect(player)
+    super(player)
+    @window.show_text("Phusion: Maximum HP increased from #{player.max_health} to #{@new_max_health}!")
+    player.max_health = @new_max_health
+    player.health = @new_max_health
   end
 end

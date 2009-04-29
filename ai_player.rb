@@ -134,8 +134,6 @@ class AIPlayer
   include Sprite
   include Damageable
   
-  attr_reader   :attrs
-  
   # Maximum distance (in blocks) that this player can see.
   attr_accessor :sight
   # This enemy must not be closer than the given number of blocks to the main character.
@@ -146,7 +144,6 @@ class AIPlayer
   def initialize(sight = 10, min_distance = 2)
     @sight = sight
     @min_distance = min_distance
-    @attrs = {}
   end
   
   def interact(player, drawn_sprite_x)

@@ -325,17 +325,17 @@ class GameWindow < Gosu::Window
 
   def draw_hud
     @hud.draw(0, 405, ZOrder::HUD)
-    if @player.health <= 85 && @player.health > 70
+    if @player.health_percent <= 85 && @player.health_percent > 70
       portret_id = 1
-    elsif @player.health <= 70 && @player.health > 55
+    elsif @player.health_percent <= 70 && @player.health_percent > 55
       portret_id = 2
-    elsif @player.health <= 55 && @player.health > 40
+    elsif @player.health_percent <= 55 && @player.health_percent > 40
       portret_id = 3
-    elsif @player.health <= 40 && @player.health > 25
+    elsif @player.health_percent <= 40 && @player.health_percent > 25
       portret_id = 4
-    elsif @player.health <= 25 && @player.health > 10
+    elsif @player.health_percent <= 25 && @player.health_percent > 10
       portret_id = 5
-    elsif @player.health <= 10
+    elsif @player.health_percent <= 10
       portret_id = 6
     else
       portret_id = 0
