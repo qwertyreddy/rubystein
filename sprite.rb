@@ -245,6 +245,12 @@ class Food < Powerup
   end
 end
 
+class Peepcode < Powerup
+  def initialize(window, map, x, y)
+    super(window, map, x, y, SpritePool::get(window, 'peepcode_powerup.png', TEX_HEIGHT), 50, "Peepcode: +50 HP!")
+  end
+end
+
 class Rails < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, SpritePool::get(window, 'rails.bmp', TEX_HEIGHT), 100, "Rails: +100 HP!")
@@ -301,7 +307,7 @@ class Phusion < Item
   
   def execute_interaction_effect(player)
     super(player)
-    @window.show_text("Phusion: Maximum HP increased from #{player.max_health} to #{@new_max_health}!")
+    @window.show_text("Phusion: Max HP increased from #{player.max_health} to #{@new_max_health}!")
     player.max_health = @new_max_health
     player.health = @new_max_health
   end
