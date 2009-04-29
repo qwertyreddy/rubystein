@@ -343,7 +343,7 @@ class GameWindow < Gosu::Window
     
     @hud_portret[portret_id].draw(268, 414, ZOrder::HUD)
     # Health
-    self.draw_number(@player.health, 366)
+    self.draw_number(@player.health, 375)
     # Score
     self.draw_number(@player.score, 178)
   end
