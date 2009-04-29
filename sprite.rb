@@ -33,6 +33,17 @@ class SpritePool
   end
 end
 
+class MagicPony
+  include Sprite
+  
+  def initialize(window, x, y)
+    @window = window
+    @x = x
+    @y = y
+    @slices = SpritePool::get(window, 'magic_pony.png', TEX_HEIGHT)
+  end
+end
+
 class Lamp
   include Sprite
   

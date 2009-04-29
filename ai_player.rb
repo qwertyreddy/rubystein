@@ -308,7 +308,7 @@ class Enemy < AIPlayer
     
     if @current_state == :dead && @current_anim_seq_id + 1 == @slices[:dead].size && !@on_death_called
       @on_death_called = true
-      on_death if respond_to?(:on_death)
+      on_death
     end
     
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
@@ -346,6 +346,13 @@ class Enemy < AIPlayer
     player.take_damage_from(self)
     
     self.current_state = :firing
+  end
+  
+  private
+  
+  def on_death
+    @map.players.delete(self)
+    @map.props << MagicPony.new(@window, @x, @y)
   end
 end
 
@@ -496,7 +503,7 @@ class Thin < Enemy
       :walking => ['thin.png', 'thin2.png'],
       :firing  => ['thin_attacking.png', 'thin_attacking2.png'],
       :damaged => ['thin_damaged.png'],
-      :dead    => ['thin_dead.png', 'thin_dead2.png', 'thin_dead3.png', 'thin_dead4.png']
+      :dead    => ['magic_pony.png']
     }
     
     sounds         = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
@@ -516,7 +523,7 @@ class Dog < MeleeEnemy
       :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],
       :firing  => ['dog_attacking.png', 'dog_attacking2.png', 'dog_attacking3.png'],
       :damaged => ['dog_dead.png', 'dog_dead2.png'],
-      :dead    => ['dog_dead.png', 'dog_dead2.png', 'dog_dead3.png', 'dog_dead4.png']
+      :dead    => ['magic_pony.png']
     }
     
     @name = "Mongrel"
