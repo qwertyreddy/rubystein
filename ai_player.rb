@@ -529,8 +529,9 @@ class Thin < Enemy
       :dead    => ['thin_dead.png', 'thin_dead2.png', 'thin_dead3.png', 'thin_dead4.png']
     }
     
-    death_sound  ||= ['connection_broken.mp3', 'long_live_http.mp3', 'too_many_io_errors.mp3']
-    firing_sound ||= ['connection_broken.mp3', 'long_live_http.mp3', 'too_many_io_errors.mp3']
+    sounds = ['connection_broken.ogg', 'long_live_http.ogg', 'too_many_io_errors.ogg']
+    death_sound  ||= sounds
+    firing_sound ||= sounds
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
