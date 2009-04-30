@@ -409,8 +409,8 @@ class Guard < Enemy
     }
     
     sounds  = ['long live php.mp3', 'myphplife.mp3', 'my damn php life.mp3', 'phpforever.mp3']
-    firing_sound ||= sounds[rand(sounds.size - 1)]
-    death_sound  ||= sounds[rand(sounds.size - 1)]
+    firing_sound ||= sounds
+    death_sound  ||= sounds + ['omgponies.mp3']
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 50
@@ -428,8 +428,9 @@ class Hans < Enemy
     }
     
     # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
-    death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
-    death_sound ||= death_sounds[rand(death_sounds.size - 1)]
+    sounds = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
+    death_sound  ||= sounds + ['omgponies.mp3']
+    firing_sound ||= sound
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
@@ -481,7 +482,7 @@ class Hongli < Enemy
 end
 
 class Ninh < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'meine_sql.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ninh.png'],
       :walking => ['ninh.png'],
