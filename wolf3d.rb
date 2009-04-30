@@ -100,8 +100,8 @@ class GameWindow < Gosu::Window
     when :normal, :fading_out
       update_fade_out_progress
       old_player_health = @player.health
-      process_movement_input
       if @mode != :fading_out
+        process_movement_input
         invoke_players
         invoke_items
         invoke_doors
