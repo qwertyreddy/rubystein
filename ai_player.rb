@@ -491,7 +491,7 @@ class Ninh < Enemy
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['zedshaw.png'],
       :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
@@ -506,7 +506,7 @@ class Zed < Enemy
 end
 
 class TrueZed < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'test_all_the_effing_time_is_lame.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'test_all_the_effing_time_is_lame.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['rockzed.png'],
       :walking => ['rockzed_moving.png', 'rockzed_moving2.png'],
@@ -535,7 +535,7 @@ class Thin < Enemy
     }
     
     sounds         = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
-    death_sound  ||= sounds[rand(sounds.size - 1)]
+    death_sound  ||= 'omgponies.mp3'
     firing_sound ||= sounds[rand(sounds.size - 1)]
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
@@ -545,7 +545,7 @@ class Thin < Enemy
 end
 
 class Dog < MeleeEnemy
-  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'dog_bark.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
     sprites = {
       :idle => ['dog_walking.png'],
       :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],

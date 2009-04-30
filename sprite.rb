@@ -309,7 +309,7 @@ end
 class PHP < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, SpritePool::get(window, 'php.png', TEX_HEIGHT), -25,
-          'PHP: "Fuck you!"', 'fuck_you.mp3')
+          'PHP: "Whoopsie!" (-25 HP)', 'whoopsie.mp3')
   end
 end
 
@@ -317,7 +317,7 @@ class Fries < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, SpritePool::get(window, 'ronald_dead10.png', TEX_HEIGHT), 40,
           "French Fries: +40 HP!\nBut don't eat too much, it's bad for your health.",
-          'fuck_you.mp3')
+          'whoopsie.mp3')
   end
 end
 
