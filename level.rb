@@ -271,7 +271,7 @@ public
         },
       InvisibleInfo.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
           window.present_boss("Hongli Lai", "hongli_large.png")
-          map.items.delete(self)
+          map.items.delete(item)
         },
       InvisibleInfo.new(window, map, 49.9 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
           window.show_text("Is there anything to eat?") if !@eaten_at_kfc
