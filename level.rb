@@ -93,7 +93,7 @@ public
     { :north => 'blue2_1.png', :east => 'blue1_2.png', :south => 'blue1_1.png', :west => 'blue1_2.png' },
     { :north => 'blue3_1.png', :east => 'blue3_2.png', :south => 'blue3_1.png', :west => 'blue3_2.png' },
     { :north => 'wall_gray_flag.png', :east => 'wall_gray_flag.png', :south => 'wall_gray_flag.png', :west => 'wall_gray_flag.png' },
-    { :north => 'wall_wood_tux.png', :east => 'wall_wood_tux.png', :south => 'wall_wood_tux.png', :west => 'wall_wood_tux.png' },
+    { :north => 'wall_wood_hitler.png', :east => 'wall_wood_hitler.png', :south => 'wall_wood_hitler.png', :west => 'wall_wood_hitler.png' },
     
     # 15
     { :north => 'pratik.png', :east => 'pratik.png', :south => 'pratik.png', :west => 'pratik.png' },
@@ -110,7 +110,7 @@ public
     
     # 24
     { :north => 'wall_gray_eagle.png', :east => 'wall_gray_eagle.png', :south => 'wall_gray_eagle.png', :west => 'wall_gray_eagle.png' },
-    { :north => 'wall_gray_tux.png', :east => 'wall_gray_tux.png', :south => 'wall_gray_tux.png', :west => 'wall_gray_tux.png' },
+    { :north => 'wall_gray_hitler.png', :east => 'wall_gray_hitler.png', :south => 'wall_gray_hitler.png', :west => 'wall_gray_hitler.png' },
     
     { :north => 'door_1.png',  :east => 'door_2.png',  :south => 'door_1.png',  :west => 'door_2.png' },
   ]
