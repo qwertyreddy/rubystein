@@ -451,7 +451,23 @@ class Hongli < Enemy
     
     @name = "Hongli Lai"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 250
+    @health = 200
+  end
+end
+
+class Ninh < Enemy
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+    sprites = {
+      :idle    => ['ninh.png'],
+      :walking => ['ninh.png'],
+      :firing  => ['ninh_attack.png'],
+      :damaged => ['ninh_damaged.png'],
+      :dead    => ['ninh_dead.png', 'ninh_dead2.png', 'ninh_dead3.png', 'ninh_dead4.png']
+    }
+    
+    @name = "Ninh Bui"
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
+    @health = 200
   end
 end
 
