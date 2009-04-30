@@ -460,6 +460,12 @@ class Hongli < Enemy
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
   end
+  
+  private
+  
+  def on_death
+    # Do not turn into Pony.
+  end
 end
 
 class Ninh < Enemy
@@ -475,6 +481,12 @@ class Ninh < Enemy
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
+  end
+  
+  private
+  
+  def on_death
+    # Do not turn into Pony.
   end
 end
 
