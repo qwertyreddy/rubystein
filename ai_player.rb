@@ -201,11 +201,11 @@ class Enemy < AIPlayer
     @steps_removed_from_player = 22
     @firing_left = 0
     @kill_score  = kill_score
-    @firing_sound = SoundPool::get(window, firing_sound)
-    @death_sound  = SoundPool::get(window, death_sound)
+    @firing_sounds = load_sounds(firing_sound)
+    @death_sounds  = load_sounds(death_sound)
     @name       ||= self.class.to_s
-    @firing_text  = "#{@name}: \"#{SOUND_TO_TEXT[firing_sound]}\"" if SOUND_TO_TEXT.has_key?(firing_sound)
-    @death_text   = "#{@name}: \"#{SOUND_TO_TEXT[death_sound]}\"" if SOUND_TO_TEXT.has_key?(death_sound)
+    #@firing_text  = "#{@name}: \"#{SOUND_TO_TEXT[firing_sound]}\"" if SOUND_TO_TEXT.has_key?(firing_sound)
+    #@death_text   = "#{@name}: \"#{SOUND_TO_TEXT[death_sound]}\"" if SOUND_TO_TEXT.has_key?(death_sound)
     
     kind_tex_paths.each { |kind, tex_paths|
       @slices[kind] = []
@@ -229,8 +229,7 @@ class Enemy < AIPlayer
     else
       self.current_state = :dead
       @firing_sound_sample.stop if @firing_sound_sample
-      @death_sound.play
-      @window.show_text(@death_text) if @death_text
+      play_random_sound(@death_sounds)
       player.score += @kill_score
     end
   end
@@ -340,12 +339,27 @@ class Enemy < AIPlayer
     volume = f_2 / (r_2 * 1.25)
     
     if @firing_sound_sample.nil? || !@firing_sound_sample.playing?
-      @firing_sound_sample = @firing_sound.play(volume)
-      @window.show_text(@firing_text) if @firing_text
+      @firing_sound_sample = play_random_sound(@firing_sounds)
     end
     player.take_damage_from(self)
     
     self.current_state = :firing
+  end
+  
+  private
+  
+  def load_sounds(sounds)
+    sounds = [sounds] if !sounds.is_a?(Array)
+    sounds.map do |sound_file|
+      { :file => sound_file, :sound => SoundPool.get(@window, sound_file) }
+    end
+  end
+  
+  def play_random_sound(sounds)
+    sound = sounds[rand(sounds.size)]
+    text = SOUND_TO_TEXT[sound[:file]]
+    @window.show_text("#{@name}: \"#{text}\"") if text
+    sound[:sound].play
   end
 end
 
@@ -515,9 +529,8 @@ class Thin < Enemy
       :dead    => ['thin_dead.png', 'thin_dead2.png', 'thin_dead3.png', 'thin_dead4.png']
     }
     
-    sounds         = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
-    death_sound  ||= sounds[rand(sounds.size - 1)]
-    firing_sound ||= sounds[rand(sounds.size - 1)]
+    death_sound  ||= ['connection_broken.mp3', 'long_live_http.mp3', 'too_many_io_errors.mp3']
+    firing_sound ||= ['connection_broken.mp3', 'long_live_http.mp3', 'too_many_io_errors.mp3']
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 200
