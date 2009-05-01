@@ -14,6 +14,7 @@ SOUND_TO_TEXT = {
   'my damn php life.mp3' => 'My damn PHP life!',
   'myphplife.mp3'        => 'My life for PHP!',
   'phpforever.mp3'       => 'PHP forever!',
+  'omgponies.mp3'        => 'OMG PONIES!!!11 :-D',
   'too_many_io_errors.ogg' => 'Too many I/O errors!',
   'long_live_http.ogg'     => 'Long live HTTP!',
   'connection_broken.ogg'  => 'Connection broken!',
