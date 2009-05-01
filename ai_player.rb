@@ -463,7 +463,7 @@ class Ronald < Enemy
 end
 
 class Hongli < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hongli.png'],
       :walking => ['hongli.png'],
@@ -472,9 +472,12 @@ class Hongli < Enemy
       :dead    => ['hongli_dead.png', 'hongli_dead2.png', 'hongli_dead3.png', 'hongli_dead4.png']
     }
     
+    death_sound  ||= 'impossible.ogg'
+    firing_sound ||= ['i_hope_you_catch_swine_flu.ogg', 'i_will_not_be_defeated.ogg', 'your_attack_is_weak.ogg']
+    
     @name = "Hongli Lai"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 200
+    @health = 350
   end
   
   private
@@ -496,7 +499,7 @@ class Ninh < Enemy
     
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 200
+    @health = 350
   end
   
   private
@@ -558,5 +561,21 @@ class Dog < MeleeEnemy
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 100
     @min_distance = 1
+  end
+end
+
+class DavidHasslehoff < MeleeEnemy
+  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
+    sprites = {
+      :idle => ['david_hasselhoff.png'],
+      :walking => ['david_hasselhoff.png'],
+      :firing  => ['david_hasselhoff_attack.png'],
+      :damaged => ['david_hasselhoff_damaged.png'],
+      :dead    => ['david_hasselhoff_damaged.png', 'david_hasselhoff_dead2.png', 'david_hasselhoff_dead3.png', 'david_hasselhoff_dead4.png']
+    }
+    
+    @name = "David Hasslehoff"
+    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
+    @health = 250
   end
 end
