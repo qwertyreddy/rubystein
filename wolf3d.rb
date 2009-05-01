@@ -161,7 +161,7 @@ class GameWindow < Gosu::Window
     }
   end
   
-  def present_boss(name, avatar_filename, title = "Boss", duration = 1)
+  def present_boss(name, avatar_filename, title = "Boss", duration = 1, &block)
     fade_out do
       @bg_song.stop
       @mode = :presenting_boss
@@ -178,6 +178,7 @@ class GameWindow < Gosu::Window
         :stars => Gosu::Image.new(self, 'stars.png', false),
         :state => :opening,
         :start_time => Time.now,
+        :when_done => block
       }
       update_boss_presentation_progress
     end
@@ -252,6 +253,7 @@ class GameWindow < Gosu::Window
         @presenting_boss = nil
         @bg_song.play(true)
         @mode = :normal
+        args[:when_done].call if args[:when_done]
       end
     end
     

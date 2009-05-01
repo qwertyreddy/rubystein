@@ -201,7 +201,7 @@ public
     
     ####### Players #######
     
-    zed1, zed2, hongli, ninh = nil
+    zed1, zed2, hongli, ninh, david_hasselhoff = nil
     map.add do |add|
       # Southern (starting) room.
       add.player(Guard, 40.5, 61.5)
@@ -226,7 +226,8 @@ public
       add.player(Guard, 49.5, 33.5)
       add.player(Hans, 47.5, 40.5)
       add.player(Thin, 49.5, 44.5)
-      add.player(DavidHasslehoff, 59.5, 31.5)
+      david_hasselhoff = add.player(DavidHasslehoff, 59.5, 31.5)
+      david_hasselhoff.active = false
       
       # Path to north room.
       add.player(Hans, 32.0, 22.0)
@@ -272,7 +273,9 @@ public
       # Central room with Pratik, Koz and Yoda.
       add.item(Peepcode, 37.0, 34.5)
       add.item(Food, 32.5, 35.0)
-      add.item(Info, 32.0, 32.0, "Don't worry Pratik, Koz, I'll free you guys in no time!")
+      add.item(Info, 32.0, 32.0, "Don't worry Pratik, Koz, I'll free you guys in no time!") do
+        SoundPool.get(window, "Free You Guy in No Time.mp3").play
+      end
       add.item(InvisibleInfo, 34.5, 29.5) do |item, player|
         if player.max_health < 150
           window.show_text('Yoda: "Wait, young hero. Do not go in there yet!"')
@@ -316,19 +319,27 @@ public
         if player.max_health >= 150 && !@power_150_felt
           @power_150_felt = true
           window.show_text("I can feel it... THE POWER!!!")
+          SoundPool.get(window, "I can feel the Power.mp3").play
           item.play_sound = true
         end
       end
       add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
-        window.show_text("Fighting makes me hungry.") if !@eaten_at_kfc
+        if !@eaten_at_kfc
+          window.show_text("Fighting makes me hungry.")
+          SoundPool.get(window, "Fighting Makes me Hungry.mp3").play
+        end
         item.play_sound = !@eaten_at_kfc
       end
       add.item(InvisibleInfo, 54.5, 33.5) do |item, player|
         window.present_boss("David Hasselhoff", "david_hasselhoff_large.png")
         map.items.delete(item)
+        david_hasselhoff.active = true
       end
       add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
-        window.show_text("Is there anything to eat?") if !@eaten_at_kfc
+        if !@eaten_at_kfc
+          window.show_text("Is there anything to eat?") 
+          SoundPool.get(window, "Is there Anything to Eat.mp3").play
+        end
         item.play_sound = !@eaten_at_kfc
       end
       add.item(InvisibleInfo, 51.5, 44.5) do |item, player|
@@ -347,8 +358,10 @@ public
       add.item(Phusion, 30.0, 10.0, 200)
       add.item(InvisibleInfo, 29.5, 11.5,
         "My god, if even Zed is involved in this\n" +
-        "then who's the mastermind?",
-        "getthem.mp3")
+        "then who's the mastermind behind all of this?",
+        "getthem.mp3") do |item, player|
+        SoundPool.get(window, "Zed Involved.mp3").play
+      end
       
       # Path to western room.
       add.item(Peepcode, 19.5, 10.5)
@@ -360,7 +373,9 @@ public
       add.item(Rails, 7.5, 15.5)
       add.item(Rails, 13.5, 15.5)
       add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
-        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES")
+        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES") do
+          window.background_song = "Phusion-Theme.mp3"
+        end
         map.items.delete(item)
         hongli.active = true
         ninh.active = true
