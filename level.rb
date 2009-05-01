@@ -129,6 +129,10 @@ public
   
   def self.create(window)
     map = Map.new(MATRIX, WORLD_TEXTURES, PLAYER_X, PLAYER_Y, PLAYER_ANGLE, window)
+    
+    # Preload MagicPony so that it loads quickly next time.
+    MagicPony.new(window, 0, 0)
+    
     map.props = [
       # Southern (starting) room.
       DeadGuard.new(window, 31.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
