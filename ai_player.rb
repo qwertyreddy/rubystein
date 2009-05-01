@@ -504,21 +504,6 @@ class Ninh < Enemy
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
-    sprites = {
-      :idle    => ['zedshaw.png'],
-      :walking => ['zedshaw_walking.png', 'zedshaw_walking2.png'],
-      :firing  => ['zedshaw_attack.png', 'zedshaw_attack2.png'],
-      :damaged => ['zedshaw_damaged.png'],
-      :dead    => ['zedshaw_dead.png', 'zedshaw_dead2.png', 'zedshaw_dead3.png']
-    }
-    
-    super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 300
-  end
-end
-
-class TrueZed < Enemy
   def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'test_all_the_effing_time_is_lame.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['rockzed.png'],
@@ -530,8 +515,8 @@ class TrueZed < Enemy
       :dead    => ['magic_pony.png']
     }
     
-    @name = "True Zed Shaw"
-    @health = 500
+    @name = "Zed Shaw"
+    @health = 250
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
 end
