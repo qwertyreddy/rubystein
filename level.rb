@@ -201,7 +201,7 @@ public
     
     ####### Players #######
     
-    zed1, zed2 = nil
+    zed1, zed2, hongli, ninh = nil
     map.add do |add|
       # Southern (starting) room.
       add.player(Guard, 40.5, 61.5)
@@ -248,8 +248,8 @@ public
       add.player(Hans, 17.5, 17.0)
       add.player(Thin, 22.5, 18.0)
       
-      add.player(Hongli, 10.0, 17.0)
-      add.player(Ninh, 10.0, 17.0)
+      hongli = add.player(Hongli, 9.0, 19.0)
+      ninh = add.player(Ninh, 10.0, 17.0)
     end
     
     ####### Items #######
@@ -353,9 +353,13 @@ public
       add.item(Rails, 20.5, 18.5)
       
       # Western room.
+      add.item(Rails, 9.5, 15.5)
+      add.item(Rails, 8.5, 19.5)
       add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
-        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png")
+        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES")
         map.items.delete(item)
+        hongli.active = true
+        ninh.active = true
       end
     end
     

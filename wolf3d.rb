@@ -160,7 +160,7 @@ class GameWindow < Gosu::Window
     }
   end
   
-  def present_boss(name, avatar_filename, duration = 1)
+  def present_boss(name, avatar_filename, title = "Boss", duration = 1)
     fade_out do
       @bg_song.stop
       @mode = :presenting_boss
@@ -169,7 +169,7 @@ class GameWindow < Gosu::Window
         :duration => duration,
         :sound => SoundPool.get(self, 'megaman_game_start.mp3').play,
         :avatar => Gosu::Image.new(self, avatar_filename, false),
-        :title_image => Gosu::Image.from_text(self, "Boss",
+        :title_image => Gosu::Image.from_text(self, title,
                                               BOSS_PRESENTATION_TITLE_FONT,
                                               BOSS_PRESENTATION_TITLE_FONT_SIZE),
         :name_width => Gosu::Image.from_text(self, name, BOSS_PRESENTATION_FONT,
@@ -211,7 +211,14 @@ class GameWindow < Gosu::Window
   
   def update_boss_presentation_progress
     args = @presenting_boss
-        
+    
+    if button_down?(Gosu::Button::KbSpace)
+      args[:state] = :done
+      args[:start_time] = Time.now
+      args[:duration] = 0
+      args[:stars_start_time] = Time.now
+    end
+    
     case args[:state]
     when :opening
       animation_duration = 0.7
@@ -240,6 +247,7 @@ class GameWindow < Gosu::Window
       
     when :done
       if Time.now - args[:start_time] > args[:duration]
+        args[:sound].stop if args[:sound]
         @presenting_boss = nil
         @bg_song.play(true)
         @mode = :normal
