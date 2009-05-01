@@ -18,6 +18,10 @@ SOUND_TO_TEXT = {
   'too_many_io_errors.ogg' => 'Too many I/O errors!',
   'long_live_http.ogg'     => 'Long live HTTP!',
   'connection_broken.ogg'  => 'Connection broken!',
+  'i_hope_you_catch_swine_flu.ogg' => 'I hope you catch swine flu!',
+  'i_will_not_be_defeated.ogg'     => 'I will not be defeated by you!',
+  'your_attack_is_weak.ogg'        => 'Your attack is weak!',
+  'impossible.ogg'                 => 'I... impossible!',
 }
 
 class SoundPool

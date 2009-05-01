@@ -457,7 +457,7 @@ class Ronald < Enemy
 end
 
 class Hongli < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hongli.png'],
       :walking => ['hongli.png'],
@@ -466,9 +466,12 @@ class Hongli < Enemy
       :dead    => ['hongli_dead.png', 'hongli_dead2.png', 'hongli_dead3.png', 'hongli_dead4.png']
     }
     
+    death_sound  ||= 'impossible.ogg'
+    firing_sound ||= ['i_hope_you_catch_swine_flu.ogg', 'i_will_not_be_defeated.ogg', 'your_attack_is_weak.ogg']
+    
     @name = "Hongli Lai"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 200
+    @health = 350
   end
 end
 
@@ -484,7 +487,7 @@ class Ninh < Enemy
     
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
-    @health = 200
+    @health = 350
   end
 end
 
