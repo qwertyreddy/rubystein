@@ -226,8 +226,7 @@ public
       add.player(Guard, 49.5, 33.5)
       add.player(Hans, 47.5, 40.5)
       add.player(Thin, 49.5, 44.5)
-      add.player(Hongli, 59.5, 31.5)
-      add.player(Ninh, 58.5, 35.5)
+      add.player(DavidHasslehoff, 59.5, 31.5)
       
       # Path to north room.
       add.player(Hans, 32.0, 22.0)
@@ -323,7 +322,7 @@ public
         item.play_sound = !@eaten_at_kfc
       end
       add.item(InvisibleInfo, 54.5, 33.5) do |item, player|
-        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png")
+        window.present_boss("David Hasselhoff", "david_hasselhoff_large.png")
         map.items.delete(item)
       end
       add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
@@ -349,9 +348,15 @@ public
         "then who's the mastermind?",
         "getthem.mp3")
       
-      # Path to west room.
+      # Path to western room.
       add.item(Peepcode, 19.5, 10.5)
       add.item(Rails, 20.5, 18.5)
+      
+      # Western room.
+      add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
+        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png")
+        map.items.delete(item)
+      end
     end
     
     map
