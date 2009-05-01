@@ -160,46 +160,44 @@ public
       add.prop(GreenPlant, 41.5, 36.5)
       add.prop(Flag, 35.5, 29.5)
       add.prop(Flag, 33.5, 29.5)
-    end
-    
-    map.props += [
-      # Eastern room.
-      Table.new(window, 56.5 * Map::GRID_WIDTH_HEIGHT, 35.5 * Map::GRID_WIDTH_HEIGHT),
-      Table.new(window, 59.5 * Map::GRID_WIDTH_HEIGHT, 35.5 * Map::GRID_WIDTH_HEIGHT),
-      Well.new(window, 56.5 * Map::GRID_WIDTH_HEIGHT, 38.5 * Map::GRID_WIDTH_HEIGHT),
-      Well.new(window, 59.5 * Map::GRID_WIDTH_HEIGHT, 38.5 * Map::GRID_WIDTH_HEIGHT),
-      BrownBarrel.new(window, 61.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
-      BrownBarrel.new(window, 61.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
-      BrownBarrel.new(window, 60.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
-      BrownBarrel.new(window, 59.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
       
-      ColonelSanders.new(window, 56.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT),
-      TableWithChairs.new(window, 55.5 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
-      TableWithChairs.new(window, 55.5 * Map::GRID_WIDTH_HEIGHT, 43.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 54.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 52.5 * Map::GRID_WIDTH_HEIGHT, 42.5 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 52.5 * Map::GRID_WIDTH_HEIGHT, 46.5 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 54.5 * Map::GRID_WIDTH_HEIGHT, 42.5 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 54.5 * Map::GRID_WIDTH_HEIGHT, 46.5 * Map::GRID_WIDTH_HEIGHT),
+      # Eastern room.
+      add.prop(Table, 56.5, 35.5)
+      add.prop(Table, 59.5, 35.5)
+      add.prop(Well, 56.5, 38.5)
+      add.prop(Well, 59.5, 38.5)
+      add.prop(BrownBarrel, 61.5, 30.5)
+      add.prop(BrownBarrel, 61.5, 29.5)
+      add.prop(BrownBarrel, 60.5, 29.5)
+      add.prop(BrownBarrel, 59.5, 29.5)
+      
+      add.prop(ColonelSanders, 56.5, 44.5)
+      add.prop(TableWithChairs, 55.5, 45.5)
+      add.prop(TableWithChairs, 55.5, 43.5)
+      add.prop(Lamp, 54.5, 44.5)
+      add.prop(Armor, 52.5, 42.5)
+      add.prop(Armor, 52.5, 46.5)
+      add.prop(Armor, 54.5, 42.5)
+      add.prop(Armor, 54.5, 46.5)
       
       # Path to northern room.
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 25.0 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 19.0 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 37.0 * Map::GRID_WIDTH_HEIGHT, 22.5 * Map::GRID_WIDTH_HEIGHT),
-      Armor.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 22.5 * Map::GRID_WIDTH_HEIGHT),
+      add.prop(Lamp, 34.5, 25.0)
+      add.prop(Lamp, 34.5, 22.0)
+      add.prop(Lamp, 34.5, 19.0)
+      add.prop(Armor, 37.0, 22.5)
+      add.prop(Armor, 32.0, 22.5)
       
       # Northern room.
-      Lamp.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 12.0 * Map::GRID_WIDTH_HEIGHT),
-      TableWithChairs.new(window, 36.0 * Map::GRID_WIDTH_HEIGHT, 9.5 * Map::GRID_WIDTH_HEIGHT),
-      TableWithChairs.new(window, 32.0 * Map::GRID_WIDTH_HEIGHT, 9.5 * Map::GRID_WIDTH_HEIGHT),
-      Vase.new(window, 29.5 * Map::GRID_WIDTH_HEIGHT, 8.5 * Map::GRID_WIDTH_HEIGHT),
-      Vase.new(window, 39.5 * Map::GRID_WIDTH_HEIGHT, 8.5 * Map::GRID_WIDTH_HEIGHT),
+      add.prop(Lamp, 34.0, 12.0)
+      add.prop(TableWithChairs, 36.0, 9.5)
+      add.prop(TableWithChairs, 32.0, 9.5)
+      add.prop(Vase, 29.5, 8.5)
+      add.prop(Vase, 39.5, 8.5)
       
-      Lamp.new(window, 24.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 19.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 19.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
-    ]
+      add.prop(Lamp, 24.5, 11.5)
+      add.prop(Lamp, 19.5, 11.5)
+      add.prop(Lamp, 19.5, 17.5)
+    end
     
     ####### Players #######
     
@@ -314,54 +312,51 @@ public
       add.item(Food, 54.5, 45.5)
       add.item(Food, 55.0, 43.5)
       add.item(InvisibleInfo, 44.5, 33.5) do |item, player|
-          if player.max_health >= 150 && !@power_150_felt
-            @power_150_felt = true
-            window.show_text("I can feel it... THE POWER!!!")
-            item.play_sound = true
-          else
-            # Hack: force interaction.
-            item.instance_variable_set(:@last_interaction_time, 0)
-            item.play_sound = false
-          end
-      end
-    end
-    
-    map.items += [
-      InvisibleInfo.new(window, map, 52.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          window.show_text("Fighting makes me hungry.") if !@eaten_at_kfc
-          item.play_sound = !@eaten_at_kfc
-        },
-      InvisibleInfo.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png")
-          map.items.delete(item)
-        },
-      InvisibleInfo.new(window, map, 49.9 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          window.show_text("Is there anything to eat?") if !@eaten_at_kfc
-          item.play_sound = !@eaten_at_kfc
-        },
-      InvisibleInfo.new(window, map, 51.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          @eaten_at_kfc = true
+        if player.max_health >= 150 && !@power_150_felt
+          @power_150_felt = true
+          window.show_text("I can feel it... THE POWER!!!")
+          item.play_sound = true
+        else
+          # Hack: force interaction.
+          item.instance_variable_set(:@last_interaction_time, 0)
           item.play_sound = false
-        },
+        end
+      end
+      add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
+        window.show_text("Fighting makes me hungry.") if !@eaten_at_kfc
+        item.play_sound = !@eaten_at_kfc
+      end
+      add.item(InvisibleInfo, 54.5, 33.5) do |item, player|
+        window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png")
+        map.items.delete(item)
+      end
+      add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
+        window.show_text("Is there anything to eat?") if !@eaten_at_kfc
+        item.play_sound = !@eaten_at_kfc
+      end
+      add.item(InvisibleInfo, 51.5, 44.5) do |item, player|
+        @eaten_at_kfc = true
+        item.play_sound = false
+      end
       
       # Northern room.
-      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 13.0 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT),
-      Phusion.new(window, map, 30.0 * Map::GRID_WIDTH_HEIGHT, 10.0 * Map::GRID_WIDTH_HEIGHT, 200),
-      InvisibleInfo.new(window, map, 29.5 * Map::GRID_WIDTH_HEIGHT, 11.5 * Map::GRID_WIDTH_HEIGHT,
-                        "Those weren't Zed Shaws, they're too weak.\n" +
-                        "The real one must be hiding somewhere!",
-                        "getthem.mp3"),
+      add.item(Food, 32.5, 13.0)
+      add.item(Food, 35.5, 13.0)
+      add.item(Food, 32.5, 14.5)
+      add.item(Food, 32.5, 11.5)
+      add.item(Food, 32.5, 14.5)
+      add.item(Food, 35.5, 14.5)
+      add.item(Food, 35.5, 11.5)
+      add.item(Phusion, 30.0, 10.0, 200)
+      add.item(InvisibleInfo, 29.5, 11.5,
+        "My god, if even Zed is involved in this\n" +
+        "then who's the mastermind?",
+        "getthem.mp3")
       
       # Path to west room.
-      Peepcode.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 10.5 * Map::GRID_WIDTH_HEIGHT),
-      Rails.new(window, map, 20.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
-    ]
+      add.item(Peepcode, 19.5, 10.5)
+      add.item(Rails, 20.5, 18.5)
+    end
     
     map
   end
