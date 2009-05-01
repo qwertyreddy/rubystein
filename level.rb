@@ -133,32 +133,34 @@ public
     # Preload MagicPony so that it loads quickly next time.
     MagicPony.new(window, 0, 0)
     
-    map.props = [
-      # Southern (starting) room.
-      DeadGuard.new(window, 31.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
-      Bones.new(window, 40.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
-      Bones.new(window, 28.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT),
-      Skeleton.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Skeleton.new(window, 35.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 31 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 38.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 58.5 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 47.0 * Map::GRID_WIDTH_HEIGHT),
-      Lamp.new(window, 34.5 * Map::GRID_WIDTH_HEIGHT, 42.0 * Map::GRID_WIDTH_HEIGHT),
+    # Southern (starting) room.
+    map.add do |add|
+      add.prop(DeadGuard, 31.5, 57.5)
+      add.prop(Bones, 40.5, 57.5)
+      add.prop(Bones, 28.5, 51.5)
+      add.prop(Skeleton, 38.5, 52.5)
+      add.prop(Skeleton, 35.5, 33.5)
+      add.prop(Lamp, 31, 61.5)
+      add.prop(Lamp, 34.5, 61.5)
+      add.prop(Lamp, 38.5, 61.5)
+      add.prop(Lamp, 34.5, 53.5)
+      add.prop(Lamp, 34.5, 58.5)
+      add.prop(Lamp, 34.5, 47.0)
+      add.prop(Lamp, 34.5, 42.0)
       
       # Central room.
-      Chandelier.new(window, 39.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
-      Chandelier.new(window, 34.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
-      Chandelier.new(window, 29.0 * Map::GRID_WIDTH_HEIGHT, 33.0 * Map::GRID_WIDTH_HEIGHT),
-      GreenPlant.new(window, 27.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
-      GreenPlant.new(window, 27.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
-      GreenPlant.new(window, 41.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
-      GreenPlant.new(window, 41.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT),
-      Flag.new(window, 35.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
-      Flag.new(window, 33.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT),
-      
+      add.prop(Chandelier, 39.0, 33.0)
+      add.prop(Chandelier, 34.0, 33.0)
+      add.prop(Chandelier, 29.0, 33.0)
+      add.prop(GreenPlant, 27.5, 36.5)
+      add.prop(GreenPlant, 27.5, 30.5)
+      add.prop(GreenPlant, 41.5, 30.5)
+      add.prop(GreenPlant, 41.5, 36.5)
+      add.prop(Flag, 35.5, 29.5)
+      add.prop(Flag, 33.5, 29.5)
+    end
+    
+    map.props += [
       # Eastern room.
       Table.new(window, 56.5 * Map::GRID_WIDTH_HEIGHT, 35.5 * Map::GRID_WIDTH_HEIGHT),
       Table.new(window, 59.5 * Map::GRID_WIDTH_HEIGHT, 35.5 * Map::GRID_WIDTH_HEIGHT),
@@ -197,69 +199,61 @@ public
       Lamp.new(window, 19.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
     ]
     
-    map.items = [
+    map.add do |add|
       # Southern (starting) room.
-      Food.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 62.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 29.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
-      PHP.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 61.0 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
-               "AkitaOnRails: \"OMG HELP MEE! DUN WANNA DIE!!11\""),
-      Info.new(window, map, 31.5 * Map::GRID_WIDTH_HEIGHT, 62.2 * Map::GRID_WIDTH_HEIGHT,
-               "Antonio Cangiano: \"Now on sale: Ruby on\nRails for Microsoft Developers\""),
-      Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 55.5 * Map::GRID_WIDTH_HEIGHT,
-               "Peter Cooper: \"You are our last hope.\nShow the people that Rails CAN scale!\""),
-      Info.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT,
-               "Room of horizontal scaling\nGoal: shutdown pack of Mongrels"),
-      Info.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 51.5 * Map::GRID_WIDTH_HEIGHT,
-               "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!"),
+      add.item(Food, 37.5, 62.5)
+      add.item(Food, 29.0, 52.0)
+      add.item(PHP,  32.0, 61.0)
+      add.item(Food, 39.0, 52.0)
+      add.item(Food, 39.0, 52.5)
+      add.item(Info, 34.5, 62.2, "AkitaOnRails: \"OMG HELP MEE! DUN WANNA DIE!!11\"")
+      add.item(Info, 31.5, 62.2, "Antonio Cangiano: \"Now on sale: Ruby on\nRails for Microsoft Developers\"")
+      add.item(Info, 35.5, 55.5, "Peter Cooper: \"You are our last hope.\nShow the people that Rails CAN scale!\"")
+      add.item(Info, 35.5, 52.5, "Room of horizontal scaling\nGoal: shutdown pack of Mongrels")
+      add.item(Info, 34.5, 51.5, "Room of vertical scaling\nStarring: Thin web server\nWarning: more powerful than a single mongrel!")
       
       # Central room with Pratik, Koz and Yoda.
-      Peepcode.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 35.0 * Map::GRID_WIDTH_HEIGHT),
-      Info.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 32.0 * Map::GRID_WIDTH_HEIGHT,
-               "Don't worry Pratik, Koz, I'll free you guys in no time!"),
-      InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 29.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          if player.max_health < 150
-            window.show_text('Yoda: "Wait, young hero. Do not go in there yet!"')
-          else
-            window.show_text('Yoda: "Go, young hero. May the source be with you."')
-          end
-        },
-      Info.new(window, map, 36.5 * Map::GRID_WIDTH_HEIGHT, 32.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          if player.max_health < 150
-            window.show_text("Yoda: \"Strong enough to defeat the enemy, you are not.\n" +
-              "Train yourself in the room east of here, you must!\"")
-          else
-            window.show_text("Yoda: \"Trained well, you have, young hero!\"")
-          end
-        },
+      add.item(Peepcode, 37.0, 34.5)
+      add.item(Food, 32.5, 35.0)
+      add.item(Info, 32.0, 32.0, "Don't worry Pratik, Koz, I'll free you guys in no time!")
+      add.item(InvisibleInfo, 34.5, 29.5) do |item, player|
+        if player.max_health < 150
+          window.show_text('Yoda: "Wait, young hero. Do not go in there yet!"')
+        else
+          window.show_text('Yoda: "Go, young hero. May the source be with you."')
+        end
+      end
+      add.item(Info, 36.5, 32.5) do |item, player|
+        if player.max_health < 150
+          window.show_text("Yoda: \"Strong enough to defeat the enemy, you are not.\n" +
+            "Train yourself in the room east of here, you must!\"")
+        else
+          window.show_text("Yoda: \"Trained well, you have, young hero!\"")
+        end
+      end
       
-      Rails.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
-      PHP.new(window, map, 35.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
-      Info.new(window, map, 33.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT,
-               "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\""),
-      InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
-                        nil, "enter_zed.ogg"),
-      InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          window.present_boss("Zed Shaw", "rockzed_large.png")
-          map.items.delete(item)
-        },
+      add.item(Rails, 34.5, 18.5)
+      add.item(PHP, 35.5, 18.5)
+      add.item(Info, 33.5, 17.5, "Josh Peek: \"No, don't go in there! Inside is ZED SHAW!'\"")
+      add.item(InvisibleInfo, 34.5, 16.5, nil, "enter_zed.ogg")
+      add.item(InvisibleInfo, 34.5, 14.5) do |item, player|
+        window.present_boss("Zed Shaw", "rockzed_large.png")
+        map.items.delete(item)
+      end
       
       # Eastern room.
-      Peepcode.new(window, map, 51.5 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
-      Peepcode.new(window, map, 58.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 57.5 * Map::GRID_WIDTH_HEIGHT, 30.5 * Map::GRID_WIDTH_HEIGHT),
-      Peepcode.new(window, map, 56.5 * Map::GRID_WIDTH_HEIGHT, 34.5 * Map::GRID_WIDTH_HEIGHT),
-      Phusion.new(window, map, 59.5 * Map::GRID_WIDTH_HEIGHT, 36.5 * Map::GRID_WIDTH_HEIGHT, 150),
+      add.item(Peepcode, 51.5, 34.5)
+      add.item(Peepcode, 58.5, 30.5)
+      add.item(Food, 57.5, 30.5)
+      add.item(Peepcode, 56.5, 34.5)
+      add.item(Phusion, 59.5, 36.5, 150)
       
-      Food.new(window, map, 55.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 43.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 55.0 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 54.5 * Map::GRID_WIDTH_HEIGHT, 45.5 * Map::GRID_WIDTH_HEIGHT),
-      Food.new(window, map, 55.0 * Map::GRID_WIDTH_HEIGHT, 43.5 * Map::GRID_WIDTH_HEIGHT),
-      InvisibleInfo.new(window, map, 44.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
+      add.item(Food, 55.5, 44.5)
+      add.item(Food, 54.5, 43.5)
+      add.item(Food, 55.0, 45.5)
+      add.item(Food, 54.5, 45.5)
+      add.item(Food, 55.0, 43.5)
+      add.item(InvisibleInfo, 44.5, 33.5) do |item, player|
           if player.max_health >= 150 && !@power_150_felt
             @power_150_felt = true
             window.show_text("I can feel it... THE POWER!!!")
@@ -269,7 +263,10 @@ public
             item.instance_variable_set(:@last_interaction_time, 0)
             item.play_sound = false
           end
-        },
+      end
+    end
+    
+    map.items += [
       InvisibleInfo.new(window, map, 52.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
           window.show_text("Fighting makes me hungry.") if !@eaten_at_kfc
           item.play_sound = !@eaten_at_kfc
@@ -306,54 +303,54 @@ public
       Rails.new(window, map, 20.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
     ]
     
-    map.players = [
+    map.add do |add|
       # Southern (starting) room.
-      Guard.new(window, map, 40.5 * Map::GRID_WIDTH_HEIGHT, 61.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 57.5 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 41.5 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Guard, 40.5, 61.5)
+      add.player(Dog, 37.5, 57.5)
+      add.player(Thin, 34.5, 41.5)
       
       # Room of horizontal scaling.
-      Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 38.5 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 52.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 52.0 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 38.5 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
-      Dog.new(window, map, 39.0 * Map::GRID_WIDTH_HEIGHT, 53.5 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Dog, 37.5, 52.5)
+      add.player(Dog, 38.0, 52.0)
+      add.player(Dog, 38.5, 52.5)
+      add.player(Dog, 39.0, 52.5)
+      add.player(Dog, 37.5, 53.5)
+      add.player(Dog, 38.0, 52.0)
+      add.player(Dog, 38.5, 53.5)
+      add.player(Dog, 39.0, 53.5)
       
       # Central room with Pratik, Koz and Yoda.
-      Hans.new(window, map, 31.0 * Map::GRID_WIDTH_HEIGHT, 35.0 * Map::GRID_WIDTH_HEIGHT),
-      Hans.new(window, map, 38.0 * Map::GRID_WIDTH_HEIGHT, 31.0 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Hans, 31.0, 35.0)
+      add.player(Hans, 38.0, 31.0)
       
       # Eastern room.
-      Guard.new(window, map, 49.5 * Map::GRID_WIDTH_HEIGHT, 33.5 * Map::GRID_WIDTH_HEIGHT),
-      Hans.new(window, map, 47.5 * Map::GRID_WIDTH_HEIGHT, 40.5 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 49.5 * Map::GRID_WIDTH_HEIGHT, 44.5 * Map::GRID_WIDTH_HEIGHT),
-      Hongli.new(window, map, 59.5 * Map::GRID_WIDTH_HEIGHT, 31.5 * Map::GRID_WIDTH_HEIGHT),
-      Ninh.new(window, map, 58.5 * Map::GRID_WIDTH_HEIGHT, 35.5 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Guard, 49.5, 33.5)
+      add.player(Hans, 47.5, 40.5)
+      add.player(Thin, 49.5, 44.5)
+      add.player(Hongli, 59.5, 31.5)
+      add.player(Ninh, 58.5, 35.5)
       
       # Path to north room.
-      Hans.new(window, map, 32.0 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
-      Guard.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 26.0 * Map::GRID_WIDTH_HEIGHT),
-      Hans.new(window, map, 37.0 * Map::GRID_WIDTH_HEIGHT, 22.0 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Hans, 32.0, 22.0)
+      add.player(Guard, 34.5, 26.0)
+      add.player(Hans, 37.0, 22.0)
       
       # North room.
-      Ronald.new(window, map, 42.0 * Map::GRID_WIDTH_HEIGHT, 11.0 * Map::GRID_WIDTH_HEIGHT),
-      Ronald.new(window, map, 43.0 * Map::GRID_WIDTH_HEIGHT, 12.0 * Map::GRID_WIDTH_HEIGHT),
-      Zed.new(window, map, 37.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
-      Zed.new(window, map, 32.5 * Map::GRID_WIDTH_HEIGHT, 9.0 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Ronald, 42.0, 11.0)
+      add.player(Ronald, 43.0, 12.0)
+      add.player(Zed, 37.5, 9.0)
+      add.player(Zed, 32.5, 9.0)
       
-      Guard.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 11.0 * Map::GRID_WIDTH_HEIGHT),
-      Guard.new(window, map, 24.5 * Map::GRID_WIDTH_HEIGHT, 12.0 * Map::GRID_WIDTH_HEIGHT),
-      Guard.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 15.0 * Map::GRID_WIDTH_HEIGHT),
-      Guard.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
-      Hans.new(window, map, 17.5 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
-      Thin.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 18.0 * Map::GRID_WIDTH_HEIGHT),
+      add.player(Guard, 22.5, 11.0)
+      add.player(Guard, 24.5, 12.0)
+      add.player(Guard, 19.5, 15.0)
+      add.player(Guard, 22.5, 17.5)
+      add.player(Hans, 17.5, 17.0)
+      add.player(Thin, 22.5, 18.0)
       
-      Hongli.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
-      Ninh.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
-    ]
+      add.player(Hongli, 10.0, 17.0)
+      add.player(Ninh, 10.0, 17.0)
+    end
     
     map
   end

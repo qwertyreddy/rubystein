@@ -25,6 +25,30 @@ class Map
   attr_reader :player_y_init
   attr_reader :player_angle_init
   
+  class Adder
+    def initialize(map)
+      @map = map
+    end
+    
+    def prop(klass, x, y, *args, &block)
+      prop = klass.new(@map.window, x * GRID_WIDTH_HEIGHT, y * GRID_WIDTH_HEIGHT, *args, &block)
+      @map.props << prop
+      prop
+    end
+    
+    def item(klass, x, y, *args, &block)
+      item = klass.new(@map.window, @map, x * GRID_WIDTH_HEIGHT, y * GRID_WIDTH_HEIGHT, *args, &block)
+      @map.items << item
+      item
+    end
+    
+    def player(klass, x, y, *args, &block)
+      player = klass.new(@map.window, @map, x * GRID_WIDTH_HEIGHT, y * GRID_WIDTH_HEIGHT, *args, &block)
+      @map.players << player
+      player
+    end
+  end
+  
   # @require for i in 0...matrix_row_column.size:
   #   matrix_row_column[i].size == matrix_row_column[i+1].size
   def initialize(matrix_row_column, texture_files, player_x_init, player_y_init, player_angle_init, window)
@@ -69,6 +93,10 @@ class Map
     @items   = []
     @players = []
     @props   = []
+  end
+  
+  def add
+    yield(Adder.new(self))
   end
   
   def sprites
