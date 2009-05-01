@@ -527,8 +527,7 @@ class TrueZed < Enemy
                    'rockzed_attacking4.png', 'rockzed_attacking5.png', 'rockzed_attacking6.png',
                    'rockzed_attacking7.png', 'rockzed_attacking8.png', 'rockzed_attacking9.png'],
       :damaged => ['rockzed_damaged.png'],
-      :dead    => ['rockzed_dead.png', 'rockzed_dead2.png', 'rockzed_dead4.png', 'rockzed_dead5.png',
-                   'rockzed_dead6.png']
+      :dead    => ['magic_pony.png']
     }
     
     @name = "True Zed Shaw"
