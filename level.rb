@@ -133,6 +133,8 @@ public
     # Preload MagicPony so that it loads quickly next time.
     MagicPony.new(window, 0, 0)
     
+    ####### Props #######
+    
     # Southern (starting) room.
     map.add do |add|
       add.prop(DeadGuard, 31.5, 57.5)
@@ -199,6 +201,62 @@ public
       Lamp.new(window, 19.5 * Map::GRID_WIDTH_HEIGHT, 17.5 * Map::GRID_WIDTH_HEIGHT),
     ]
     
+    ####### Players #######
+    
+    zed1, zed2 = nil
+    map.add do |add|
+      # Southern (starting) room.
+      add.player(Guard, 40.5, 61.5)
+      add.player(Dog, 37.5, 57.5)
+      add.player(Thin, 34.5, 41.5)
+      
+      # Room of horizontal scaling.
+      add.player(Dog, 37.5, 52.5)
+      add.player(Dog, 38.0, 52.0)
+      add.player(Dog, 38.5, 52.5)
+      add.player(Dog, 39.0, 52.5)
+      add.player(Dog, 37.5, 53.5)
+      add.player(Dog, 38.0, 52.0)
+      add.player(Dog, 38.5, 53.5)
+      add.player(Dog, 39.0, 53.5)
+      
+      # Central room with Pratik, Koz and Yoda.
+      add.player(Hans, 31.0, 35.0)
+      add.player(Hans, 38.0, 31.0)
+      
+      # Eastern room.
+      add.player(Guard, 49.5, 33.5)
+      add.player(Hans, 47.5, 40.5)
+      add.player(Thin, 49.5, 44.5)
+      add.player(Hongli, 59.5, 31.5)
+      add.player(Ninh, 58.5, 35.5)
+      
+      # Path to north room.
+      add.player(Hans, 32.0, 22.0)
+      add.player(Guard, 34.5, 26.0)
+      add.player(Hans, 37.0, 22.0)
+      
+      # North room.
+      add.player(Ronald, 42.0, 11.0)
+      add.player(Ronald, 43.0, 12.0)
+      zed1 = add.player(Zed, 37.5, 9.0)
+      zed1.active = false
+      zed2 = add.player(Zed, 32.5, 9.0)
+      zed2.active = false
+      
+      add.player(Guard, 22.5, 11.0)
+      add.player(Guard, 24.5, 12.0)
+      add.player(Guard, 19.5, 15.0)
+      add.player(Guard, 22.5, 17.5)
+      add.player(Hans, 17.5, 17.0)
+      add.player(Thin, 22.5, 18.0)
+      
+      add.player(Hongli, 10.0, 17.0)
+      add.player(Ninh, 10.0, 17.0)
+    end
+    
+    ####### Items #######
+    
     map.add do |add|
       # Southern (starting) room.
       add.item(Food, 37.5, 62.5)
@@ -239,6 +297,8 @@ public
       add.item(InvisibleInfo, 34.5, 14.5) do |item, player|
         window.present_boss("Zed Shaw", "rockzed_large.png")
         map.items.delete(item)
+        zed1.active = true
+        zed2.active = true
       end
       
       # Eastern room.
@@ -302,55 +362,6 @@ public
       Peepcode.new(window, map, 19.5 * Map::GRID_WIDTH_HEIGHT, 10.5 * Map::GRID_WIDTH_HEIGHT),
       Rails.new(window, map, 20.5 * Map::GRID_WIDTH_HEIGHT, 18.5 * Map::GRID_WIDTH_HEIGHT),
     ]
-    
-    map.add do |add|
-      # Southern (starting) room.
-      add.player(Guard, 40.5, 61.5)
-      add.player(Dog, 37.5, 57.5)
-      add.player(Thin, 34.5, 41.5)
-      
-      # Room of horizontal scaling.
-      add.player(Dog, 37.5, 52.5)
-      add.player(Dog, 38.0, 52.0)
-      add.player(Dog, 38.5, 52.5)
-      add.player(Dog, 39.0, 52.5)
-      add.player(Dog, 37.5, 53.5)
-      add.player(Dog, 38.0, 52.0)
-      add.player(Dog, 38.5, 53.5)
-      add.player(Dog, 39.0, 53.5)
-      
-      # Central room with Pratik, Koz and Yoda.
-      add.player(Hans, 31.0, 35.0)
-      add.player(Hans, 38.0, 31.0)
-      
-      # Eastern room.
-      add.player(Guard, 49.5, 33.5)
-      add.player(Hans, 47.5, 40.5)
-      add.player(Thin, 49.5, 44.5)
-      add.player(Hongli, 59.5, 31.5)
-      add.player(Ninh, 58.5, 35.5)
-      
-      # Path to north room.
-      add.player(Hans, 32.0, 22.0)
-      add.player(Guard, 34.5, 26.0)
-      add.player(Hans, 37.0, 22.0)
-      
-      # North room.
-      add.player(Ronald, 42.0, 11.0)
-      add.player(Ronald, 43.0, 12.0)
-      add.player(Zed, 37.5, 9.0)
-      add.player(Zed, 32.5, 9.0)
-      
-      add.player(Guard, 22.5, 11.0)
-      add.player(Guard, 24.5, 12.0)
-      add.player(Guard, 19.5, 15.0)
-      add.player(Guard, 22.5, 17.5)
-      add.player(Hans, 17.5, 17.0)
-      add.player(Thin, 22.5, 18.0)
-      
-      add.player(Hongli, 10.0, 17.0)
-      add.player(Ninh, 10.0, 17.0)
-    end
     
     map
   end
