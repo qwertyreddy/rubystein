@@ -316,10 +316,6 @@ public
           @power_150_felt = true
           window.show_text("I can feel it... THE POWER!!!")
           item.play_sound = true
-        else
-          # Hack: force interaction.
-          item.instance_variable_set(:@last_interaction_time, 0)
-          item.play_sound = false
         end
       end
       add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
