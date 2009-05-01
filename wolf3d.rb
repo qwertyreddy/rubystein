@@ -79,7 +79,7 @@ class GameWindow < Gosu::Window
     @powerup_screen_flash   = 0
     @powerdown_screen_flash = 0
     
-    @hud_portret = SpritePool::get(self, 'dhh.png', 60, 60)
+    @hud_portret = SpritePool::get(self, 'sean_connery.png', 60, 60)
     
     @mode = :normal
     
