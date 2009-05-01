@@ -239,7 +239,7 @@ public
       InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 16.5 * Map::GRID_WIDTH_HEIGHT,
                         nil, "enter_zed.ogg"),
       InvisibleInfo.new(window, map, 34.5 * Map::GRID_WIDTH_HEIGHT, 14.5 * Map::GRID_WIDTH_HEIGHT) { |item, player|
-          window.present_boss("Zed Shaw", "zedshaw_large.png")
+          window.present_boss("Zed Shaw", "rockzed_large.png")
           map.items.delete(item)
         },
       
@@ -347,7 +347,8 @@ public
       Hans.new(window, map, 17.5 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
       Thin.new(window, map, 22.5 * Map::GRID_WIDTH_HEIGHT, 18.0 * Map::GRID_WIDTH_HEIGHT),
       
-      TrueZed.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
+      Hongli.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
+      Ninh.new(window, map, 10.0 * Map::GRID_WIDTH_HEIGHT, 17.0 * Map::GRID_WIDTH_HEIGHT),
     ]
     
     map
