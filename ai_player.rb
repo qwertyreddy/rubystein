@@ -138,16 +138,19 @@ class AIPlayer
   attr_accessor :sight
   # This enemy must not be closer than the given number of blocks to the main character.
   attr_accessor :min_dinstance
+  # Whether the AI for this sprite is active.
+  attr_accessor :active
   
   attr_accessor :steps_removed_from_player
   
   def initialize(sight = 10, min_distance = 2)
     @sight = sight
     @min_distance = min_distance
+    @active = true
   end
   
   def interact(player, drawn_sprite_x)
-    return if @health <= 0
+    return if @health <= 0 || !@active
     
     self.current_state = :idle if @current_state == :firing && @firing_left == 0
     
