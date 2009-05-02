@@ -504,7 +504,7 @@ class Zed < Enemy
     }
     
     @name = "Zed Shaw"
-    @health = 250
+    @health = 1337 # That way we can hear the nice evil sound sample ;-)
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
 end
