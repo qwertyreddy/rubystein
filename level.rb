@@ -201,7 +201,7 @@ public
     
     ####### Players #######
     
-    zed1, zed2, hongli, ninh, david_hasselhoff = nil
+    zed1, zed2, hongli, ninh = nil
     map.add do |add|
       # Southern (starting) room.
       add.player(Guard, 40.5, 61.5)
@@ -226,8 +226,7 @@ public
       add.player(Guard, 49.5, 33.5)
       add.player(Hans, 47.5, 40.5)
       add.player(Thin, 49.5, 44.5)
-      david_hasselhoff = add.player(DavidHasslehoff, 59.5, 31.5)
-      david_hasselhoff.active = false
+      add.player(Hans, 59.5, 31.5)
       
       # Path to north room.
       add.player(Hans, 32.0, 22.0)
@@ -249,9 +248,13 @@ public
       add.player(Hans, 17.5, 17.0)
       add.player(Thin, 22.5, 18.0)
       
-      hongli = add.player(Hongli, 9.0, 19.0)
+      hongli = add.player(Hongli, 9.0, 19.0) do
+        SoundPool.get(window, "Phusion-Theme.mp3").play
+      end
       hongli.active = false
-      ninh = add.player(Ninh, 10.0, 17.0)
+      ninh = add.player(Ninh, 10.0, 17.0) do
+        SoundPool.get(window, "Phusion-Theme.mp3").play
+      end
       ninh.active = false
     end
     
@@ -320,8 +323,8 @@ public
           @power_150_felt = true
           window.show_text("I can feel it... THE POWER!!!")
           SoundPool.get(window, "I can feel the Power.mp3").play
-          item.play_sound = true
         end
+        item.play_sound = false
       end
       add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
         if !@eaten_at_kfc
@@ -329,11 +332,6 @@ public
           SoundPool.get(window, "Fighting Makes me Hungry.mp3").play
         end
         item.play_sound = !@eaten_at_kfc
-      end
-      add.item(InvisibleInfo, 54.5, 33.5) do |item, player|
-        window.present_boss("David Hasselhoff", "david_hasselhoff_large.png")
-        map.items.delete(item)
-        david_hasselhoff.active = true
       end
       add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
         if !@eaten_at_kfc
@@ -357,8 +355,8 @@ public
       add.item(Food, 35.5, 11.5)
       add.item(Phusion, 30.0, 10.0, 200)
       add.item(InvisibleInfo, 29.5, 11.5,
-        "My god, if even Zed is involved in this\n" +
-        "then who's the mastermind behind all of this?",
+        "My god, if even Zed is involved then who's\n" +
+        "the mastermind behind all of this?",
         "getthem.mp3") do |item, player|
         SoundPool.get(window, "Zed Involved.mp3").play
       end
@@ -371,10 +369,10 @@ public
       add.item(Peepcode, 13.5, 19.5)
       add.item(Peepcode, 13.5, 15.5)
       add.item(Rails, 7.5, 15.5)
-      add.item(Rails, 13.5, 15.5)
+      add.item(Rails, 7.5, 19.5)
       add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
         window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES") do
-          window.background_song = "Phusion-Theme.mp3"
+          window.background_song = "theme_song.ogg"
         end
         map.items.delete(item)
         hongli.active = true

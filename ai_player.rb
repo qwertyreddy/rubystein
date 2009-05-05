@@ -463,7 +463,7 @@ class Ronald < Enemy
 end
 
 class Hongli < Enemy
-  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
     sprites = {
       :idle    => ['hongli.png'],
       :walking => ['hongli.png'],
@@ -478,6 +478,13 @@ class Hongli < Enemy
     @name = "Hongli Lai"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 350
+    @on_death = on_death
+  end
+  
+  private
+  
+  def on_death
+    @on_death.call if @on_death
   end
   
   private
@@ -488,7 +495,7 @@ class Hongli < Enemy
 end
 
 class Ninh < Enemy
-  def initialize(window, map, x, y, death_sound = 'meine_sql.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
     sprites = {
       :idle    => ['ninh.png'],
       :walking => ['ninh.png'],
@@ -500,11 +507,13 @@ class Ninh < Enemy
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 350
+    @on_death = on_death
   end
   
   private
   
   def on_death
+    @on_death.call if @on_death
     # Do not turn into Pony.
   end
 end
@@ -522,7 +531,7 @@ class Zed < Enemy
     }
     
     @name = "Zed Shaw"
-    @health = 250
+    @health = 1337 # That way we can hear the nice evil sound sample ;-)
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
   end
 end
