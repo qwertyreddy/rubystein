@@ -248,9 +248,13 @@ public
       add.player(Hans, 17.5, 17.0)
       add.player(Thin, 22.5, 18.0)
       
-      hongli = add.player(Hongli, 9.0, 19.0)
+      hongli = add.player(Hongli, 9.0, 19.0) do
+        SoundPool.get(window, "Phusion-Theme.mp3").play
+      end
       hongli.active = false
-      ninh = add.player(Ninh, 10.0, 17.0)
+      ninh = add.player(Ninh, 10.0, 17.0) do
+        SoundPool.get(window, "Phusion-Theme.mp3").play
+      end
       ninh.active = false
     end
     

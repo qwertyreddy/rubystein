@@ -310,7 +310,7 @@ class Enemy < AIPlayer
     
     if @current_state == :dead && @current_anim_seq_id + 1 == @slices[:dead].size && !@on_death_called
       @on_death_called = true
-      on_death if respond_to?(:on_death)
+      on_death if respond_to?(:on_death, true)
     end
     
     if not (( @current_state == :dead and @current_anim_seq_id + 1 == @slices[:dead].size ) or (@current_state == :idle))
@@ -457,7 +457,7 @@ class Ronald < Enemy
 end
 
 class Hongli < Enemy
-  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
     sprites = {
       :idle    => ['hongli.png'],
       :walking => ['hongli.png'],
@@ -472,11 +472,18 @@ class Hongli < Enemy
     @name = "Hongli Lai"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 350
+    @on_death = on_death
+  end
+  
+  private
+  
+  def on_death
+    @on_death.call if @on_death
   end
 end
 
 class Ninh < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
     sprites = {
       :idle    => ['ninh.png'],
       :walking => ['ninh.png'],
@@ -488,6 +495,13 @@ class Ninh < Enemy
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
     @health = 350
+    @on_death = on_death
+  end
+  
+  private
+  
+  def on_death
+    @on_death.call if @on_death
   end
 end
 
