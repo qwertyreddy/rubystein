@@ -374,7 +374,7 @@ public
       add.item(Rails, 13.5, 15.5)
       add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
         window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES") do
-          window.background_song = "Phusion-Theme.mp3"
+          window.background_song = "theme_song.ogg"
         end
         map.items.delete(item)
         hongli.active = true
