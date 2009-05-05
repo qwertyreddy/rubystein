@@ -495,7 +495,7 @@ class Hongli < Enemy
 end
 
 class Ninh < Enemy
-  def initialize(window, map, x, y, death_sound = 'mein_spagetthicode.wav', firing_sound = 'machine_gun_burst.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = nil, kill_score = 10000, step_size = 3, animation_interval = 0.2, &on_death)
     sprites = {
       :idle    => ['ninh.png'],
       :walking => ['ninh.png'],
@@ -503,6 +503,9 @@ class Ninh < Enemy
       :damaged => ['ninh_damaged.png'],
       :dead    => ['ninh_dead.png', 'ninh_dead2.png', 'ninh_dead3.png', 'ninh_dead4.png']
     }
+    
+    death_sound  ||= 'nooo.ogg'
+    firing_sound ||= ['never_gonna_give_you_up.ogg', 'ni.ogg', 'boom_headshot.ogg']
     
     @name = "Ninh Bui"
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
@@ -519,7 +522,7 @@ class Ninh < Enemy
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = 'test_all_the_effing_time_is_lame.mp3', kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = ['test_all_the_effing_time_is_lame.mp3', 'guitar_weapon.ogg', 'guitar_weapon2.ogg'], kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['rockzed.png'],
       :walking => ['rockzed_moving.png', 'rockzed_moving2.png'],

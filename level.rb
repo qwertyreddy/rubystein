@@ -201,7 +201,7 @@ public
     
     ####### Players #######
     
-    zed1, zed2, hongli, ninh = nil
+    zed, hongli, ninh = nil
     map.add do |add|
       # Southern (starting) room.
       add.player(Guard, 40.5, 61.5)
@@ -236,10 +236,8 @@ public
       # North room.
       add.player(Ronald, 42.0, 11.0)
       add.player(Ronald, 43.0, 12.0)
-      zed1 = add.player(Zed, 37.5, 9.0)
-      zed1.active = false
-      zed2 = add.player(Zed, 32.5, 9.0)
-      zed2.active = false
+      zed = add.player(Zed, 35.5, 9.0)
+      zed.active = false
       
       add.player(Guard, 22.5, 11.0)
       add.player(Guard, 24.5, 12.0)
@@ -248,13 +246,9 @@ public
       add.player(Hans, 17.5, 17.0)
       add.player(Thin, 22.5, 18.0)
       
-      hongli = add.player(Hongli, 9.0, 19.0) do
-        SoundPool.get(window, "Phusion-Theme.mp3").play
-      end
+      hongli = add.player(Hongli, 9.0, 19.0)
       hongli.active = false
-      ninh = add.player(Ninh, 10.0, 17.0) do
-        SoundPool.get(window, "Phusion-Theme.mp3").play
-      end
+      ninh = add.player(Ninh, 10.0, 17.0)
       ninh.active = false
     end
     
@@ -302,8 +296,7 @@ public
       add.item(InvisibleInfo, 34.5, 14.5) do |item, player|
         window.present_boss("Zed Shaw", "rockzed_large.png")
         map.items.delete(item)
-        zed1.active = true
-        zed2.active = true
+        zed.active = true
       end
       
       # Eastern room.

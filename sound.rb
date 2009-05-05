@@ -22,6 +22,10 @@ SOUND_TO_TEXT = {
   'i_will_not_be_defeated.ogg'     => 'I will not be defeated by you!',
   'your_attack_is_weak.ogg'        => 'Your attack is weak!',
   'impossible.ogg'                 => 'I... impossible!',
+  'ni.ogg'                         => 'Ni !!! Ni !!!',
+  'never_gonna_give_you_up.ogg'    => 'Never gonna give you up!',
+  'nooo.ogg'                       => 'NOOHHHhurrghhhaaaahhh ... urrghhah',
+  'boom_headshot.ogg'              => 'BOOM ! HEADSHOT!'
 }
 
 class SoundPool
