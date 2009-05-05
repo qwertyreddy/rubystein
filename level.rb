@@ -320,8 +320,8 @@ public
           @power_150_felt = true
           window.show_text("I can feel it... THE POWER!!!")
           SoundPool.get(window, "I can feel the Power.mp3").play
-          item.play_sound = true
         end
+        item.play_sound = false
       end
       add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
         if !@eaten_at_kfc
@@ -357,8 +357,8 @@ public
       add.item(Food, 35.5, 11.5)
       add.item(Phusion, 30.0, 10.0, 200)
       add.item(InvisibleInfo, 29.5, 11.5,
-        "My god, if even Zed is involved in this\n" +
-        "then who's the mastermind behind all of this?",
+        "My god, if even Zed is involved then who's\n" +
+        "the mastermind behind all of this?",
         "getthem.mp3") do |item, player|
         SoundPool.get(window, "Zed Involved.mp3").play
       end
