@@ -201,7 +201,7 @@ public
     
     ####### Players #######
     
-    zed1, zed2, hongli, ninh, david_hasselhoff = nil
+    zed1, zed2, hongli, ninh = nil
     map.add do |add|
       # Southern (starting) room.
       add.player(Guard, 40.5, 61.5)
@@ -226,8 +226,7 @@ public
       add.player(Guard, 49.5, 33.5)
       add.player(Hans, 47.5, 40.5)
       add.player(Thin, 49.5, 44.5)
-      david_hasselhoff = add.player(DavidHasslehoff, 59.5, 31.5)
-      david_hasselhoff.active = false
+      add.player(Hans, 59.5, 31.5)
       
       # Path to north room.
       add.player(Hans, 32.0, 22.0)
@@ -329,11 +328,6 @@ public
           SoundPool.get(window, "Fighting Makes me Hungry.mp3").play
         end
         item.play_sound = !@eaten_at_kfc
-      end
-      add.item(InvisibleInfo, 54.5, 33.5) do |item, player|
-        window.present_boss("David Hasselhoff", "david_hasselhoff_large.png")
-        map.items.delete(item)
-        david_hasselhoff.active = true
       end
       add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
         if !@eaten_at_kfc
