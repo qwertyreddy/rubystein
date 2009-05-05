@@ -238,8 +238,8 @@ public
       add.player(Ronald, 43.0, 12.0)
       zed1 = add.player(Zed, 37.5, 9.0)
       zed1.active = false
-      zed2 = add.player(Zed, 32.5, 9.0)
-      zed2.active = false
+      #zed2 = add.player(Zed, 32.5, 9.0)
+      #zed2.active = false
       
       add.player(Guard, 22.5, 11.0)
       add.player(Guard, 24.5, 12.0)
@@ -303,7 +303,7 @@ public
         window.present_boss("Zed Shaw", "rockzed_large.png")
         map.items.delete(item)
         zed1.active = true
-        zed2.active = true
+        #zed2.active = true
       end
       
       # Eastern room.
