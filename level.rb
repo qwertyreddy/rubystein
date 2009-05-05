@@ -369,7 +369,7 @@ public
       add.item(Peepcode, 13.5, 19.5)
       add.item(Peepcode, 13.5, 15.5)
       add.item(Rails, 7.5, 15.5)
-      add.item(Rails, 13.5, 15.5)
+      add.item(Rails, 7.5, 19.5)
       add.item(InvisibleInfo, 14.5, 17.5) do |item, player|
         window.present_boss("Hongli Lai & Ninh Bui", "phusion_guys.png", "FINAL BOSSES") do
           window.background_song = "theme_song.ogg"
