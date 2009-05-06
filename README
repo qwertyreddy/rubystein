@@ -1,0 +1,7 @@
+You need to install the Gosu game library first:
+
+  gem install gosu
+
+Then you can start the game with:
+
+  ruby wolf3d.rb
