@@ -406,7 +406,7 @@ class Guard < Enemy
       :dead    => ['guard_dead.png', 'guard_dead2.png', 'guard_dead3.png', 'guard_dead4.png', 'guard_dead5.png']
     }
     
-    sounds  = ['long live php.mp3', 'myphplife.mp3', 'my damn php life.mp3', 'phpforever.mp3']
+    sounds  = ['long live php.ogg', 'myphplife.ogg', 'my damn php life.ogg', 'phpforever.ogg']
     firing_sound ||= sounds[rand(sounds.size - 1)]
     death_sound  ||= sounds[rand(sounds.size - 1)]
     
@@ -416,7 +416,7 @@ class Guard < Enemy
 end
 
 class Hans < Enemy
-  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'machine_gun_burst.mp3', kill_score = 1000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = nil, firing_sound = 'machine_gun_burst.ogg', kill_score = 1000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['hans1.bmp'],
       :walking => ['hans1.bmp', 'hans2.bmp', 'hans3.bmp', 'hans4.bmp'],
@@ -426,7 +426,7 @@ class Hans < Enemy
     }
     
     # Special thanks goes out to Julian Raschke (jlnr on #gosu@irc.freenode.net ) of libgosu.org for recording these samples for us.
-    death_sounds  = ['mein_spagetthicode.wav', 'meine_magischen_qpc.wav', 'meine_sql.wav', 'meine_sql.wav']
+    death_sounds  = ['mein_spagetthicode.ogg', 'meine_magischen_qpc.ogg', 'meine_sql.ogg', 'meine_sql.ogg']
     death_sound ||= death_sounds[rand(death_sounds.size - 1)]
     
     super(window, sprites, map, x, y, death_sound, firing_sound, kill_score, step_size, animation_interval)
@@ -434,7 +434,7 @@ class Hans < Enemy
 end
 
 class Ronald < Enemy
-  def initialize(window, map, x, y, death_sound = 'balloon.mp3', firing_sound = 'floating.mp3', kill_score = 2000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'balloon.ogg', firing_sound = 'floating.ogg', kill_score = 2000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['ronald.png'],
       :walking => ['ronald_moving.png', 'ronald_moving2.png'],
@@ -509,7 +509,7 @@ class Ninh < Enemy
 end
 
 class Zed < Enemy
-  def initialize(window, map, x, y, death_sound = 'omgponies.mp3', firing_sound = ['test_all_the_effing_time_is_lame.mp3', 'guitar_weapon.ogg', 'guitar_weapon2.ogg'], kill_score = 10000, step_size = 3, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'omgponies.ogg', firing_sound = ['test_all_the_effing_time_is_lame.ogg', 'guitar_weapon.ogg', 'guitar_weapon2.ogg'], kill_score = 10000, step_size = 3, animation_interval = 0.2)
     sprites = {
       :idle    => ['rockzed.png'],
       :walking => ['rockzed_moving.png', 'rockzed_moving2.png'],
@@ -547,7 +547,7 @@ class Thin < Enemy
 end
 
 class Dog < MeleeEnemy
-  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'dog_bark.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'dog_cry.ogg', firing_sound = 'dog_bark.ogg', kill_score = 500, step_size = 7, animation_interval = 0.2)
     sprites = {
       :idle => ['dog_walking.png'],
       :walking => ['dog_walking.png', 'dog_walking2.png', 'dog_walking3.png', 'dog_walking4.png'],
@@ -564,7 +564,7 @@ class Dog < MeleeEnemy
 end
 
 class DavidHasslehoff < MeleeEnemy
-  def initialize(window, map, x, y, death_sound = 'dog_cry.mp3', firing_sound = 'machine_gun_burst.mp3', kill_score = 500, step_size = 7, animation_interval = 0.2)
+  def initialize(window, map, x, y, death_sound = 'dog_cry.ogg', firing_sound = 'machine_gun_burst.ogg', kill_score = 500, step_size = 7, animation_interval = 0.2)
     sprites = {
       :idle => ['david_hasselhoff.png'],
       :walking => ['david_hasselhoff.png'],
