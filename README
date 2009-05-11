@@ -2,6 +2,13 @@ You need to install the Gosu game library first:
 
   gem install gosu
 
-Then you can start the game with:
+Note that you must also have the font 'Myriad Pro' installed. I believe that
+this font is shipped with Photoshop. If you don't have this font then the game
+will crash at some point.
+
+You can also get rid of the 'Myriad Pro' dependency by editing wolf3d.rb
+and changing the string 'Myriad Pro' to a more generic font, e.g. 'Arial'.
+
+When you're done setting up the prerequisites, you can start the game with:
 
   ruby wolf3d.rb
