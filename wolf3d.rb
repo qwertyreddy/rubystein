@@ -161,6 +161,24 @@ class GameWindow < Gosu::Window
   end
   
   def present_boss(name, avatar_filename, title = "Boss", duration = 1, &block)
+    begin
+      title_image = Gosu::Image.from_text(self, title,
+                                            BOSS_PRESENTATION_TITLE_FONT,
+                                            BOSS_PRESENTATION_TITLE_FONT_SIZE)
+    rescue
+      title_image = Gosu::Image.from_text(self, title,
+                                            Gosu::default_font_name,
+                                            BOSS_PRESENTATION_TITLE_FONT_SIZE)
+    end
+    
+    begin
+      name_width = Gosu::Image.from_text(self, name, BOSS_PRESENTATION_FONT,
+                                           BOSS_PRESENTATION_FONT_SIZE).width
+    rescue
+      name_width = Gosu::Image.from_text(self, name, Gosu::default_font_name,
+                                           BOSS_PRESENTATION_FONT_SIZE).width
+    end
+    
     fade_out do
       @bg_song.stop
       @mode = :presenting_boss
@@ -169,11 +187,8 @@ class GameWindow < Gosu::Window
         :duration => duration,
         :sound => SoundPool.get(self, 'megaman_game_start.ogg').play,
         :avatar => Gosu::Image.new(self, avatar_filename, false),
-        :title_image => Gosu::Image.from_text(self, title,
-                                              BOSS_PRESENTATION_TITLE_FONT,
-                                              BOSS_PRESENTATION_TITLE_FONT_SIZE),
-        :name_width => Gosu::Image.from_text(self, name, BOSS_PRESENTATION_FONT,
-                                             BOSS_PRESENTATION_FONT_SIZE).width,
+        :title_image => title_image,
+        :name_width => name_width,
         :stars => Gosu::Image.new(self, 'stars.png', false),
         :state => :opening,
         :start_time => Time.now,
@@ -651,8 +666,14 @@ class GameWindow < Gosu::Window
         args[:title_image].draw((RIGHT - LEFT) / 2 - args[:title_image].width / 2,
                                 top - args[:title_image].height - 80, 3)
         
-        image = Gosu::Image.from_text(self, args[:name][0 .. args[:chars]],
-                    BOSS_PRESENTATION_FONT, BOSS_PRESENTATION_FONT_SIZE)
+        begin
+          image = Gosu::Image.from_text(self, args[:name][0 .. args[:chars]],
+                      BOSS_PRESENTATION_FONT, BOSS_PRESENTATION_FONT_SIZE)
+        rescue
+          image = Gosu::Image.from_text(self, args[:name][0 .. args[:chars]],
+                      Gosu::default_font_name, BOSS_PRESENTATION_FONT_SIZE)
+        end
+        
         image.draw((RIGHT - LEFT) / 2 - args[:name_width] / 2, bottom + 80, 3)
       end
       if args[:state] == :waiting_until_done || args[:state] == :done
