@@ -271,7 +271,7 @@ public
       add.item(Peepcode, 37.0, 34.5)
       add.item(Food, 32.5, 35.0)
       add.item(Info, 32.0, 32.0, "Don't worry Pratik, Koz, I'll free you guys in no time!") do
-        SoundPool.get(window, "Free You Guy in No Time.mp3").play
+        SoundPool.get(window, "Free You Guy in No Time.ogg").play
       end
       add.item(InvisibleInfo, 34.5, 29.5) do |item, player|
         if player.max_health < 150
@@ -315,21 +315,21 @@ public
         if player.max_health >= 150 && !@power_150_felt
           @power_150_felt = true
           window.show_text("I can feel it... THE POWER!!!")
-          SoundPool.get(window, "I can feel the Power.mp3").play
+          SoundPool.get(window, "I can feel the Power.ogg").play
         end
         item.play_sound = false
       end
       add.item(InvisibleInfo, 52.5, 33.5) do |item, player|
         if !@eaten_at_kfc
           window.show_text("Fighting makes me hungry.")
-          SoundPool.get(window, "Fighting Makes me Hungry.mp3").play
+          SoundPool.get(window, "Fighting Makes me Hungry.ogg").play
         end
         item.play_sound = !@eaten_at_kfc
       end
       add.item(InvisibleInfo, 49.9, 44.5) do |item, player|
         if !@eaten_at_kfc
           window.show_text("Is there anything to eat?") 
-          SoundPool.get(window, "Is there Anything to Eat.mp3").play
+          SoundPool.get(window, "Is there Anything to Eat.ogg").play
         end
         item.play_sound = !@eaten_at_kfc
       end
@@ -350,8 +350,8 @@ public
       add.item(InvisibleInfo, 29.5, 11.5,
         "My god, if even Zed is involved then who's\n" +
         "the mastermind behind all of this?",
-        "getthem.mp3") do |item, player|
-        SoundPool.get(window, "Zed Involved.mp3").play
+        "getthem.ogg") do |item, player|
+        SoundPool.get(window, "Zed Involved.ogg").play
       end
       
       # Path to western room.

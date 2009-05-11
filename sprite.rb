@@ -246,7 +246,7 @@ class Item < Interactable
   def initialize(window, map, x, y, slices, text = nil, sound_file = nil)
     super(window, map, x, y, slices)
     @text  = text
-    @sound = SoundPool::get(window, sound_file || 'ammo.mp3')
+    @sound = SoundPool::get(window, sound_file || 'ammo.ogg')
   end
   
   private
@@ -309,7 +309,7 @@ end
 class PHP < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, SpritePool::get(window, 'php.png', TEX_HEIGHT), -25,
-          'PHP: "Fuck you!"', 'fuck_you.mp3')
+          'PHP: "Fuck you!"', 'fuck_you.ogg')
   end
 end
 
@@ -317,7 +317,7 @@ class Fries < Powerup
   def initialize(window, map, x, y)
     super(window, map, x, y, SpritePool::get(window, 'ronald_dead10.png', TEX_HEIGHT), 40,
           "French Fries: +40 HP!\nBut don't eat too much, it's bad for your health.",
-          'fuck_you.mp3')
+          'fuck_you.ogg')
   end
 end
 

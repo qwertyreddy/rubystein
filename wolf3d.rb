@@ -71,9 +71,9 @@ class GameWindow < Gosu::Window
     @weapon_fire = Gosu::Image::new(self, 'hand2.bmp', true)
     @floor_ceil  = Gosu::Image::new(self, 'floor_ceil.png', true)
     self.background_song = nil  # Play default background song.
-    @fire_sound = Gosu::Sample.new(self, 'fire.wav')
-    @door_open_sound = Gosu::Sample.new(self, 'dooropen.mp3')
-    @door_close_sound = Gosu::Sample.new(self, 'doorclose.mp3')
+    @fire_sound = Gosu::Sample.new(self, 'fire.ogg')
+    @door_open_sound = Gosu::Sample.new(self, 'dooropen.ogg')
+    @door_close_sound = Gosu::Sample.new(self, 'doorclose.ogg')
     
     # Screenflashing counters
     @powerup_screen_flash   = 0
@@ -90,7 +90,7 @@ class GameWindow < Gosu::Window
   
   def background_song=(filename)
     @bg_song.stop if @bg_song
-    @bg_song = Gosu::Song.new(self, filename || 'getthem.mp3')
+    @bg_song = Gosu::Song.new(self, filename || 'getthem.ogg')
     @bg_song.volume = 0.25
     @bg_song.play(true)
   end
@@ -167,7 +167,7 @@ class GameWindow < Gosu::Window
       @presenting_boss = {
         :name => name,
         :duration => duration,
-        :sound => SoundPool.get(self, 'megaman_game_start.mp3').play,
+        :sound => SoundPool.get(self, 'megaman_game_start.ogg').play,
         :avatar => Gosu::Image.new(self, avatar_filename, false),
         :title_image => Gosu::Image.from_text(self, title,
                                               BOSS_PRESENTATION_TITLE_FONT,
